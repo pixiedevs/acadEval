@@ -13,7 +13,7 @@
 
         <title>{% block title %}
 
-            {% endblock title %} | Aca Eval</title>
+            {% endblock title %} | AcadEval</title>
     </head>
 
 
@@ -23,8 +23,12 @@
         <script src="{% static 'js/jquery.js'%}"></script>
         
         <script src="{% static 'js/fontawesome.js'%}"></script>
+        
         <!-- custom css by Pcoder -->
         <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+        <!-- dark mode css -->
+        <link href="{% static 'css/darkmode.css'%}" rel="stylesheet">
         
         {% include 'main/containers/navbar.html' %}
         {% include 'main/containers/sidebar.html' %}
@@ -49,6 +53,11 @@
             {% endblock body %}
         
         </main>
+        <!-- Dark mode toggle button -->
+        <div id="dark-toggle" class="floatlb">
+            <i class="indicator"></i>
+            <b></b>
+        </div>
         
         <div id="content1">Content1</div>
         <div id="content2">Content2</div>
@@ -73,6 +82,7 @@
         </script>
 
         <!-- bootstrap JavaScript -->
+        <script src="{% static 'js/acadEval.js' %}"></script>
         <script src="{% static 'js/b.js' %}"></script>
 
     </body>

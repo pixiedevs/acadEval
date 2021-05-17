@@ -1,26 +1,44 @@
+{% load static %}
 <!-- NavBar Start -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
+
+
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item {% block homeActive %}{% endblock homeActive %}">
+                <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
                 </li>
-                
+
                 </li>
-                <li class="nav-item {% block aboutActive %}{% endblock aboutActive %}">
+                <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
-                <li class="nav-item {% block contactActive %}{% endblock contactActive %}">
+                <li class="nav-item">
                     <a class="nav-link" href="/contact" tabindex="-1">Contact</a>
                 </li>
             </ul>
+
+            <ul class="navbar-nav" id="userAvatarDiv">
+                <li class="nav-item">
+                    <div id="userAvatar" class="btn-group dropleft">
+
+                        <a href="/profile">
+                            <img src="{% static 'img/male.svg' %}" alt="user avatar" id="userAvatarImg">
+                        </a>
+
+                    </div>
+                </li>
+            </ul>
         </div>
+
     </div>
 </nav>
 <!-- NavBar End -->
