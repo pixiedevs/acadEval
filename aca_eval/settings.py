@@ -39,7 +39,9 @@ INSTALLED_APPS = [
 
     'main',
     'student',
-    'staff'
+    'staff',
+
+    'phonenumber_field', # for phone number field in models.py
 ]
 
 MIDDLEWARE = [
