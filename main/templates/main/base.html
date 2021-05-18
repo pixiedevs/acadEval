@@ -38,9 +38,9 @@
             {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0 mv-0" role="alert"
-                style="z-index: 3; box-shadow: rgba(0, 0, 0, 0.3) 0px 13px 9px 0px;">
+                style="z-index: 3; box-shadow: rgba(0, 0, 0, 0.3) 0px 13px 9px 0px; width: 100%;">
                 <strong>{{ message }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

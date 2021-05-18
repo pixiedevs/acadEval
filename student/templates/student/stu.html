@@ -1,16 +1,13 @@
 {% extends 'main/base.html' %}
 {% block title %}
-Contact
+Student
 {% endblock title %}
-{% block contactActive %}active{% endblock contactActive %}
-{% block description %}blog page{% endblock description %}
-
 {% block body %}
 {% block message %}{% endblock message %}
 
-<div class="container-fluid">
-    <div class="mt-5 container-fluid">
-        <h4 class="text-center alert alert-info">Contact Us</h4>
+<div class="row" style="position:relative; width:100%">
+    <div class="col-sm-10 mt-5">
+        <h4 class="text-center alert alert-info">Student Registration</h4>
         <form action="" method="POST">
             {% csrf_token %} {{form.as_p}}
             <input type="submit" class="btn btn-success" value="Send" />
