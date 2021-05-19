@@ -47,3 +47,8 @@ def contact(request):
 
 def login(request):
     return render(request, "main/index.html")
+
+
+# for html template testing
+def test(request):
+    return render(request, "main/error.html")
