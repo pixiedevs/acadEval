@@ -1,31 +1,64 @@
-<div id="sidebar">
-    <button class="btn mb-3 fas fa-bars" onclick="toggleSidebar()" id="toggleSidebarBtn"></button>
-    <br />
+{% load static %}
+<aside class="sidebar" id="sidebar">
+    <ul class="sidebar-sidebar">
+        <li class="logo">
+            <a class="sidebar-link">
+                <span class="link-text logo-text">
+                    <img src="{% static 'img/male.svg' %}" alt="" srcset="">
+                </span>
+                <div class="icon">
+                    👉️
+                </div>
+            </a>
+        </li>
 
-    <a href="/acaEval.html">
-        <i class="fas fa-book">
-            <span class="sidebar-span noview">Library</span>
-        </i>
-    </a>
-    <br />
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    🏛️
 
-    <a href="/acaEval.html">
-        <i class="fas fa-poll-h">
-            <span class="sidebar-span noview">Library</span>
-        </i>
-    </a>
-    <br />
-    <a href="/acaEval.html">
-        <i class="fas fa-chart-bar">
-            <span class="sidebar-span noview">Marks</span>
-        </i> </a>
-    <br />
-    <a href="/acaEval.html">
-        <i class="fas fa-university">
-            <span class="sidebar-span noview">Library</span>
-        </i> </a>
-    <br />
+                </div>
+                <span class="link-text">Classes</span>
+            </a>
+        </li>
 
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    🏛️
 
+                </div>
+                <span class="link-text">Attendance</span>
+            </a>
+        </li>
 
-</div>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    🏛️
+
+                </div>
+                <span class="link-text">Marks</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    🏛️
+
+                </div>
+                <span class="link-text">Library</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item" id="themeButton">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    
+                </div>
+                <span class="link-text"></span>
+            </a>
+        </li>
+    </ul>
+</aside>

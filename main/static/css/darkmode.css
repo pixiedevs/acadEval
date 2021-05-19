@@ -106,3 +106,7 @@
     background: linear-gradient(to bottom, #eaeaea, #f9f9f9);
 
 }
+#inBody.darkmode footer {
+    background: var(--dark-bg);
+    color: #ececec;
+}
