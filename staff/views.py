@@ -1,35 +1,109 @@
 from django.shortcuts import render
-from student.forms import StudentRegister
-from student.models import Student
+from student.forms import AddStudentForm, StudentRegisterForm
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from staff.forms import AddTeacherForm, TeacherDataForm
+from staff.forms import AddHodForm, HodDataForm
 
 # Create your views here.
+
 
 def index(request):
     return render(request, 'staff/index.html')
 
 
-def addStudent(request):
-    if request.method == 'POST':
-        fm = StudentRegister(request.POST)
-        if fm.is_valid():
-            fn = fm.cleaned_data['first_name']
-            ln = fm.cleaned_data['last_name']
-            fm = fm.cleaned_data['father_name']
-            em = fm.cleaned_data['email']
-            mn = fm.cleaned_data['Mobile_no']
-            fmn = fm.cleaned_data['father_mobile_no']
-            ca = fm.cleaned_data['Current_Address']
-            pa = fm.cleaned_data['Parmanent_Address']
-            br = fm.cleaned_data['Branch']
-            by = fm.cleaned_data['Batch_year']
-            reg = Student(first_name=fn, last_name=ln, father_name=fm, email=em, Mobile_no=mn,
-                          father_mobile_no=fmn, Current_Address=ca, Parmanent_Address=pa, Branch=br, Batch_year=by)
-            reg.save()
-            messages.success(
-                request, 'New Student has been successfully Added!!')
-            fm = StudentRegister()
+def attendance(request):
+    return render(request, 'staff/attendance.html')
 
+
+def marks(request):
+    return render(request, 'staff/marks.html')
+
+
+def library(request):
+    return render(request, 'staff/library.html')
+
+
+def classes(request):
+    return render(request, 'staff/classes.html')
+
+
+# this method for add student by vishal
+def addStudent(request):
+
+    if request.method == 'POST':
+        asform = AddStudentForm(request.POST)
+        srform = StudentRegisterForm(request.POST)
+        if asform.is_valid() and srform.is_valid():
+            user = asform.save()
+            user.set_password(user.password)
+            user.save()
+            group = Group.objects.get(name='student')
+            user.groups.add(group)
+            profile = srform.save(commit=False)
+            profile.user = user
+            profile.save()
+            messages.success(
+                request, 'Congratulation! You have registed successfully!!')
+            asform = AddStudentForm()
+            srform = StudentRegisterForm()
+        # else:
+        #     HttpResponse("<h1>Somthing is Wrong</h1>")
     else:
-        fm = StudentRegister()
-    return render(request, 'student/stu.html', {'form': fm})
+        asform = AddStudentForm(request.POST)
+        srform = StudentRegisterForm(request.POST)
+    return render(request, 'staff/add-student.html', {'asform': asform, 'srform': srform})
+
+# this method for add teacher  by vishal
+
+
+def addTeacher(request):
+    if request.method == 'POST':
+        atform = AddTeacherForm(data=request.POST)
+        tdform = TeacherDataForm(data=request.POST)
+        if atform.is_valid() and tdform.is_valid():
+            teacher_user = atform.save()
+            teacher_user.set_password(teacher_user.password)
+            teacher_user.save()
+            group = Group.objects.get(name='teacher')
+            teacher_user.groups.add(group)
+            teacher_profile = tdform.save(commit=False)
+            teacher_profile.teacher_user = teacher_user
+            teacher_profile.save()
+            messages.success(
+                request, 'Congratulation! You have registed successfully!!')
+            atform = AddTeacherForm()
+            tdform = TeacherDataForm()
+        # else:
+        #     HttpResponse("<h1>Somthing is Wrong</h1>")
+    else:
+        atform = AddTeacherForm(data=request.POST)
+        tdform = TeacherDataForm(data=request.POST)
+    return render(request, 'staff/add_teacher.html', {'atform': atform, 'tdform': tdform})
+
+# this method for add teacher by vishal
+
+
+def addHod(request):
+    if request.method == 'POST':
+        ahform = AddHodForm(data=request.POST)
+        hdform = HodDataForm(data=request.POST)
+        if ahform.is_valid() and hdform.is_valid():
+            hod_user = ahform.save()
+            hod_user.set_password(hod_user.password)
+            hod_user.save()
+            group = Group.objects.get(name='hod')
+            hod_user.groups.add(group)
+            hod_profile = hdform.save(commit=False)
+            hod_profile.hod_user = hod_user
+            hod_profile.save()
+            messages.success(
+                request, 'Congratulation! You have registed successfully!!')
+            ahform = AddHodForm()
+            hdform = HodDataForm()
+        # else:
+        #     HttpResponse("<h1>Somthing is Wrong</h1>")
+    else:
+        ahform = AddHodForm(data=request.POST)
+        hdform = HodDataForm(data=request.POST)
+    return render(request, 'staff/add_hod.html', {'ahform': ahform, 'hdform': hdform})

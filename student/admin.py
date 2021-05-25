@@ -5,5 +5,5 @@ from .models import Student
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
- list_display = ('id', 'first_name', 'last_name',
-                 'Branch', 'email', 'Batch_year', 'time')
+ list_display = ('first_name', 'last_name', 'branch',
+                 'email', 'batch_year', 'time', 'user')

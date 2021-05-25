@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block title %}
+add student
+{% endblock title %}
+{% block description %}add student{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+    <div class="col-sm-8 mt-5">
+        <h4 class="text-center alert alert-info">Student Registration</h4>
+        <form action="" method="POST">
+            {% csrf_token %} 
+            {{asform.as_p}}
+            {{srform.as_p}}
+            
+            <input type="submit" class="btn btn-success" value="Send" />
+        </form>
+    </div>
+
+{% endblock body %}

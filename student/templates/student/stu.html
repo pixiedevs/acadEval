@@ -9,7 +9,9 @@ Student
     <div class="col-sm-10 mt-5">
         <h4 class="text-center alert alert-info">Student Registration</h4>
         <form action="" method="POST">
-            {% csrf_token %} {{form.as_p}}
+            {% csrf_token %} 
+            {{asform.as_p}}
+            {{srform.as_p}}
             <input type="submit" class="btn btn-success" value="Send" />
         </form>
     </div>
