@@ -14,7 +14,7 @@
 
         {% if user.profile.is_student %}
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="classes" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-chalkboard-teacher fa-lg"></i>
 
@@ -35,7 +35,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="marks" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-poll fa-lg"></i>
 
@@ -45,12 +45,64 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="library" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-book fa-lg"></i>
 
                 </div>
                 <span class="link-text">Library</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% if user.profile.is_teacher %}
+        <li class="sidebar-item">
+            <a href="classes" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+
+
+                </div>
+                <span class="link-text">Classes</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="attendance" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-clipboard-list fa-lg"></i>
+
+                </div>
+                <span class="link-text">Attendance</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="marks" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-poll fa-lg"></i>
+
+                </div>
+                <span class="link-text">Marks</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="library" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-book fa-lg"></i>
+
+                </div>
+                <span class="link-text">Library</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="add-student" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-user-plus fa-lg"></i>
+
+                </div>
+                <span class="link-text">Add Student</span>
             </a>
         </li>
         {% endif %}

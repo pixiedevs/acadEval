@@ -39,8 +39,10 @@ def addStudent(request):
             user = asform.save()
             user.set_password(user.password)
             user.save()
-            group = Group.objects.get(name='student')
+            group, created = Group.objects.get_or_create(name='student')
             user.groups.add(group)
+            user.profile.is_student = True
+            user.save()
             profile = srform.save(commit=False)
             profile.user = user
             profile.save()
@@ -66,8 +68,10 @@ def addTeacher(request):
             teacher_user = atform.save()
             teacher_user.set_password(teacher_user.password)
             teacher_user.save()
-            group = Group.objects.get(name='teacher')
+            group, created = Group.objects.get_or_create(name='teacher')
             teacher_user.groups.add(group)
+            teacher_user.profile.is_teacher = True
+            teacher_user.save()
             teacher_profile = tdform.save(commit=False)
             teacher_profile.teacher_user = teacher_user
             teacher_profile.save()
@@ -93,8 +97,10 @@ def addHod(request):
             hod_user = ahform.save()
             hod_user.set_password(hod_user.password)
             hod_user.save()
-            group = Group.objects.get(name='hod')
+            group, created = Group.objects.get_or_create(name='hod')
             hod_user.groups.add(group)
+            hod_user.profile.is_hod = True
+            hod_user.save()
             hod_profile = hdform.save(commit=False)
             hod_profile.hod_user = hod_user
             hod_profile.save()
