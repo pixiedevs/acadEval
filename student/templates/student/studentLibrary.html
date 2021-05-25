@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% block title %}
+StudentLibrary
+{% endblock title %}
+
+{% block description %}StudentLibrary{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<div class="row container mt-5">
+     <table class="table table-striped neupm2">
+          <thead>
+               <tr>
+                    <th scope="col"> No. </th>
+                    <th scope="col"> Book Name </th>
+                    <th scope="col"> Book Id </th>
+                    <th scope="col"> Issue Date </th>
+                    <th scope="col"> Return Date </th>
+               </tr>
+          </thead>
+          <tbody>
+               <tr>
+                    <th scope="row">1</th>
+                    <td> Mathmatics </td>
+                    <td> 00000123 </td>
+                    <td> 26/03/21 </td>
+                    <td> 26/09/21 </td>
+
+               </tr>
+
+               <tr>
+
+                    <th scope="row">2</th>
+                    <td> English </td>
+                    <td> 00000234 </td>
+                    <td> 26/03/21 </td>
+                    <td> 26/09/21 </td>
+               </tr>
+               <tr>
+
+                    <th scope="row">3</th>
+                    <td> Physics </td>
+                    <td> 00000503 </td>
+                    <td> 26/03/21 </td>
+                    <td> 26/09/21 </td>
+               </tr>
+
+               <tr>
+
+                    <th scope="row">4</th>
+                    <td> Chemistry </td>
+                    <td> 00000409 </td>
+                    <td> 26/03/21 </td>
+                    <td> 26/09/21 </td>
+               </tr>
+
+               <tr>
+
+                    <th scope="row">5</th>
+                    <td> Python </td>
+                    <td> 00000152 </td>
+                    <td> 26/03/21 </td>
+                    <td> 26/09/21 </td>
+               </tr>
+          </tbody>
+     </table>
+</div>
+{% endblock body %}
