@@ -4,18 +4,20 @@
         <li class="logo">
             <a class="sidebar-link">
                 <span class="link-text logo-text">
-                    <img src="{% static 'img/male.svg' %}" alt="" srcset="">
+                    {% if user.is_authenticated %} {{user.username}} {% endif %}
                 </span>
                 <div class="icon">
-                    👉️
+                    <img src="{% static 'img/male.svg' %}" alt="" srcset="">
                 </div>
             </a>
         </li>
 
+        {% if user.profile.is_student %}
         <li class="sidebar-item">
             <a href="#" class="sidebar-link">
                 <div class="icon">
-                    🏛️
+                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+
 
                 </div>
                 <span class="link-text">Classes</span>
@@ -23,9 +25,9 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="attendance" class="sidebar-link">
                 <div class="icon">
-                    🏛️
+                    <i class="fas fa-clipboard-list fa-lg"></i>
 
                 </div>
                 <span class="link-text">Attendance</span>
@@ -35,7 +37,7 @@
         <li class="sidebar-item">
             <a href="#" class="sidebar-link">
                 <div class="icon">
-                    🏛️
+                    <i class="fas fa-poll fa-lg"></i>
 
                 </div>
                 <span class="link-text">Marks</span>
@@ -45,17 +47,19 @@
         <li class="sidebar-item">
             <a href="#" class="sidebar-link">
                 <div class="icon">
-                    🏛️
+                    <i class="fas fa-book fa-lg"></i>
 
                 </div>
                 <span class="link-text">Library</span>
             </a>
         </li>
+        {% endif %}
+
 
         <li class="sidebar-item" id="themeButton">
             <a href="#" class="sidebar-link">
                 <div class="icon">
-                    
+
                 </div>
                 <span class="link-text"></span>
             </a>

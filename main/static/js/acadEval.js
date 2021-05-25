@@ -15,3 +15,15 @@ if (localStorage.getItem('darkMode') == 'enabled') {
     toggle.classList.toggle('darkmode');
     BodyPr.classList.toggle('darkmode');
 }
+// for getting details about a element on hover 
+const feedDiv = document.querySelector('#hoverFeed');
+feedDiv.style.display = 'none';
+function hoverFeed(feedbackTxt) {
+    if (feedbackTxt == '') {
+        feedDiv.style.display = 'none';
+    }
+    else {
+        feedDiv.style.display = '';
+        feedDiv.innerHTML = feedbackTxt;
+    }
+}

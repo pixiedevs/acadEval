@@ -33,9 +33,21 @@
         <!-- satisfy font link -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-        
+        {% if user.is_authenticated %}
+
+            {% include 'main/containers/sidebar.html' %}
+            {% else %}
+            <style>
+                main,
+                #content1,
+                #content2,
+                #content3,
+                footer {
+                    margin: 0;
+                }
+            </style>
+        {% endif %}
         {% include 'main/containers/navbar.html' %}
-        {% include 'main/containers/sidebar.html' %}
         <main>
         
         
@@ -58,33 +70,21 @@
         
         </main>
         <!-- Dark mode toggle button -->
-        <div id="dark-toggle" class="floatlb">
+        <div id="dark-toggle" class="floatlb" onmouseover="hoverFeed('toggle dark/light theme')" onmouseout="hoverFeed('')">
             <i class="indicator"></i>
             <b></b>
         </div>
+        {% if user.is_authenticated %}
         
         <div id="content1">Content1</div>
         <div id="content2">Content2</div>
         <div id="content3">Content3</div>
+        
+        {% endif %}
         {% include 'main/containers/footer.html' %}
 
         </div>
-        <script>
-            function toggleSidebar() {
-                document.querySelector("#inBody").classList.toggle("openSidebar");
-                sidebarToggleBtn = document.querySelector("#toggleSidebarBtn");
-
-                sidebarToggleBtn.classList.toggle("fa-bars");
-                sidebarToggleBtn.classList.toggle("btn-close");
-
-                noview = document.querySelectorAll(".sidebar-span");
-                for (let idx = 0; idx < noview.length; idx++) {
-                    noview[idx].classList.toggle("noview");
-
-                }
-            }
-        </script>
-
+        
         <!-- bootstrap JavaScript -->
         <script src="{% static 'js/acadEval.js' %}"></script>
         <script src="{% static 'js/b.js' %}"></script>

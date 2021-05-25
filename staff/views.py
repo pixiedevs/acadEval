@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from student.forms import AddStudentForm, StudentRegisterForm
+from django.shortcuts import redirect, render
+from student.models import Student
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from staff.forms import AddTeacherForm, TeacherDataForm

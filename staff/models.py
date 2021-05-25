@@ -1,3 +1,5 @@
+from django.contrib.auth.models import Group, User
+from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
@@ -33,8 +35,95 @@ class Teacher(Staff):
         return self.teacher_user.username
 
 
+    @classmethod
+    def create_teacher(cls, username, password, email=None, department=None, first_name=None, last_name=None):
+        stu = Teacher()
+        new_user = User.objects.create_user(username, email, password)
+
+        my_group, created = Group.objects.get_or_create(name='teacher')
+        my_group.user_set.add(new_user)
+
+        if first_name is not None:
+            new_user.first_name = first_name
+        if last_name is not None:
+            new_user.last_name = last_name
+
+        new_user.profile.is_teacher = True
+        new_user.save()
+
+        stu.user = new_user
+        if department is not None:
+            stu.department = department
+        stu.save()
+
+        return stu
+
+    def delete(self, *args, **kwargs):
+        self.user.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
+
+
 class Hod(Staff):
     hod_user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.hod_user.username
+
+    @classmethod
+    def create_hod(cls, username, password, email=None, department=None, first_name=None, last_name=None):
+        stu = Hod()
+        new_user = User.objects.create_user(username, email, password)
+
+        my_group, created = Group.objects.get_or_create(name='hod')
+        my_group.user_set.add(new_user)
+
+        if first_name is not None:
+            new_user.first_name = first_name
+        if last_name is not None:
+            new_user.last_name = last_name
+
+        new_user.profile.is_hod = True
+        new_user.save()
+
+        stu.user = new_user
+        if department is not None:
+            stu.department = department
+        stu.save()
+
+        return stu
+
+    def delete(self, *args, **kwargs):
+        self.user.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)
+
+
+class Director(Staff):
+    director_user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+
+    @classmethod
+    def create_director(cls, username, password, email=None, department=None, first_name=None, last_name=None):
+        stu = Director()
+        new_user = User.objects.create_user(username, email, password)
+
+        my_group, created = Group.objects.get_or_create(name='director')
+        my_group.user_set.add(new_user)
+
+        if first_name is not None:
+            new_user.first_name = first_name
+        if last_name is not None:
+            new_user.last_name = last_name
+
+        new_user.profile.is_director = True
+        new_user.save()
+
+        stu.user = new_user
+        if department is not None:
+            stu.department = department
+        stu.save()
+
+        return stu
+
+    def delete(self, *args, **kwargs):
+        self.user.delete()
+        return super(self.__class__, self).delete(*args, **kwargs)

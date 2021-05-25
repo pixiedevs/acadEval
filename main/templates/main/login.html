@@ -1,0 +1,34 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Login
+{% endblock title %}
+{% block description %}Login page{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<div class="container-fluid loginBg">
+    <div class="container-fluid mt-3 neupm2">
+        <form action="" method="post" class="container">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputTxt" class="form-label">Username</label>
+                <input name="username" type="txt" class="form-control" id="exampleInputTxt">
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <a href="#">Forgot Password</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock body %}

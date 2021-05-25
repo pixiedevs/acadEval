@@ -44,9 +44,15 @@
     cursor: pointer;
 }
 .neupm2 {
+    background: var(--light-bg);
     -webkit-appearance: none;
     box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.5), 10px 10px 15px rgba(0, 0, 0, 0.12);
     border: 8px solid #ececec;
+}
+#inBody.darkmode .neupm2 {
+    box-shadow: 5px 5px 10px #1a1a1a,
+                -5px -5px 10px #3b3b3b;
+    border: none;
 }
 #dark-toggle {
 
@@ -109,4 +115,11 @@
 #inBody.darkmode footer {
     background: var(--dark-bg);
     color: #ececec;
+}
+#inBody.darkmode > footer > section.pb-4.pt-4.text-center {
+    color: #ececec;
+}
+#inBody.darkmode footer a {
+    border-color: #fff;
+    color: #fff;
 }
