@@ -1,35 +1,62 @@
-from django.shortcuts import render
-from student.forms import StudentRegister
+from django.shortcuts import redirect, render
 from student.models import Student
 from django.contrib import messages
 
 # Create your views here.
+
 
 def index(request):
     return render(request, 'staff/index.html')
 
 
 def addStudent(request):
-    if request.method == 'POST':
-        fm = StudentRegister(request.POST)
-        if fm.is_valid():
-            fn = fm.cleaned_data['first_name']
-            ln = fm.cleaned_data['last_name']
-            fm = fm.cleaned_data['father_name']
-            em = fm.cleaned_data['email']
-            mn = fm.cleaned_data['Mobile_no']
-            fmn = fm.cleaned_data['father_mobile_no']
-            ca = fm.cleaned_data['Current_Address']
-            pa = fm.cleaned_data['Parmanent_Address']
-            br = fm.cleaned_data['Branch']
-            by = fm.cleaned_data['Batch_year']
-            reg = Student(first_name=fn, last_name=ln, father_name=fm, email=em, Mobile_no=mn,
-                          father_mobile_no=fmn, Current_Address=ca, Parmanent_Address=pa, Branch=br, Batch_year=by)
-            reg.save()
-            messages.success(
-                request, 'New Student has been successfully Added!!')
-            fm = StudentRegister()
+    # if request.method == 'POST':
 
-    else:
-        fm = StudentRegister()
-    return render(request, 'student/stu.html', {'form': fm})
+    username = "parkash"  # request.POST['username']
+    first_name = "parkash"  # request.POST['first_name']
+    last_name = "verma"  # request.POST['last_name']
+    email = "prakash2@verma.com"  # request.POST['email']
+    password = "prakash2@verma.com"  # request.POST['password']
+    branch = "cse"  # request.POST['branch']
+
+    stu = Student.create_student(username=username, password=password,
+                                 email=email, branch=branch, first_name=first_name, last_name=last_name)
+
+    messages.success(
+        request, f'New Student "{username}" has been successfully Added!!')
+    return redirect("home")
+
+
+def addTeacher(request):
+    # if request.method == 'POST':
+
+    username = "onkar"  # request.POST['username']
+    first_name = "onkar"  # request.POST['first_name']
+    last_name = "thakur"  # request.POST['last_name']
+    email = "onkar@verma.com"  # request.POST['email']
+    password = "onkar@verma.com"  # request.POST['password']
+    department = "cse"  # request.POST['branch']
+
+    stu = Student.create_student(username=username, password=password,
+                                 email=email, department=department, first_name=first_name, last_name=last_name)
+
+    messages.success(
+        request, f'New teacher "{username}" has been successfully Added!!')
+    return redirect("home")
+
+def addHod(request):
+    # if request.method == 'POST':
+
+    username = "onkar6"  # request.POST['username']
+    first_name = "onkar6"  # request.POST['first_name']
+    last_name = "thakur"  # request.POST['last_name']
+    email = "onkar6@verma.com"  # request.POST['email']
+    password = "onkar6@verma.com"  # request.POST['password']
+    department = "cse"  # request.POST['branch']
+
+    stu = Student.create_teacher(username=username, password=password,
+                                 email=email, department=department, first_name=first_name, last_name=last_name)
+
+    messages.success(
+        request, f'New teacher "{username}" has been successfully Added!!')
+    return redirect("home")

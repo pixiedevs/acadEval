@@ -3,7 +3,9 @@
     --main-padding: 5px;
     --txt-color: #494949;
     --light-bg: linear-gradient(#f5f1f1, #ececec);
+    --light-bg-rev: linear-gradient(#ececec, #f5f1f1);
     --page-height: 1500px;
+    --main-bg: var(--light-bg);
 
     font-size: 16px;
     font-family: 'Open Sans';
@@ -22,7 +24,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 0.25rem;
+  width: 0.50rem;
 }
 
 body::-webkit-scrollbar-track {
@@ -140,11 +142,11 @@ footer {
   color: var(--text-secondary);
   background: var(--bg-secondary);
   font-size: 1.5rem;
-  letter-spacing: 0.3ch;
+  /* letter-spacing: 0.3ch; */
 }
 
 .sidebar-link .logo .icon {
-  transform: rotate(0deg);
+  /* transform: rotate(0deg); */
   transition: var(--transition-speed);
 }
 
@@ -155,10 +157,10 @@ footer {
   left: -999px;
   transition: var(--transition-speed);
 }
-
+/* 
 .sidebar:hover .logo .icon {
-  transform: rotate(-180deg);
-}
+  transform: rotateY(180deg);
+} */
 
 
   .sidebar {
@@ -197,19 +199,6 @@ footer {
   --bg-secondary: #141418;
 }
 
-.light {
-  --text-primary: #1f1f1f;
-  --text-secondary: #000000;
-  --bg-primary: #ffffff;
-  --bg-secondary: #e4e4e4;
-}
-
-.solar {
-  --text-primary: #576e75;
-  --text-secondary: #35535c;
-  --bg-primary: #fdf6e3;
-  --bg-secondary: #f5e5b8;
-}
 
 .theme-icon {
   display: none;
@@ -219,13 +208,6 @@ footer {
   display: block;
 }
 
-.light #lightIcon {
-  display: block;
-}
-
-.solar #solarIcon {
-  display: block;
-}
 .navpad {
   padding-left: 7rem;
 }
@@ -289,7 +271,6 @@ footer {
 .cartDiv {
     margin: 0.2rem;
     position: relative;
-    width: 25rem;
     padding: 1.5rem;
 }
 /* user avatar css Start */
@@ -306,10 +287,13 @@ footer {
     height: 100%;
 }
 
+#userAvatarDiv #userAvatar a {
+    border-radius: 50%;
+}
+
 #userAvatarDiv #userAvatar {
     width: 2.7rem;
     height: 2.7rem;
-    overflow: hidden;
     border: 2px solid white;
     border-radius: 50px;
     background: linear-gradient(145deg, #cacaca, #f0f0f0);
@@ -320,7 +304,7 @@ footer {
 
 /* Responsive design End */
 main {
-    background: var(--light-bg);
+    background: var(--main-bg);
     box-sizing: border-box;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
@@ -330,20 +314,65 @@ main {
     justify-content: space-around;
     min-height: 35vh;
 }
+/* bootstrap css change - for big devices */
+div.alert {
+  max-height: 3.5rem;
+}
 @media screen and (max-width: 480px) {
   .cartDiv {
     width: 80vw;
     margin: 0;
+  }
+  div.alert {
+    font-size: 0.8rem;
+    max-height: 3rem;
+    padding: 0.5rem 1rem;
+  }
+  .alert-dismissible .btn-close {
+    padding: 1rem;
   }
 }
 .sidebar-sidebar .logo-text {
   padding-left: 1rem;
 }
 #inBody footer {
-    background: #ececec;
-    color: #000;
+  background: #ececec;
+  color: #000;
 }
 #inBody footer a {
-    border-color: #000;
-    color: #000;
+  border-color: #000;
+  color: #000;
+}
+/* for center sidebar user img */
+#sidebar > ul > li.logo > a > div img {
+  position: relative;
+  left: -0.6rem;
+}
+.btnPrAnim003 {
+border: none;
+color: #5c768d !important;
+text-transform: uppercase;
+border-radius: 6px;
+display: inline-block;
+transition: all 100ms ease 0s;
+}
+.btnPrAnim003:hover {
+color: #404040 !important;
+font-weight: 700 !important;
+letter-spacing: 3px;
+background: none;
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 100ms ease 0s;
+}
+/* for hover feedback */
+#hoverFeed {
+    position: fixed;
+    z-index: 999;
+    right: 1.5em;
+    padding: 0.2rem;
+    bottom: 2em;
+    border: 2px solid #7a00bb;
+    background: var(--light-bg);
 }

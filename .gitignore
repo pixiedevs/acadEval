@@ -5,3 +5,4 @@ note.md
 todo.md
 */__pycache__/
 */migrations/
+.vscode/
