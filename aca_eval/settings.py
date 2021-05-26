@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'student',
     'staff',
 
-    'phonenumber_field', # for phone number field in models.py
+    'phonenumber_field',  # for phone number field in models.py
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+# for import-export
+IMPORT_EXPORT_USE_TRANSACTIONS = True
