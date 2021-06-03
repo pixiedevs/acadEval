@@ -14,7 +14,7 @@
 
         {% if user.profile.is_student %}
         <li class="sidebar-item">
-            <a href="classes" class="sidebar-link">
+            <a href="/student/classes" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-chalkboard-teacher fa-lg"></i>
 
@@ -25,7 +25,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="attendance" class="sidebar-link">
+            <a href="/student/attendance" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-clipboard-list fa-lg"></i>
 
@@ -33,9 +33,18 @@
                 <span class="link-text">Attendance</span>
             </a>
         </li>
+        <li class="sidebar-item">
+            <a href="/student/notices" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-exclamation-circle fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Notices</span>
+            </a>
+        </li>
 
         <li class="sidebar-item">
-            <a href="marks" class="sidebar-link">
+            <a href="/student/marks" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-poll fa-lg"></i>
 
@@ -45,7 +54,87 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="library" class="sidebar-link">
+            <a href="/student/events" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Events</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="/student/library" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-book fa-lg"></i>
+
+                </div>
+                <span class="link-text">Library</span>
+            </a>
+        </li>
+        {% else %}
+
+
+        {% if user.profile.is_teacher or user.profile.is_hod or user.profile.is_director %}
+        <li class="sidebar-item">
+            <a href="/staff/classes" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+
+
+                </div>
+                <span class="link-text">Classes</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="/staff/attendance" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-clipboard-list fa-lg"></i>
+
+                </div>
+                <span class="link-text">Attendance</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="/staff/notices" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-exclamation-circle fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Notices</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="/staff/marks" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-poll fa-lg"></i>
+
+                </div>
+                <span class="link-text">Marks</span>
+            </a>
+        </li>
+        
+        <li class="sidebar-item">
+            <a href="/staff/students" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-user-graduate fa-lg"></i>
+
+                </div>
+                <span class="link-text">Students</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="/staff/events" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Events</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="/staff/library" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-book fa-lg"></i>
 
@@ -55,56 +144,6 @@
         </li>
         {% endif %}
 
-        {% if user.profile.is_teacher %}
-        <li class="sidebar-item">
-            <a href="classes" class="sidebar-link">
-                <div class="icon">
-                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
-
-
-                </div>
-                <span class="link-text">Classes</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="attendance" class="sidebar-link">
-                <div class="icon">
-                    <i class="fas fa-clipboard-list fa-lg"></i>
-
-                </div>
-                <span class="link-text">Attendance</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="marks" class="sidebar-link">
-                <div class="icon">
-                    <i class="fas fa-poll fa-lg"></i>
-
-                </div>
-                <span class="link-text">Marks</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="library" class="sidebar-link">
-                <div class="icon">
-                    <i class="fas fa-book fa-lg"></i>
-
-                </div>
-                <span class="link-text">Library</span>
-            </a>
-        </li>
-
-        <li class="sidebar-item">
-            <a href="add-student" class="sidebar-link">
-                <div class="icon">
-                    <i class="fas fa-user-plus fa-lg"></i>
-
-                </div>
-                <span class="link-text">Add Student</span>
-            </a>
-        </li>
         {% endif %}
 
 

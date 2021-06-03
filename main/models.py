@@ -10,10 +10,9 @@ from django.contrib.auth.models import User
 class Contact(models.Model):
     name = models.CharField(max_length=70)
     email = models.EmailField(max_length=100)
-    Elaborate_Your_Concern = models.CharField(max_length=1000)
-    Mobile_no = PhoneNumberField(blank=True)
-    execution_time = models.TimeField(
-        auto_now=False, auto_now_add=True, blank=True)
+    message = models.CharField(max_length=1000)
+    mobile_no = PhoneNumberField(blank=True)
+    time = models.DateTimeField(auto_now_add=True, blank=True)
 
 
 class Profile(models.Model):
@@ -25,26 +24,23 @@ class Profile(models.Model):
     is_director = models.BooleanField(default=False)
 
     def type(self) -> str:
-        if  self.is_student:
-            return "student"
-            
-        elif self.is_teacher:
-            return "teacher"
+        return "student" if self.is_student else "teacher" if self.is_teacher else "hod" if self.is_hod else "director" if self.is_director else "visitor"
 
-        elif self.is_hod:
-            return "hod"
 
-        elif self.is_director:
-            return "director"
-        
-        else:
-            return "visitor"
+class Notice(models.Model):
+    title = models.CharField(max_length=60)
+    created_by = models.ForeignKey(
+        User, related_name='notice', on_delete=models.CASCADE, to_field="username")
 
-    def __str__(self):
-        return self.user.username
-        
-        
+    content = models.TextField()
+    created_at = models.TimeField(auto_now_add=True)
+    modified_at = models.TimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return f"{self.created_at} - {self.modified_at} - {self.title}"
+
+
+# signal's for create Profile's object/row while new creating user's object/row 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

@@ -23,7 +23,7 @@ if os.path.isfile(dotenv_file):
 
 SECRET_KEY = 'SECRET_KEY'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEBUG'
 
 ALLOWED_HOSTS = ['*']
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'phonenumber_field',  # for phone number field in models.py
     'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

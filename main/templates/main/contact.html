@@ -8,8 +8,8 @@ Contact
 {% block body %}
 {% block message %}{% endblock message %}
 
-<div class="container-fluid">
-    <div class="mt-5 container-fluid">
+<div class="container-fluid p-5">
+    <div class="mt-5 container-fluid neupm p-4">
         <h4 class="text-center alert alert-info">Contact Us</h4>
         <form action="" method="POST">
             {% csrf_token %} {{form.as_p}}

@@ -7,8 +7,8 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Teacher)
 class TeacherAdmin(ImportExportModelAdmin, admin.ModelAdmin):
- list_display = ('first_name', 'last_name', 'department',
-                 'email', 'time', 'teacher_user')
+ list_display = ('teacher_user', 'first_name', 'last_name', 'department',
+                 'email', 'time')
 
 
 @admin.register(Hod)

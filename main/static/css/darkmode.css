@@ -2,7 +2,7 @@
     --dark-bg: linear-gradient(#33383d, #121212);
 }
 
-#inBody.darkmode main {
+#inBody.darkmode {
     background: var(--dark-bg);
     border-top: 1px solid rgba(0, 0, 0, 0.25);
     border-left: 1px solid rgba(0, 0, 0, 0.25);
@@ -16,6 +16,9 @@
     border-left: 1px solid rgba(0, 0, 0, 0.25);
 }
 
+#inBody.darkmode main {
+    background: var(--dark-bg);
+}
 #inBody.darkmode main .cartDiv {
     background: var(--dark-bg);
     /* 
@@ -49,11 +52,21 @@
     box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.5), 10px 10px 15px rgba(0, 0, 0, 0.12);
     border: 8px solid #ececec;
 }
-#inBody.darkmode .neupm2 {
+
+#inBody.darkmode .neupm2,
+#inBody.darkmode .neupm {
+    background: var(--dark-bg);
     box-shadow: 5px 5px 10px #1a1a1a,
-                -5px -5px 10px #3b3b3b;
-    border: none;
+    -5px -5px 10px #3b3b3b;
+    border: 8px solid var(--dark-bg);
+    color: #ececec;
 }
+
+#inBody.darkmode .table-striped>tbody>tr:nth-of-type(odd) {
+    color: #fff;
+    background: #444;
+}
+
 #dark-toggle {
 
     display: block;

@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% block title %}
+view notice
+{% endblock title %}
+{% block description %}view notice{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="col-lg-8 mt-5 neupm p-3">
+    <h4 class="text-center alert alert-info">{{ notice.title }}</h4>
+    <div class="row">
+        <div class="d-flex justify-content-between">
+            <small class="text-muted">By: {{ notice.created_by }}</small>
+            <div class="d-flex justify-content-between">
+                {% if notice.created_by == user %}
+                <a href="update" class="btn btnPrAnim003 border border-primary">Update</a>
+                <a href="delete" class="btn btnPrAnim003 border border-primary ms-2">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <small class="text-muted">Modified at: {{ notice.modified_at }}</small>
+            <small class="text-muted">Created at: {{ notice.created_at }}</small>
+        </div>
+    </div>
+    <p class="mb-1">{{ notice.content|safe }}</p>
+</div>
+
+{% endblock body %}

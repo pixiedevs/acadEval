@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% block title %}
+All students
+{% endblock title %}
+{% block description %}All students{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="container mt-5">
+    <h4 class="text-center alert alert-info"> {{ user.teacher.department }} Students</h4>
+    <div class="d-flex justify-content-end">
+        <a href="/staff/students/add" class="btn btnPrAnim003 border border-primary">Add Student</a>
+    </div>
+    
+    <div class="list-group">
+        {% for student in students %}
+        <a href="{{ student.user }}" class="list-group-item list-group-item-action flex-column align-items-start mt-1 container neupm" style="max-height: 20vh;">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ student.user }}</h5>
+                <small class="text-muted">{{ student.branch }}</small>
+            </div>
+                <small class="text-muted"> <b>{{ student.first_name }}</b> </small>
+                <small class="text-muted"> <b>{{ student.last_name }}</b> </small>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

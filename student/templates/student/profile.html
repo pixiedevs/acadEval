@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Profile
+{% endblock title %}
+{% block description %}Profile{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="container mt-5 neupm p-2">
+    <h4 class="text-center alert alert-info"> {{ user.teacher.department }} Students</h4>
+    <div class="d-flex justify-content-end">
+        <a href="/staff/students/{{ student.user }}/update/" class="btn btnPrAnim003 border border-primary">Update</a>
+    </div>
+<b>{{ student.user }}</b>
+    
+</div>
+
+{% endblock body %}

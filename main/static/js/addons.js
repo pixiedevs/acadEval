@@ -39,3 +39,42 @@ function makeChart(type, id, labels, title, data) {
         }
     });
 }
+function fetchStudentAttendanceData(csrf, url, op) {
+        sem = document.getElementById("sem").value
+        month = document.getElementById("month").value
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: {
+                csrfmiddlewaretoken: csrf,
+                sem: sem,
+                month: month,
+            },
+            success: function (response) {
+
+                if (op==1) {
+                    setStudentAttendanceData(response)
+                }
+            }
+        })
+    }
+    function setStudentAttendanceData(tableData) {
+
+        // inserting data using ajax
+        table_data_body = document.getElementById("table_data_body")
+        table_data_body.innerHTML = ''
+        var sum = 0
+        var total = tableData.length
+        for (let idx = 0; idx < tableData.length; idx++) {
+            var status = tableData[idx].is_present ? 'Present' : 'Absent';
+            sum += tableData[idx].is_present ? 1 : 0
+            var row = `<tr>
+                <th scope="row">${idx + 1}</th>
+                <td>${tableData[idx].date}</td>
+                <td>${status}</td>
+                </tr>`
+
+            table_data_body.innerHTML += row
+        }
+        makeChart("doughnut", "marksChart", ['Present', 'Absent'], '', [sum, total]);
+    }

@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+{% block title %}
+view notice
+{% endblock title %}
+{% block description %}view notice{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="container mt-5">
+    <h4 class="text-center alert alert-info">Notice</h4>
+    <div class="d-flex justify-content-end">
+        <a href="/staff/notices/add" class="btn btnPrAnim003 border border-primary">Add notice</a>
+    </div>
+    
+    <div class="list-group">
+        {% for notice in notices %}
+        <a href="{{ notice.id }}" class="list-group-item list-group-item-action flex-column align-items-start mt-1 container neupm" style="height: 5rem; overflow: hidden;">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ notice.title }}</h5>
+                <small class="text-muted">{{ notice.modified_at }}</small>
+            </div>
+            <div class="d-flex w-100 justify-content-between">
+                <small class="text-muted">{{ notice.created_by }}</small>
+                <small class="text-muted">{{ notice.created_at }}</small>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,4 +1,6 @@
 # from django.http.response import HttpResponse
+from django.contrib.auth.decorators import login_required
+from main.decoraters import auth_req, unauth_req
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserQuery
@@ -45,28 +47,26 @@ def contact(request):
 
 
 # for redirect to dashboard as type
+@auth_req
 def dashboardAsType(request):
-    if request.user.is_authenticated:
-        if request.user.profile.type() == "student":
-            return redirect('student/')
+    if request.user.profile.type() == "student":
+        return redirect('student/')
 
-        elif request.user.profile.type() == "director":
-            return redirect('test')
+    elif request.user.profile.type() == "director":
+        return redirect('s_Home')
 
-        elif request.user.profile.type() == "hod":
-            return redirect('test')
+    elif request.user.profile.type() == "hod":
+        return redirect('s_Home')
 
-        elif request.user.profile.type() == "teacher":
-            return redirect('test')
+    elif request.user.profile.type() == "teacher":
+        return redirect('s_Home')
 
     return redirect('home')
 
 
 # for login
+@unauth_req
 def loginHandle(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-
     if request.method == 'POST':
         loginUsername = request.POST['username']
         loginpassword = request.POST['password']
@@ -76,7 +76,7 @@ def loginHandle(request):
         if user is not None:
             login(request, user)
             messages.success(request, "You are successfully Logged In")
-            return redirect('studentHome')
+            return redirect('home')
 
         else:
             messages.error(
@@ -84,13 +84,11 @@ def loginHandle(request):
     return render(request, "main/login.html")
 
 
+@auth_req
 def logOutHandle(request):
-    if request.user.is_authenticated:
-        logout(request)
-        messages.success(request, "Successfully Logged Out")
-        return redirect('home')
-    else:
-        return redirect("home")
+    logout(request)
+    messages.success(request, "Successfully Logged Out")
+    return redirect('home')
 
 
 # for html template testing
