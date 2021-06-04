@@ -17,7 +17,7 @@ All students
     <div class="list-group">
         {% for student in students %}
         <a href="{{ student.user }}" class="list-group-item list-group-item-action flex-column align-items-start mt-1 container neupm" style="max-height: 20vh;">
-            <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex w-100 justify-content-between p-2">
                 <h5 class="mb-1">{{ student.user }}</h5>
                 <small class="text-muted">{{ student.branch }}</small>
             </div>

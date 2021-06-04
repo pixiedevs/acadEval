@@ -7,14 +7,188 @@ Profile
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
-
+{% load static %}
 <div class="container mt-5 neupm p-2">
     <h4 class="text-center alert alert-info"> {{ user.teacher.department }} Students</h4>
-    <div class="d-flex justify-content-end">
-        <a href="/staff/students/{{ student.user }}/update/" class="btn btnPrAnim003 border border-primary">Update</a>
+
+    <div class="row">
+        <div class="container mt-1">
+            <div class="card text-center ">
+            </div>
+            <div class="card-body-center">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <img src="{% static 'img/logo.png' %}" class="round-circle" width="150">
+                        <a href="/staff/students/{{ student.user }}/update/"
+                            class="btn btnPrAnim003 border border-primary align-self-center">Update</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-<b>{{ student.user }}</b>
-    
+    <div class="col mt-1">
+        <div class="card mb-3 content">
+            <h1 class="m-3 pt-3">About</h1>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Full Name</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.first_name }} {{ student.last_name }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Email</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.email }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Fathers Name</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.father_name }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Student ID</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.student_id }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Enrollment No.</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.user }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Branch</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.branch }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Batch Year</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.batch_year }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Semester</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.semester }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Year</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.year }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Mobail No.</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.mobile_no }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Gender</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.gender }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Date Of Birth</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.date_of_birth }}
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Fathers Mobail No.</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.father_mobile_no }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Current Address</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.current_address }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Permanent Address</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.permanent_address }}
+                    </div>
+                </div>
+                <hr>
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Guardian Name</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.guardian_name }}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5>Guardian Mobail No.</h5>
+                    </div>
+                    <div class="col-md-9 text-secondary">
+                        {{ student.guardian_mobile_no }}
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock body %}
