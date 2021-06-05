@@ -1,3 +1,7 @@
+from staff.models import StudentNote
+import student
+from student.models import StudentAttendance
+from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
 from django.shortcuts import render
@@ -25,3 +29,44 @@ def showAttendance(request):
 
 
     return render(request, 'student/attendance.html', {"sem": sems, "month": months[:datetime.now().month]})
+
+
+# library views
+@student_only
+def library(request):
+    return render(request, 'student/studentLibrary.html')
+
+
+# for student notes made/provided by teachers
+@student_only
+def viewProfile(request):
+    student = request.user.student
+    return render(request, 'student/profile.html', {"student": student})
+
+
+# for student notes made/provided by teachers
+@student_only
+def viewNote(request, id):
+    note = StudentNote.objects.get(id=id)
+    return render(request, 'staff/view-notice.html', {"data": note, "dataName": "note"})
+
+
+@student_only
+def viewAllNotes(request):
+    notes = sorted(StudentNote.objects.filter(
+        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
+    return render(request, 'staff/view-all-notices.html', {"data": notes, "dataName": "note"})
+
+
+# for student notice created by staff
+@student_only
+def viewAllNotices(request):
+    notices = sorted(Notice.objects.filter(
+        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
+    return render(request, "staff/view-all-notices.html", {"data": notices, "dataName": "notice"})
+
+
+@student_only
+def viewNotice(request, id):
+    notice = Notice.objects.get(id=id)
+    return render(request, "staff/view-notice.html", {"data": notice, "dataName": "notice"})

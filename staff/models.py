@@ -1,7 +1,6 @@
 from django.contrib.auth.models import Group, User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -127,3 +126,18 @@ class Director(Staff):
     def delete(self, *args, **kwargs):
         self.user.delete()
         return super(self.__class__, self).delete(*args, **kwargs)
+
+
+class StudentNote(models.Model):
+    topic = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
+    branch = models.CharField(max_length=10, default='CSE')
+    created_by = models.ForeignKey(
+        User, related_name='studentnote', on_delete=models.CASCADE, to_field="username")
+
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.topic} - {self.subject}"

@@ -1,31 +1,54 @@
 {% extends 'main/base.html' %}
 {% block title %}
-view notice
+view {{dataName}}
 {% endblock title %}
-{% block description %}view notice{% endblock description %}
+{% block description %}view {{dataName}}{% endblock description %}
 
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
 
 <div class="col-lg-8 mt-5 neupm p-3">
-    <h4 class="text-center alert alert-info">{{ notice.title }}</h4>
+    <h4 class="text-center alert alert-info">{{ data.title }} {{ data.topic }} <br> <small>{{ data.subject }}</small> </h4>
     <div class="row">
         <div class="d-flex justify-content-between">
-            <small class="text-muted">By: {{ notice.created_by }}</small>
+            <small class="text-muted">By: {{ data.created_by }}</small>
             <div class="d-flex justify-content-between">
-                {% if notice.created_by == user %}
+                {% if data.created_by == user %}
                 <a href="update" class="btn btnPrAnim003 border border-primary">Update</a>
-                <a href="delete" class="btn btnPrAnim003 border border-primary ms-2">Delete</a>
+                <button class="btn btnPrAnim003 border border-primary ms-2" data-bs-toggle="modal"
+                    data-bs-target="#confirm-delete">Delete</button>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" aria-labelledby="confirm-delete-label"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirm-delete-label">Do you want to delete this Notice</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Id: {{ data.id }} <br>
+                                Title: {{ data.title }}{{ data.topic }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="delete" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <small class="text-muted">Modified at: {{ notice.modified_at }}</small>
-            <small class="text-muted">Created at: {{ notice.created_at }}</small>
+            {% if data.modified_at|date != data.created_at|date %}
+            <small class="text-muted">Modified at: {{ data.modified_at|date }}</small>
+            {% endif %}
+            <small class="text-muted">Created at: {{ data.created_at|date }}</small>
         </div>
     </div>
-    <p class="mb-1">{{ notice.content|safe }}</p>
+    <p class="mb-1">{{ data.content|safe }}</p>
 </div>
 
 {% endblock body %}

@@ -26,15 +26,25 @@ class Profile(models.Model):
     def type(self) -> str:
         return "student" if self.is_student else "teacher" if self.is_teacher else "hod" if self.is_hod else "director" if self.is_director else "visitor"
 
+    def staff(self):
+        return self.user.student if self.is_student else self.user.teacher if self.is_teacher else self.user.hod if self.is_hod else self.user.director if self.is_director else None
+
+    def is_staff(self):
+        return True if (self.is_teacher or self.is_hod or self.is_director) else False
+
+    def type_url(self):
+        return "staff" if (self.is_teacher or self.is_hod or self.is_director) else "student" if self.is_student else ""
+
 
 class Notice(models.Model):
     title = models.CharField(max_length=60)
+    branch = models.CharField(max_length=10, default='CSE')
     created_by = models.ForeignKey(
         User, related_name='notice', on_delete=models.CASCADE, to_field="username")
 
     content = models.TextField()
-    created_at = models.TimeField(auto_now_add=True)
-    modified_at = models.TimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.created_at} - {self.modified_at} - {self.title}"

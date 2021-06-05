@@ -5,11 +5,20 @@ urlpatterns = [
     # for all
     path('', views.index, name="s_Home"),
     path('attendance/', views.attendance, name="s_attendance"),
+
+    # for notices
     path('notices/', views.viewAllNotices, name="view_notices"),
     path('notices/add/', views.addNotice, name="add_notice"),
     path('notices/<int:id>/', views.viewNotice, name="view_notice"),
     path('notices/<int:id>/update/', views.updateNotice, name="update_notice"),
     path('notices/<int:id>/delete/', views.deleteNotice, name="delete_notice"),
+
+    # for notes
+    path('notes/', views.viewAllNotes, name="view_notes"),
+    path('notes/add/', views.addNote, name="add_note"),
+    path('notes/<int:id>/', views.viewNote, name="view_note"),
+    path('notes/<int:id>/update/', views.updateNote, name="update_note"),
+    path('notes/<int:id>/delete/', views.deleteNote, name="delete_note"),
     path('students/', views.viewAllStudents, name="view_students"),
     path('students/<str:username>/',
          views.viewStudentProfile, name="view_student_profile"),

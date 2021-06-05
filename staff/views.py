@@ -3,10 +3,10 @@ from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
 from student.models import Student
 from main.models import Notice
+from staff.models import StudentNote
 from django.contrib import messages
 from django.contrib.auth.models import Group
-from staff.forms import AddTeacherForm, TeacherDataForm
-from staff.forms import AddHodForm, HodDataForm
+from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 
 # Create your views here.
 
@@ -128,13 +128,14 @@ def addHod(request):
 # views for notice
 @staff_only
 def viewAllNotices(request):
-    notices = Notice.objects.all()
-    return render(request, "staff/view-all-notices.html", {"notices": notices})
+    notices = sorted(Notice.objects.filter(
+        branch=request.user.profile.staff().department), key=lambda x: x.modified_at.date(), reverse=True)
+    return render(request, "staff/view-all-notices.html", {"data": notices, "dataName":"notice"})
 
 @staff_only
 def viewNotice(request, id):
     notice = Notice.objects.filter(id=id).first()
-    return render(request, "staff/view-notice.html", {"notice": notice})
+    return render(request, "staff/view-notice.html", {"data": notice, "dataName":"notice"})
 
 
 @staff_only
@@ -145,7 +146,7 @@ def deleteNotice(request, id):
         messages.success(request, f"Notice with {id} has been deleted")
         return redirect('view_notices')
 
-    messages.error(request, "You do not permition to delete this notice.")
+    messages.error(request, "You do not have permition to delete this notice.")
     return redirect(f'/staff/notices/{id}')
 
 
@@ -153,7 +154,7 @@ def deleteNotice(request, id):
 def addNotice(request):
     if request.method == 'POST':
         notice = Notice.objects.create(
-            created_by=request.user, title=request.POST['title'], content=request.POST['content'])
+            created_by=request.user, title=request.POST['title'], content=request.POST['content'], branch=request.user.profile.staff().department)
         return redirect(f'/staff/notices/{notice.id}')
     else:
         return render(request, 'staff/add-notice.html')
@@ -162,23 +163,76 @@ def addNotice(request):
 @staff_only
 def updateNotice(request, id):
     notice = Notice.objects.get(id=id)
-    if request.method == 'POST':
-        Notice.objects.update(
-            created_by=request.user, title=request.POST['title'], content=request.POST['content'])
-        return redirect(f'/staff/notices/{notice.id}')
+    if notice.created_by == request.user:
+        if request.method == 'POST':
+            Notice.objects.update(
+                created_by=request.user, title=request.POST['title'], content=request.POST['content'])
+            return redirect(f'/staff/notices/{notice.id}')
 
+        else:
+            return render(request, 'staff/add-notice.html', {"notice": notice},)
+    messages.error(request, "You do not have permition to update this notice.")
+    return redirect(f'/staff/notices/{id}')
+
+
+# views for notes
+@staff_only
+def viewAllNotes(request):
+    notes = sorted(StudentNote.objects.filter(
+        branch=request.user.profile.staff().department), key=lambda x: x.modified_at.date(), reverse=True)
+    return render(request, "staff/view-all-notices.html", {"data": notes, "dataName":"note"})
+
+@staff_only
+def viewNote(request, id):
+    note = StudentNote.objects.filter(id=id).first()
+    return render(request, "staff/view-notice.html", {"data": note, "dataName": "note"})
+
+
+@staff_only
+def deleteNote(request, id):
+    note = StudentNote.objects.get(id=id)
+    if note.created_by == request.user:
+        note.delete()
+        messages.success(request, f"note with {id} has been deleted")
+        return redirect('view_notes')
+
+    messages.error(request, "You do not have permition to delete this notice.")
+    return redirect(f'/staff/notes/{id}')
+
+
+@staff_only
+def addNote(request):
+    if request.method == 'POST':
+        note = StudentNote.objects.create(
+            created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], content=request.POST['content'], branch=request.user.profile.staff().department)
+        return redirect(f'/staff/notes/{note.id}')
     else:
-        return render(request, 'staff/add-notice.html', {"notice": notice},)
-        
+        return render(request, 'staff/add-notice.html', {"dataName":"note"})
+    
+    
+@staff_only
+def updateNote(request, id):
+    notice = StudentNote.objects.get(id=id)
+    if notice.created_by == request.user:
+        if request.method == 'POST':
+            StudentNote.objects.update(
+                created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], content=request.POST['content'])
+            return redirect(f'/staff/notes/{notice.id}')
+
+        else:
+            return render(request, 'staff/add-notice.html', {"data": notice, "dataName": "note"})
+    messages.error(request, "You do not have permition to update this note.")
+    return redirect(f'/staff/notes/{id}')
+
 
 # views for Student's data
 @staff_only
 def viewAllStudents(request):
-    students = Student.objects.filter(branch=request.user.teacher.department)
+    students = Student.objects.filter(branch=request.user.profile.staff().department)
     return render(request, "staff/view-all-students.html", {"students": students})
 
 
 @staff_only
 def viewStudentProfile(request, username):
-    student = Student.objects.get(user=username, branch=request.user.teacher.department)
+    student = Student.objects.get(user=username, branch=request.user.profile.staff().department)
     return render(request, "student/profile.html", {"student": student})

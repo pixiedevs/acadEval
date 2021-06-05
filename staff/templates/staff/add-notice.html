@@ -1,8 +1,8 @@
 {% extends 'main/base.html' %}
 {% block title %}
-Notice
+{{dataName|title}}
 {% endblock title %}
-{% block description %}Notice{% endblock description %}
+{% block description %}{{dataName}}{% endblock description %}
 
 {% block body %}
 {% block message %}{% endblock message %}
@@ -12,16 +12,35 @@ Notice
     <form action="" method="post" id="html_editor_form">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input name="title" value="{{ notice.title }}" type="txt" class="form-control" id="title" placeholder="title" autofocus required>
+
+            {% if dataName == "note" %}
+            <label for="topic" class="form-label">Topic</label>
+            <input name="topic" value="{{ data.topic }}" type="txt" class="form-control" id="topic" placeholder="topic"
+                autofocus required>
         </div>
-    
+
         <div class="mb-3">
-            <label for="id_content" class="form-label">Notice</label>
-            <textarea name="content" class="form-control" id="id_content" rows="10" placeholder="This field is full featured with most advanced HTML editor designed to simplify HTML content creation." required>{{ notice.content|safe }}</textarea>
+            <label for="subject" class="form-label">Subject</label>
+            <input name="subject" value="{{ data.subject }}" type="txt" class="form-control" id="subject"
+                placeholder="subject" autofocus required>
+            {% else %}
+            <label for="title" class="form-label">Title</label>
+            <input name="title" value="{{ data.title }}" type="txt" class="form-control" id="title" placeholder="title"
+                autofocus required>
+
+            {% endif %}
+
         </div>
-    
-        <button type="submit" class="btn btnPrAnim003 border border-primary" id="html_submit" name="save">Submit</button>
+
+        <div class="mb-3">
+            <label for="id_content" class="form-label">{{dataName|title}}</label>
+            <textarea name="content" class="form-control" id="id_content" rows="10"
+                placeholder="This field is full featured with most advanced HTML editor designed to simplify HTML content creation."
+                required>{{ data.content|safe }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btnPrAnim003 border border-primary" id="html_submit"
+            name="save">Submit</button>
     </form>
 </div>
 <script src="{% static 'js/addEditor.js' %}"></script>
