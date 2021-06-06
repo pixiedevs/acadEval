@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Contact, Notice, Profile
+from main.models import College, Contact, Notice, Profile
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -19,3 +19,8 @@ class ProfileAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 @admin.register(Notice)
 class NoticeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
  list_display = ('title', 'created_at', 'modified_at')
+
+
+@admin.register(College)
+class CollegeAdmin(admin.ModelAdmin):
+ list_display = ('college', 'college_full_name', 'college_code', 'college_bio')

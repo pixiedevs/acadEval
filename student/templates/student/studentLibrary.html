@@ -1,9 +1,9 @@
 {% extends 'main/base.html' %}
 {% block title %}
-StudentLibrary
+Library
 {% endblock title %}
 
-{% block description %}StudentLibrary{% endblock description %}
+{% block description %}Library{% endblock description %}
 
 {% block body %}
 {% block message %}{% endblock message %}
@@ -21,49 +21,18 @@ StudentLibrary
                </tr>
           </thead>
           <tbody>
+               
+               {% for book in books %}
                <tr>
-                    <th scope="row">1</th>
-                    <td> Mathmatics </td>
-                    <td> 00000123 </td>
-                    <td> 26/03/21 </td>
-                    <td> 26/09/21 </td>
-
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{book.book_name}} </td>
+                    <td> {{book.book_id}} </td>
+                    <td> {{book.issue_date}} </td>
+                    <td> {{book.expiry_date}} </td>
+                    
                </tr>
+          {% endfor %}
 
-               <tr>
-
-                    <th scope="row">2</th>
-                    <td> English </td>
-                    <td> 00000234 </td>
-                    <td> 26/03/21 </td>
-                    <td> 26/09/21 </td>
-               </tr>
-               <tr>
-
-                    <th scope="row">3</th>
-                    <td> Physics </td>
-                    <td> 00000503 </td>
-                    <td> 26/03/21 </td>
-                    <td> 26/09/21 </td>
-               </tr>
-
-               <tr>
-
-                    <th scope="row">4</th>
-                    <td> Chemistry </td>
-                    <td> 00000409 </td>
-                    <td> 26/03/21 </td>
-                    <td> 26/09/21 </td>
-               </tr>
-
-               <tr>
-
-                    <th scope="row">5</th>
-                    <td> Python </td>
-                    <td> 00000152 </td>
-                    <td> 26/03/21 </td>
-                    <td> 26/09/21 </td>
-               </tr>
           </tbody>
      </table>
 </div>

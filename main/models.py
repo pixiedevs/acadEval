@@ -50,6 +50,14 @@ class Notice(models.Model):
         return f"{self.created_at} - {self.modified_at} - {self.title}"
 
 
+class College(models.Model):
+    # for short college name like TITM, TITS, TITE and TITA etc
+    college = models.CharField(max_length=10, default="TITS", primary_key=True)
+    college_full_name = models.CharField(max_length=100, unique=True)
+    college_code = models.IntegerField(unique=True)
+    college_bio = models.CharField(max_length=1000)
+
+
 # signal's for create Profile's object/row while new creating user's object/row 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -34,7 +34,8 @@ def showAttendance(request):
 # library views
 @student_only
 def library(request):
-    return render(request, 'student/studentLibrary.html')
+    books = request.user.student.book.all()
+    return render(request, 'student/studentLibrary.html', {"books": books})
 
 
 # for student notes made/provided by teachers

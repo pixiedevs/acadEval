@@ -2,9 +2,8 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 import datetime
-# from datetime import
-# Create your models here.
 
+# Create your models here.
 
 class Student(models.Model):
     # for debugging, in production change it to on_delete=models.PROTECT
@@ -98,7 +97,35 @@ class StudentAttendance(models.Model):
     def __str__(self):
         return f"{self.student} {self.date} {self.is_present}"
 
-    # for preventing
+    # for preventing duplicate attendance
     class Meta:
         unique_together = ("student", "date")
 
+
+# Student's Books
+class Book(models.Model):
+    student = models.ForeignKey(
+        Student, related_name='book', on_delete=models.CASCADE, to_field="student_id")
+    book_id = models.CharField(max_length=50, blank=True)
+    book_name = models.CharField(max_length=100, blank=True)
+    issue_date = models.DateField(default=datetime.date.today)
+    expiry_date = models.DateField()
+
+    # for preventing
+    class Meta:
+        unique_together = ("student", "book_id")
+
+
+# Student's Marks
+class Mark(models.Model):
+    student = models.ForeignKey(
+        Student, related_name='mark', on_delete=models.CASCADE, to_field="student_id")
+    semester = models.PositiveIntegerField()
+    result = models.CharField(max_length=4, blank=True)
+    sgpa = models.FloatField(verbose_name="SGPA")
+    cgpa = models.FloatField(verbose_name="CGPA")
+    file = models.FileField(upload_to='media')
+
+    # for preventing
+    class Meta:
+        unique_together = ("student", "semester")
