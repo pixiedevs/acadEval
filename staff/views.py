@@ -1,7 +1,7 @@
 from main.decoraters import director_only, hod_only, staff_only, teacher_only
 from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
-from student.models import Student
+from student.models import Book, Student
 from main.models import Notice
 from staff.models import StudentNote
 from django.contrib import messages
@@ -34,7 +34,8 @@ def library(request):
 
 @staff_only
 def classes(request):
-    return render(request, 'staff/classes.html')
+    d = Book.objects.all()
+    return render(request, 'student/classes.html', {"data": d, "dataName": "Class"})
 
 
 # this method for add student by vishal

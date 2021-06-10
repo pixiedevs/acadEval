@@ -4,7 +4,9 @@ from student import views
 urlpatterns = [
     path('', views.index, name="studentHome"),
     path('attendance/', views.showAttendance, name="showStudentAttendance"),
+    path('marks/', views.showMarks, name="showStudentMarks"),
     path('library/', views.library, name="library"),
+    path('classes/', views.StudentClasses, name="all_classes"),
     path('profile/', views.viewProfile, name="view_profile"),
     
     path('notes/', views.viewAllNotes, name="view_notes"),

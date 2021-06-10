@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Mark, Student, StudentAttendance
+from .models import Book, Mark, Student, StudentAttendance, StudentClass
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -24,3 +24,8 @@ class BookAdmin(admin.ModelAdmin):
 @admin.register(Mark)
 class MarkAdmin(admin.ModelAdmin):
  list_display = ('student', 'result', 'sgpa', 'cgpa')
+
+
+@admin.register(StudentClass)
+class StudentClassAdmin(admin.ModelAdmin):
+ list_display = ('subject', 'tutor', 'start_time', 'end_time', 'date')

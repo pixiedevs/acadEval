@@ -121,11 +121,23 @@ class Mark(models.Model):
     student = models.ForeignKey(
         Student, related_name='mark', on_delete=models.CASCADE, to_field="student_id")
     semester = models.PositiveIntegerField()
-    result = models.CharField(max_length=4, blank=True)
+    result = models.CharField(max_length=4)
     sgpa = models.FloatField(verbose_name="SGPA")
     cgpa = models.FloatField(verbose_name="CGPA")
-    file = models.FileField(upload_to='media')
+    file = models.FileField(upload_to='media', unique=True)
 
-    # for preventing
+
+class StudentClass(models.Model):
+    subject = models.CharField(max_length=50)
+    tutor = models.ForeignKey(
+        User, on_delete=models.CASCADE, to_field="username")
+    semester = models.PositiveIntegerField(default=1)
+    branch = models.CharField(default="CSE", max_length=10)
+    
+    url = models.URLField(max_length=100)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    date = models.DateField()
+
     class Meta:
-        unique_together = ("student", "semester")
+        verbose_name_plural = "Student Classes"

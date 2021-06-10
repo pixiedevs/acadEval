@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Marks
+{% endblock title %}
+{% block description %}Marks page{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<div class="row container mt-5">
+    <table class="col table table-striped neupm">
+        <tbody>
+            <tr>
+                <td scope="row">Name: <b>{{ user.get_full_name }}</b></td>
+                <td scope="row">Enroll: <b>{{user.username}}</b></td>
+            </tr>
+            <tr>
+                <td scope="row">Sem: <b>{{ user.student.semester }}</b></td>
+                <td scope="row">Year: <b>{{ user.student.year }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row container mt-2">
+
+    <div class="col-lg">
+        <div class="row">
+            <div class="col-lg mb-3 neupm">
+
+                <div class="d-flex justify-content-around p-2">
+
+                    <div class="p-2">
+                        <label for="sem">Choose semester:</label>
+                        <select name="sem" id="sem">
+                            {% for s in semesters %}
+                            <option value="{{s}}" {% if s is semesters|last %}selected {% endif %}>{{s}}</option>
+
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary"
+                        onclick="fetchStudentAttendanceData('{{ csrf_token }}', '/student/attendance', 1)">Fetch</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-striped neupm">
+                <thead>
+                    <tr>
+                        <th scope="col">Result</th>
+                        <th scope="col">SGPA</th>
+                        <th scope="col">CGPA</th>
+                    </tr>
+                </thead>
+                <tbody id="table_data_body">
+                    <tr>
+                        <th scope="row">{{ marks.result }}</th>
+                        <td>{{ marks.sgpa }}</td>
+                        <td>{{ marks.cgpa }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <embed src="{{ marks.file.url }}" type="">
+        </div>
+
+    </div>
+
+</div>
+<!-- Body block End -->
+
+{% endblock body %}

@@ -10,6 +10,20 @@ Library
 <!-- main section -->
 {% load static %}
 <div class="row container mt-5">
+     <table class="col table table-striped neupm2">
+          <tbody>
+               <tr>
+                    <td scope="row">Name: <b>{{ user.get_full_name }}</b></td>
+                    <td scope="row">Enroll: <b>{{user.username}}</b></td>
+               </tr>
+               <tr>
+                    <td scope="row">Sem: <b>{{ user.student.semester }}</b></td>
+                    <td scope="row">Year: <b>{{ user.student.year }}</b></td>
+               </tr>
+          </tbody>
+     </table>
+</div>
+<div class="row container mt-5">
      <table class="table table-striped neupm2">
           <thead>
                <tr>

@@ -1,6 +1,6 @@
 from staff.models import StudentNote
 import student
-from student.models import StudentAttendance
+from student.models import Book, Student, StudentAttendance
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
@@ -26,7 +26,6 @@ def showAttendance(request):
         data = request.user.student.get_attendance_by_sem_month(
             sem=sem, month=month).values()
         return JsonResponse(list(data), safe=False)
-
 
     return render(request, 'student/attendance.html', {"sem": sems, "month": months[:datetime.now().month]})
 
@@ -71,3 +70,16 @@ def viewAllNotices(request):
 def viewNotice(request, id):
     notice = Notice.objects.get(id=id)
     return render(request, "staff/view-notice.html", {"data": notice, "dataName": "notice"})
+
+
+def StudentClasses(request):
+    d = Book.objects.all()
+    return render(request, 'student/classes.html', {"data": d, "dataName": "Class"})
+
+
+@student_only
+def showMarks(request):
+    semesters = range(1, request.user.student.semester+1)
+    student = Student.objects.get(user=request.user)
+    marks = student.mark.get(semester=student.semester)
+    return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
