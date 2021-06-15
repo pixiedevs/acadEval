@@ -342,6 +342,9 @@ div.alert {
   .alert-dismissible .btn-close {
     padding: 1rem;
   }
+  .table {
+    margin-left: -1rem;
+}
 }
 .sidebar-sidebar .logo-text {
   padding-left: 1rem;

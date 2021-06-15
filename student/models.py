@@ -5,6 +5,7 @@ import datetime
 
 # Create your models here.
 
+
 class Student(models.Model):
     # for debugging, in production change it to on_delete=models.PROTECT
     user = models.OneToOneField(
@@ -126,6 +127,9 @@ class Mark(models.Model):
     cgpa = models.FloatField(verbose_name="CGPA")
     file = models.FileField(upload_to='media', unique=True)
 
+    def file_url(self) -> str:
+        return f'{self.file.url}'
+
 
 class StudentClass(models.Model):
     subject = models.CharField(max_length=50)
@@ -133,7 +137,7 @@ class StudentClass(models.Model):
         User, on_delete=models.CASCADE, to_field="username")
     semester = models.PositiveIntegerField(default=1)
     branch = models.CharField(default="CSE", max_length=10)
-    
+
     url = models.URLField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField()

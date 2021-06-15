@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+{% block title %}
+{{dataName}}
+{% endblock title %}
+{% block description %}view {{dataName}}s{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="container mt-5">
+    <h4 class="text-center alert alert-info">{{dataName|title}}s</h4>
+    <div class="d-flex justify-content-end">
+        {% if not user.profile.is_student %}
+        <a href="/staff/notes/{{user}}/add/" class="btn btnPrAnim003 border border-primary">Add Note</a>
+        {% endif %}
+    </div>
+
+    <div class="list-group">
+        {% for d in staff %}
+        <a href="{{d.0}}/"
+            class="list-group-item list-group-item-action flex-column align-items-start mt-2 container neupm"
+            style="height: 5rem; overflow: hidden;">
+            <small>Notes of -</small>
+            <div class="d-flex w-100 justify-content-between">
+                <b class="mb-1">Teacher Name: {{ d.0 }} </b>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

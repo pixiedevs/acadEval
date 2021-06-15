@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% block title %}
+{{dataName|title}}
+{% endblock title %}
+{% block description %}{{dataName}}{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<div class="container mt-5 neupm p-4">
+    <h4 class="text-center alert alert-info">{{dataName|title}}s</h4>
+
+    <form action="" method="post" id="html_editor_form">
+        {% csrf_token %}
+        <div class="mb-3">
+
+            <label for="topic" class="form-label">Topic</label>
+            <input name="topic" value="{{ data.topic }}" type="txt" class="form-control" id="topic" placeholder="topic"
+                autofocus required>
+        </div>
+
+        <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input name="subject" value="{{ data.subject }}" type="txt" class="form-control" id="subject"
+                placeholder="subject" autofocus required>
+            
+
+        </div>
+
+        <div class="mb-3">
+            <label for="id_content" class="form-label">{{dataName|title}}</label>
+            <textarea name="content" class="form-control" id="id_content" rows="10"
+                placeholder="This field is full featured with most advanced HTML editor designed to simplify HTML content creation."
+                required>{{ data.content|safe }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btnPrAnim003 border border-primary" id="html_submit"
+            name="save">Submit</button>
+    </form>
+</div>
+<script src="{% static 'js/addEditor.js' %}"></script>
+
+{% endblock body %}

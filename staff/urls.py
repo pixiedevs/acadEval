@@ -14,11 +14,13 @@ urlpatterns = [
     path('notices/<int:id>/delete/', views.deleteNotice, name="delete_notice"),
 
     # for notes
-    path('notes/', views.viewAllNotes, name="view_notes"),
-    path('notes/add/', views.addNote, name="add_note"),
-    path('notes/<int:id>/', views.viewNote, name="view_note"),
-    path('notes/<int:id>/update/', views.updateNote, name="update_note"),
-    path('notes/<int:id>/delete/', views.deleteNote, name="delete_note"),
+    path('notes/', views.viewStaffNotes, name="view_staff_notes"),
+    path('notes/<str:username>/add/', views.addNote, name="add_note"),
+    path('notes/<str:username>/', views.viewAllNotesByStaff,
+         name="view_staff_notes"),
+    path('notes/<str:username>/<int:id>/', views.viewNote, name="view_note"),
+    path('notes/<str:username>/<int:id>/update/', views.updateNote, name="update_note"),
+    path('notes/<str:username>/<int:id>/delete/', views.deleteNote, name="delete_note"),
     path('students/', views.viewAllStudents, name="view_students"),
     path('students/<str:username>/',
          views.viewStudentProfile, name="view_student_profile"),
