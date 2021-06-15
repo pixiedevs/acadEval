@@ -1,7 +1,7 @@
 from main.decoraters import director_only, hod_only, staff_only, teacher_only
 from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
-from student.models import Book, Student, Mark
+from student.models import Book, Student, Mark, StudentClass
 from main.models import Notice
 from staff.models import StudentNote
 from django.contrib import messages
@@ -40,8 +40,26 @@ def library(request):
 
 @staff_only
 def classes(request):
-    d = Book.objects.all()
-    return render(request, 'student/classes.html', {"data": d, "dataName": "Class"})
+    data = sorted(StudentClass.objects.filter(branch=request.user.profile.staff().department), key = lambda x: x.date, reverse=True)
+    return render(request, 'staff/classes.html', {"data": data, "dataName": "Class"})
+
+
+@staff_only
+def addClasses(request):
+    if request.method == 'POST':
+        studentClass = StudentClass()
+        studentClass.subject = request.POST['subject']
+        studentClass.branch = request.POST['branch']
+        studentClass.semester = request.POST['semester']
+        studentClass.url = request.POST['class_url']
+        studentClass.start_time = request.POST['start_time']
+        studentClass.end_time = request.POST['end_time']
+        studentClass.date = request.POST['date']
+        studentClass.tutor = request.user
+        studentClass.save()
+        return redirect("classes")
+
+    return render(request, 'staff/add-class.html')
 
 
 # this method for add student by vishal

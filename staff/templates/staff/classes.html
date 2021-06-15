@@ -1,18 +1,46 @@
-{% extends 'main/base.html' %} {% block title %} Classes {% endblock title %}
- {% block description %}Classes{% endblock description %} {% block body %}
+{% extends 'main/base.html' %}
+{% block title %}
+Classes
+{% endblock title %}
+
+{% block description %}Classes{% endblock description %}
+
+{% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
-<marquee behavior="scroll" direction="left">
-    <h1>This Page is for classes</h1>
-</marquee>
 
-<marquee behavior="scroll" direction="right">
-    <h1>Work in progress</h1>
-</marquee>
+{% load static %}
 
-<marquee behavior="alternate" direction="right">
-<img src="//www.html.am/images/html-codes/marquees/bee.gif" alt="Buzzy bee">
-</marquee>
+<div class="container mt-3">
+    <h4 class="text-center alert alert-info">Classes</h4>
+    <div class="d-flex justify-content-end m-3">
+        {% if not user.profile.is_student %}
+            <a href="/staff/classes/add/" class="btn btnPrAnim003 border border-primary">Add Class</a>
+        {% endif %}
+    </div>
+
+    {% for class in data %}
+    <div class="d-flex flex-column neupm2 mb-3">
+        <div class="d-flex flex-row p-2 justify-content-between pb-0">
+            <div>
+                <b>{{ class.subject|title}} <i>By:</i> <small class="text-primary"><a href="#">{{ class.tutor|title }}</a></small></b>
+                <p>{{ class.date }}</p>
+            </div>
+            <div>
+                <p>Time:- {{ class.start_time }} - {{ class.end_time }} </p>
+            </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between pe-2 ps-2">
+            <div><a href="{{ class.url }}">Join Class Now!</a></div>
+            <div><button class="btn btn-outline-secondary pt-1 pb-1">Edit</button></div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+
 
 
 {% endblock body %}

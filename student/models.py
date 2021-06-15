@@ -141,7 +141,7 @@ class StudentClass(models.Model):
     url = models.URLField(max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    date = models.DateField()
+    date = models.DateField(default=datetime.date.today)
 
     class Meta:
         verbose_name_plural = "Student Classes"

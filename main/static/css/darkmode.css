@@ -46,6 +46,8 @@
     /* box-shadow: inset 0 8px 60px rgb(0 0 0 / 10%), inset 0 8px 8px rgb(0 0 0 / 10%), inset 0 -4px 4px rgb(0 0 0 / 5%); */
     cursor: pointer;
 }
+.neupm2-sm,
+.neupm-sm,
 .neupm2 {
     background: var(--light-bg);
     -webkit-appearance: none;
@@ -54,12 +56,18 @@
 }
 
 #inBody.darkmode .neupm2,
-#inBody.darkmode .neupm {
+#inBody.darkmode .neupm,
+#inBody.darkmode .neupm2-sm,
+#inBody.darkmode .neupm-sm {
     background: var(--dark-bg);
     box-shadow: 5px 5px 10px #1a1a1a,
     -5px -5px 10px #3b3b3b;
     border: 8px solid var(--dark-bg);
     color: #ececec;
+}
+#inBody.darkmode .neupm2-sm,
+#inBody.darkmode .neupm-sm {
+    background: linear-gradient(50deg, #24272c, #32373b);
 }
 
 #inBody.darkmode .table-striped>tbody>tr:nth-of-type(odd) {

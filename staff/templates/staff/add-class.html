@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Add Class
+{% endblock title %}
+
+{% block description %}Add Class{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+{% load static %}
+
+<div class="container mt-3">
+    <h4 class="text-center alert alert-info">Add Class</h4>
+
+    <div class="d-flex flex-column neupm2-sm mb-3">
+
+        <form action="{% url 'add_class'  %}" method="POST">{% csrf_token %}
+            <div class="d-flex flex-column p-2 pb-0">
+                <div class="form-group mb-3">
+                    <label for="subjectInput">Subject Name</label>
+                    <input type="text" class="form-control" id="subjectInput" autofocus type="text"
+                        name="subject" aria-describedby="subjectHelp">
+                    <small id="subjectHelp" class="form-text text-muted">Subject/topic</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="semesterInput">Semester</label>
+                    <input class="form-control" type="number" id="semesterInput" name="semester" value="1">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="branchInput">Branch</label>
+                    <input class="form-control" type="text" id="branchInput" name="branch" value="CSE">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="basic-url">Class URL</label>
+                    <input type="url" class="form-control" id="basic-url" name="class_url" aria-describedby="classUrlHelp"
+                        value="https://">
+                    <small id="classUrlHelp" class="form-text text-muted">https://meet.google.com/x-y-z</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="startTimeInput">Start time</label>
+                    <input class="form-control" type="time" id="startTimeInput" name="start_time"
+                        value="{% now 'H:i' %}">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="endTimeInput">End time</label>
+                    <input class="form-control" id="endTimeInput" type="time" name="end_time" value="{% now 'H:i' %}">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="dateInput">Date</label>
+                    <input class="form-control" id="dateInput" type="date" name="date" value="{% now 'Y-m-d' %}">
+                </div>
+
+                <div class="d-flex flex-row justify-content-between p-2">
+                    <div>
+                        <button class="btn btnPrAnim003 border border-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock body %}
