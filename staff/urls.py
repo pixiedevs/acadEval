@@ -38,4 +38,7 @@ urlpatterns = [
     path('library/', views.library, name="library"),
     path('classes/', views.classes, name="classes"),
     path('classes/add/', views.addClasses, name="add_class"),
+    
+    # academic calender's events
+    path('events/', views.viewEvents, name="s_view_events"),
 ]

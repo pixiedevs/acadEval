@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group, User
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -136,8 +137,31 @@ class StudentNote(models.Model):
         User, related_name='studentnote', on_delete=models.CASCADE, to_field="username")
 
     content = models.TextField()
+    files = models.FileField(upload_to='teacher_media/notes', unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.topic} - {self.subject}"
+
+
+# this models save data of academic calender which update everyone
+# for academic event, seminar and holiday
+class Event(models.Model):
+    user = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, unique=True)
+    description = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('staff:event-detail', args=(self.id,))
+
+    @property
+    def get_html_url(self):
+        url = reverse('staff:event-detail', args=(self.id,))
+        return f'<a href="{url}"> {self.title} </a>'

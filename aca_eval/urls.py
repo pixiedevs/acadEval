@@ -19,6 +19,8 @@ from django.urls.conf import include
 from main import urls as main_url
 from student import urls as student_url
 from staff import urls as staff_url
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', include(main_url), name="index"),
@@ -26,3 +28,6 @@ urlpatterns = [
     path('staff/', include(staff_url), name="staff"),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

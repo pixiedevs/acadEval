@@ -1,6 +1,6 @@
 from staff.models import Director, Hod, Staff, Teacher, StudentNote
 from django.contrib import admin
-from .models import Teacher, Hod
+from staff.models import Teacher, Hod, Event
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
@@ -29,3 +29,7 @@ class StudentNoteAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 # only for inheritance
 admin.site.register(Staff)
+
+@admin.register(Event)
+class EventAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+ list_display = ('title', 'start_time', 'end_time', 'user')

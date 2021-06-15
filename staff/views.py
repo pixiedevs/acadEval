@@ -282,3 +282,8 @@ def viewStudentProfile(request, username):
     student = Student.objects.get(
         user=username, branch=request.user.profile.staff().department)
     return render(request, "student/profile.html", {"student": student})
+
+
+@staff_only
+def viewEvents(request):
+    return render(request, 'staff/view-all-events.html')

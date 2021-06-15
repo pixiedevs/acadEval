@@ -1,6 +1,5 @@
 from staff.models import StudentNote
-import student
-from student.models import Book, Student, StudentAttendance
+from student.models import Book, Student
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only

@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block title %}
+view events
+{% endblock title %}
+{% block description %}view events{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+
+<div class="container mt-5">
+    <h4 class="text-center alert alert-info">Events</h4>
+    <div class="d-flex justify-content-end">
+        {% if not user.profile.is_student %}
+        <a href="{% url 's_view_events'  %}/add/" class="btn btnPrAnim003 border border-primary">Add Event</a>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock body %}

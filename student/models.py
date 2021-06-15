@@ -125,7 +125,7 @@ class Mark(models.Model):
     result = models.CharField(max_length=4)
     sgpa = models.FloatField(verbose_name="SGPA")
     cgpa = models.FloatField(verbose_name="CGPA")
-    file = models.FileField(upload_to='media', unique=True)
+    file = models.FileField(upload_to='student_media/marks', unique=True)
 
     def file_url(self) -> str:
         return f'{self.file.url}'
