@@ -1,40 +1,41 @@
 {% extends 'main/base.html' %}
 {% block title %}
-view {{dataName}}es
+Classes
 {% endblock title %}
-{% block description %}view {{dataName}}es{% endblock description %}
+
+{% block description %}Classes{% endblock description %}
 
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
 
-<div class="container mt-5">
-    <h4 class="text-center alert alert-info">{{dataName|title}}es</h4>
-    <div class="d-flex justify-content-end">
-        {% if not user.profile.is_student %}
-        <a href="/staff/{{dataName}}s/add" class="btn btnPrAnim003 border border-primary">Add {{dataName}}</a>
-        {% endif %}
-    </div>
+{% load static %}
 
-    <div class="list-group">
-        {% for d in data %}
-        <div class="list-group-item flex-column align-items-start mt-2 container neupm"
-            style="height: 6rem; overflow: hidden;">
-            <div class="d-flex w-100 justify-content-between">
-                <b class="mb-1"> <br><small>{{ d.book_name }}</small></b>
-                {% if not user.profile.is_student %}
+<div class="container mt-3">
+    <h4 class="text-center alert alert-info">Classes</h4>
 
-                <a href="/{{user.profile.type_url}}/{{dataName}}es/{{ d.id }}/">Edit</a>
-                {% endif %}
+    {% for class in data %}
+    <div class="d-flex flex-column neupm2 mb-3">
+        <div class="d-flex flex-row p-2 justify-content-between pb-0">
+            <div>
+                <b>{{ class.subject|title}} <i>By:</i> <small class="text-primary"><a
+                            >{{ class.tutor|title }}</a></small></b>
+                <p>{{ class.date }}</p>
             </div>
-            <div class="d-flex w-100 justify-content-between">
-                <small class="text-muted">{{ d.issue_date }}</small>
-                <!-- <small class="text-muted">Join class</small> -->
-                <button class="btn btn-primary">Join</button>
+            <div>
+                <p>Time:- {{ class.start_time }} - {{ class.end_time }} </p>
             </div>
         </div>
-        {% endfor %}
+
+        <div class="d-flex flex-row justify-content-between pe-2 ps-2">
+            <div><a class="text-success" href="{{ class.url }}">Join Class Now!</a></div>
+        </div>
     </div>
+    {% endfor %}
+
 </div>
+
+
+
 
 {% endblock body %}

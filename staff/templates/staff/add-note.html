@@ -24,8 +24,13 @@
             <label for="subject" class="form-label">Subject</label>
             <input name="subject" value="{{ data.subject }}" type="txt" class="form-control" id="subject"
                 placeholder="subject" autofocus required>
-            
 
+
+        </div>
+
+        <div class="mb-3">
+            <label for="file" class="form-label">PDF file</label>
+            <input type="file" id="file" class="form-label" />
         </div>
 
         <div class="mb-3">
@@ -34,6 +39,7 @@
                 placeholder="This field is full featured with most advanced HTML editor designed to simplify HTML content creation."
                 required>{{ data.content|safe }}</textarea>
         </div>
+
 
         <button type="submit" class="btn btnPrAnim003 border border-primary" id="html_submit"
             name="save">Submit</button>

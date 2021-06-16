@@ -1,5 +1,5 @@
 from staff.models import StudentNote
-from student.models import Book, Student
+from student.models import Book, Student, StudentClass
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
@@ -72,8 +72,9 @@ def viewNotice(request, id):
 
 
 def StudentClasses(request):
-    d = Book.objects.all()
-    return render(request, 'student/classes.html', {"data": d, "dataName": "Class"})
+    data = sorted(StudentClass.objects.filter(
+        branch__icontains=request.user.student.branch, semester=request.user.student.semester), key=lambda x: x.date, reverse=True)
+    return render(request, 'student/classes.html', {"data": data, "dataName": "Class"})
 
 
 @student_only

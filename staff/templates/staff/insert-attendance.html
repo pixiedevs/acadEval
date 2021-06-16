@@ -1,0 +1,112 @@
+{% extends 'main/base.html' %}
+{% block title %} Attendance {% endblock title %}
+{% block description %}Attendance{% endblock description %} {% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+<div class="col-lg-8 mt-5 neupm p-3">
+    <h4 class="text-center alert alert-info">Attendance</h4>
+
+    <h6 class="text-center alert alert-secondary">Click to view {{ user.profile.staff.department }} student's attendance by semester-</h6>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex align-content-stretch flex-wrap m-5 mt-2">
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 1</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 2</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 3</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 4</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 5</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 6</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 7</a>
+
+            </div>
+            <div style="height: 50px; width: 50px; margin: 0.5rem;">
+                <a class="btn btn-outline-secondary">sem: 8</a>
+
+            </div>
+        </div>
+    </div>
+    
+    <form class="m-5">
+        <div class="form-group">
+            <label for="attendanceFileInput">Excel file:</label><br>
+            <input type="file" class="form-control-file" id="attendanceFileInput">
+        </div>
+        <div class="form-group mt-3">
+            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+        </div>
+    </form>
+
+    <div class="container mt-5">
+        <b class="text-danger">Format of the sheet's column should be</b><br>
+        <table class="table table-sm m-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"><small>student</small></th>
+                    <th scope="col"><small>semester</small></th>
+                    <th scope="col"><small>date</small></th>
+                    <th scope="col"><small>is_present</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><small>0192CS18XYZ</small></th>
+                    <td><small>6</small></td>
+                    <td>06/<small>16</small>/2021</td>
+                    <td><small>1</small></td>
+                </tr>
+                <tr>
+                    <th scope="row"><small>0192CS18XXZ</small></th>
+                    <td><small>6</small></td>
+                    <td><small>06</small>/16/2021</td>
+                    <td><small>0</small></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <b class="text-info">Note:-</b>
+
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <span class="badge bg-primary rounded-pill">1.</span>
+                <div class="ms-2 me-auto">
+                    Where student column for "student id".
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <span class="badge bg-primary rounded-pill">2.</span>
+                <div class="ms-2 me-auto">
+                    Date field/column is optional and by default inserts current date to the database table.
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <span class="badge bg-primary rounded-pill">3.</span>
+                <div class="ms-2 me-auto">
+                    1 or 0 in "is_present" column represent 'is student' present or not respectively.
+                    Default/blank represent student is not preset.
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+{% endblock body %}

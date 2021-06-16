@@ -23,11 +23,47 @@
             </a>
         </li>
         {% endif %}
+        
+        {% if user.profile.is_hod %}
+
+        <li class="sidebar-item">
+            <a href="/{{ user.profile.type_url }}/add-teacher/" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+
+                </div>
+                <span class="link-text">Add teacher</span>
+            </a>
+        </li>
+        {% endif %}
+        
+        {% if user.profile.is_director %}
+
+        <li class="sidebar-item">
+            <a href="/{{ user.profile.type_url }}/add-hod/" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-user-shield fa-lg"></i>
+
+                </div>
+                <span class="link-text">Add hod</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="/{{ user.profile.type_url }}/add-teacher/" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+        
+                </div>
+                <span class="link-text">Add teacher</span>
+            </a>
+        </li>
+        {% endif %}
 
         <li class="sidebar-item">
             <a href="/{{user.profile.type_url}}/classes" class="sidebar-link">
                 <div class="icon">
-                    <i class="fas fa-chalkboard-teacher fa-lg"></i>
+                    <i class="fas fa-chalkboard fa-lg"></i>
 
 
                 </div>

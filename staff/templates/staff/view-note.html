@@ -29,7 +29,7 @@ view {{dataName}}
                             </div>
                             <div class="modal-body">
                                 Id: {{ data.id }} <br>
-                                Title: {{ data.title }}{{ data.topic }}
+                                Topic: {{ data.topic }}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -49,6 +49,9 @@ view {{dataName}}
         </div>
     </div>
     <p class="mb-1">{{ data.content|safe }}</p>
+
+    <b>Attached note pdf</b>
+    <a href="{{ data.files.url}}">Download</a>
 </div>
 
 {% endblock body %}

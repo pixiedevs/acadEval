@@ -18,7 +18,7 @@ def index(request):
 
 @staff_only
 def attendance(request):
-    return render(request, 'staff/attendance.html')
+    return render(request, 'staff/insert-attendance.html')
 
 
 @staff_only
@@ -40,16 +40,23 @@ def library(request):
 
 @staff_only
 def classes(request):
-    data = sorted(StudentClass.objects.filter(branch=request.user.profile.staff().department), key = lambda x: x.date, reverse=True)
+    data = sorted(StudentClass.objects.filter(
+        branch__icontains=request.user.profile.staff().department), key=lambda x: x.date, reverse=True)
     return render(request, 'staff/classes.html', {"data": data, "dataName": "Class"})
 
 
 @staff_only
 def addClasses(request):
+    branches = "CSE, IT, ECE, ME, CE"
     if request.method == 'POST':
         studentClass = StudentClass()
         studentClass.subject = request.POST['subject']
-        studentClass.branch = request.POST['branch']
+        branch = request.POST['branch'].upper()
+
+        if branch == "ALL":
+            branch = branches
+        studentClass.branch = branch
+
         studentClass.semester = request.POST['semester']
         studentClass.url = request.POST['class_url']
         studentClass.start_time = request.POST['start_time']
@@ -57,13 +64,16 @@ def addClasses(request):
         studentClass.date = request.POST['date']
         studentClass.tutor = request.user
         studentClass.save()
+
+        messages.success(
+            request, f'{studentClass.subject} class has been added successfully.')
         return redirect("classes")
 
     return render(request, 'staff/add-class.html')
 
 
 # this method for add student by vishal
-@teacher_only
+@staff_only
 def addStudent(request):
 
     if request.method == 'POST':
@@ -81,7 +91,7 @@ def addStudent(request):
             profile.user = user
             profile.save()
             messages.success(
-                request, 'Congratulation! You have registed successfully!!')
+                request, 'Congratulation! You have registed successfully.')
             asform = AddStudentForm()
             srform = StudentRegisterForm()
         # else:
@@ -110,7 +120,7 @@ def addTeacher(request):
             teacher_profile.teacher_user = teacher_user
             teacher_profile.save()
             messages.success(
-                request, 'Congratulation! You have registed successfully!!')
+                request, 'Congratulation! You have registed successfully.')
             atform = AddTeacherForm()
             tdform = TeacherDataForm()
         # else:
@@ -139,7 +149,7 @@ def addHod(request):
             hod_profile.hod_user = hod_user
             hod_profile.save()
             messages.success(
-                request, 'Congratulation! You have registed successfully!!')
+                request, 'Congratulation! You have registed successfully.')
             ahform = AddHodForm()
             hdform = HodDataForm()
         # else:
@@ -243,8 +253,21 @@ def deleteNote(request, username, id):
 @staff_only
 def addNote(request, username):
     if request.method == 'POST':
+        # try:
+        #     files = request.FILES['file']
+        # except:
+        #     files = None
+
         note = StudentNote.objects.create(
-            created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], content=request.POST['content'], branch=request.user.profile.staff().department)
+            created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], branch=request.user.profile.staff().department)
+
+        # if files is not None:
+        #     note.files = files
+        content = request.POST['content']
+        if content is not None or content != "":
+            note.content = content
+        note.save()
+
         return redirect(f'/staff/notes/{username}/{note.id}')
     else:
         return render(request, 'staff/add-note.html', {"dataName": "note"})
