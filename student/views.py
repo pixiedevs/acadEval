@@ -1,9 +1,9 @@
 from staff.models import StudentNote
-from student.models import Book, Student, StudentClass
+from student.models import Book, Mark, Student, StudentClass
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from datetime import datetime
 # Create your views here.
 
@@ -47,7 +47,7 @@ def viewProfile(request):
 @student_only
 def viewNote(request, id):
     note = StudentNote.objects.get(id=id)
-    return render(request, 'staff/view-notice.html', {"data": note, "dataName": "note"})
+    return render(request, 'staff/view-note.html', {"data": note, "dataName": "note"})
 
 
 @student_only
@@ -79,7 +79,38 @@ def StudentClasses(request):
 
 @student_only
 def showMarks(request):
-    semesters = range(1, request.user.student.semester+1)
     student = Student.objects.get(user=request.user)
-    marks = student.mark.get(semester=student.semester)
+    if request.method == 'POST':
+        semester = request.POST['sem']
+        print(semester)
+        try:
+            marks = student.mark.get(semester=semester)
+            
+        except:
+            return render(request, 'student/add-marks.html', {"sem": semester})
+
+    else:
+        marks = student.mark.get(semester=student.semester)
+        
+    semesters = range(1, request.user.student.semester+1)
     return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
+
+
+@student_only
+def addMarks(request):
+    if request.method == 'POST':
+        mark = Mark()
+        mark.student = request.user.student
+        mark.semester = request.POST['semester']
+        mark.cgpa = request.POST['cgpa']
+        mark.sgpa = request.POST['sgpa']
+        mark.result = request.POST['result'].upper()
+        mark.file = request.FILES['file']
+        mark.save()
+        
+        marks = request.user.student.mark.get(
+            semester=request.user.student.semester)
+        semesters = range(1, request.user.student.semester+1)
+        return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
+    return redirect("/")
+    # return render(request, 'student/marks.html')

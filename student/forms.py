@@ -15,7 +15,7 @@ class AddStudentForm(forms.ModelForm):
         model = User
         fields = ['username', 'password']
         error_messages = {
-            'username': {'required': 'Enter your username '},
+            'username': {'required': 'Enter your username/student id '},
             'password': {'required': 'Enter your  password '},
         }
 

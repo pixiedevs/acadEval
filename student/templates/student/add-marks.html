@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Add marks
+{% endblock title %}
+{% block description %}Add marks{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<div class="container mt-5 neupm p-4">
+    <h4 class="text-center alert alert-info">Add marks</h4>
+
+    <form action="{% url 'addStudentMarks'  %}" method="post" id="html_editor_form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="semesterInput" class="form-label">Semester</label>
+            <input name="semester" type="number" value="{{ sem }}" class="form-control" id="semesterInput"
+                placeholder="semester" required readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="cgpaInput" class="form-label">CGPA</label>
+            <input name="cgpa" type="txt" class="form-control" id="cgpaInput" placeholder="CGPA" autofocus required>
+        </div>
+
+        <div class="mb-3">
+            <label for="sgpaInput" class="form-label">CGPA</label>
+            <input name="sgpa" type="txt" class="form-control" id="sgpaInput" placeholder="SGPA" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="resultInput" class="form-label">Result</label>
+            <input name="result" type="txt" class="form-control" id="resultInput" placeholder="Pass/Fail" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="PDFInput" class="form-label">PDF</label>
+            <input name="file" type="file" class="form-control" id="PDFInput" required>
+        </div>
+
+
+        <button type="submit" class="btn btnPrAnim003 border border-primary" id="html_submit"
+            name="save">Submit</button>
+    </form>
+</div>
+
+{% endblock body %}

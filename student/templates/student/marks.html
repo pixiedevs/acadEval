@@ -28,21 +28,22 @@ Marks
         <div class="row">
             <div class="col-lg mb-3 neupm">
 
-                <div class="d-flex justify-content-around p-2">
+                <form action="{% url 'showStudentMarks'  %}" method="post" enctype="multipart/form-data">
+                    <div class="d-flex justify-content-around p-2">
+                        {% csrf_token %}
+                        <div class="p-2">
+                            <label for="sem">Choose semester:</label>
+                            <select name="sem" id="sem">
+                                {% for s in semesters %}
+                                <option value="{{s}}" {% if s is semesters|last %}selected {% endif %}>{{s}}</option>
 
-                    <div class="p-2">
-                        <label for="sem">Choose semester:</label>
-                        <select name="sem" id="sem">
-                            {% for s in semesters %}
-                            <option value="{{s}}" {% if s is semesters|last %}selected {% endif %}>{{s}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-                            {% endfor %}
-                        </select>
+                        <button class="btn btn-primary" type="submit">View</button>
                     </div>
-
-                    <button class="btn btn-primary"
-                        onclick="fetchStudentAttendanceData('{{ csrf_token }}', '/student/attendance', 1)">Fetch</button>
-                </div>
+                </form>
 
             </div>
         </div>
@@ -65,7 +66,10 @@ Marks
             </table>
         </div>
         <div class="row">
-            <embed src="{{ marks.file.url }}" type="">
+            <!-- <object data="{{ marks.file.url }}" type="application/pdf" width="300" height="200">
+            </object> -->
+            <a href="http://127.0.0.1:8000{{ marks.file.url }}">Download PDF</a>
+            <embed src="http://127.0.0.1:8000{{ marks.file.url }}"  type="application/pdf">
         </div>
 
     </div>

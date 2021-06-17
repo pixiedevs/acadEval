@@ -137,7 +137,7 @@ class StudentNote(models.Model):
         User, related_name='studentnote', on_delete=models.CASCADE, to_field="username")
 
     content = models.TextField()
-    files = models.FileField(upload_to='teacher_media/notes', unique=True)
+    files = models.FileField(upload_to='teacher_media/notes')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

@@ -11,7 +11,7 @@
 <div class="container mt-5 neupm p-4">
     <h4 class="text-center alert alert-info">{{dataName|title}}s</h4>
 
-    <form action="" method="post" id="html_editor_form">
+    <form action="" method="post" id="html_editor_form" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
 
@@ -30,7 +30,7 @@
 
         <div class="mb-3">
             <label for="file" class="form-label">PDF file</label>
-            <input type="file" id="file" class="form-label" />
+            <input type="file" id="file" name="file" class="form-label" />
         </div>
 
         <div class="mb-3">

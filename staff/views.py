@@ -254,15 +254,16 @@ def deleteNote(request, username, id):
 def addNote(request, username):
     if request.method == 'POST':
         # try:
-        #     files = request.FILES['file']
+        files = request.FILES['file']
+        # print(files.name)
         # except:
         #     files = None
 
         note = StudentNote.objects.create(
             created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], branch=request.user.profile.staff().department)
 
-        # if files is not None:
-        #     note.files = files
+        if files is not None:
+            note.files = files
         content = request.POST['content']
         if content is not None or content != "":
             note.content = content

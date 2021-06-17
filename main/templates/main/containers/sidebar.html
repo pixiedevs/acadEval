@@ -23,7 +23,7 @@
             </a>
         </li>
         {% endif %}
-        
+
         {% if user.profile.is_hod %}
 
         <li class="sidebar-item">
@@ -36,7 +36,7 @@
             </a>
         </li>
         {% endif %}
-        
+
         {% if user.profile.is_director %}
 
         <li class="sidebar-item">
@@ -53,7 +53,7 @@
             <a href="/{{ user.profile.type_url }}/add-teacher/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-chalkboard-teacher fa-lg"></i>
-        
+
                 </div>
                 <span class="link-text">Add teacher</span>
             </a>
@@ -70,7 +70,7 @@
                 <span class="link-text">Classes</span>
             </a>
         </li>
-        
+
         <li class="sidebar-item">
             <a href="/{{user.profile.type_url}}/notes" class="sidebar-link">
                 <div class="icon">
@@ -120,18 +120,60 @@
                 <span class="link-text">Events</span>
             </a>
         </li>
-        
+
         {% if user.profile.is_student %}
         <li class="sidebar-item">
             <a href="/{{user.profile.type_url}}/library" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-book fa-lg"></i>
-                    
+
                 </div>
                 <span class="link-text">Library</span>
             </a>
         </li>
+
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Attend exam</span>
+            </a>
+        </li>
         {% endif %}
+
+        {% if user.profile.is_staff %}
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Set Paper</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Edit Paper</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <div class="icon">
+                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
+
+                </div>
+                <span class="link-text">Show Result</span>
+            </a>
+        </li>
+
 
 
         <li class="sidebar-item" id="themeButton">
