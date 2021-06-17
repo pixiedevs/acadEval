@@ -323,7 +323,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    min-height: 35vh;
+    min-height: 80vh;
 }
 /* bootstrap css change - for big devices */
 div.alert {

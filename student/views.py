@@ -5,6 +5,8 @@ from django.http.response import JsonResponse
 from main.decoraters import student_only
 from django.shortcuts import redirect, render
 from datetime import datetime
+from .forms import BookForm
+
 # Create your views here.
 
 
@@ -34,6 +36,54 @@ def showAttendance(request):
 def library(request):
     books = request.user.student.book.all()
     return render(request, 'student/studentLibrary.html', {"books": books})
+
+
+@student_only
+def addBook(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = BookForm(request.POST)
+            new_book = Book()
+            if form.is_valid():
+                new_book.book_id = form.cleaned_data['book_id']
+                new_book.book_name = form.cleaned_data['book_name']
+                new_book.issue_date = form.cleaned_data['issue_date']
+                new_book.expiry_date = form.cleaned_data['expiry_date']
+                new_book.student = request.user.student
+                new_book.save()
+                form = BookForm()
+        else:
+            form = BookForm()
+        return render(request, 'student/add_book.html', {'form': form})
+    else:
+        return redirect('/login/')
+
+
+# Update Books
+def updateBook(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            pi = Book.objects.get(pk=id)
+            form = BookForm(request.POST, instance=pi)
+            if form.is_valid():
+                form.save()
+        else:
+            pi = Book.objects.get(pk=id)
+            form = BookForm(instance=pi)
+        return render(request, 'student/update_book.html', {'form': form})
+    else:
+        return redirect('/login/')
+
+# Delete Book
+
+
+def deleteBook(request, id):
+    if request.user.is_authenticated:
+        pi = Book.objects.get(pk=id)
+        pi.delete()
+        return render(request, 'student/studentLibrary.html')
+    else:
+        return redirect('/login/')
 
 
 # for student notes made/provided by teachers

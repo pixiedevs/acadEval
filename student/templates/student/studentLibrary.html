@@ -23,7 +23,17 @@ Library
           </tbody>
      </table>
 </div>
+
+<div class="container">
+     <div class="d-flex justify-content-end">
+          <a href="{% url 'add_book' %}" class="btn btnPrAnim003 border border-primary">Add Book</a>
+     </div>
+</div>
+
+
+
 <div class="row container mt-5">
+
      <table class="table table-striped neupm2">
           <thead>
                <tr>
@@ -34,8 +44,9 @@ Library
                     <th scope="col"> Return Date </th>
                </tr>
           </thead>
+
           <tbody>
-               
+
                {% for book in books %}
                <tr>
                     <th scope="row">{{forloop.counter}}</th>
@@ -43,9 +54,14 @@ Library
                     <td> {{book.book_id}} </td>
                     <td> {{book.issue_date}} </td>
                     <td> {{book.expiry_date}} </td>
-                    
+                    <td>
+                         <a href="{% url 'update_book' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+                         <a href="{% url 'delete_book' book.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+
                </tr>
-          {% endfor %}
+
+               {% endfor %}
 
           </tbody>
      </table>

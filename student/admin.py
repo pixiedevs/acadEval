@@ -9,6 +9,7 @@ class StudentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
  list_display = ('user', 'first_name', 'last_name', 'branch',
                  'email', 'batch_year', 'time')
 
+
 @admin.register(StudentAttendance)
 class StudentAttendanceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
  list_display = ('student', 'semester', 'date',
@@ -17,7 +18,7 @@ class StudentAttendanceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
- list_display = ('student', 'book_id', 'book_name', 'issue_date',
+ list_display = ('id', 'student', 'book_id', 'book_name', 'issue_date',
                  'expiry_date')
 
 

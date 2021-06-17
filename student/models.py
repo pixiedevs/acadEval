@@ -15,7 +15,7 @@ class Student(models.Model):
     email = models.EmailField(max_length=100, unique=True)
     father_name = models.CharField(max_length=70, blank=True)
     student_id = models.CharField(max_length=70, unique=True)
-    enrollment = models.CharField(max_length=70, blank=True, unique=True)
+    # enrollment = models.CharField(max_length=70, blank=True, unique=True)
     mobile_no = PhoneNumberField(blank=True)
     gender = models.CharField(max_length=10, blank=True)
     father_mobile_no = PhoneNumberField(blank=True)
@@ -107,14 +107,14 @@ class StudentAttendance(models.Model):
 class Book(models.Model):
     student = models.ForeignKey(
         Student, related_name='book', on_delete=models.CASCADE, to_field="student_id")
-    book_id = models.CharField(max_length=50, blank=True)
-    book_name = models.CharField(max_length=100, blank=True)
+    book_id = models.CharField(max_length=50)
+    book_name = models.CharField(max_length=100)
     issue_date = models.DateField(default=datetime.date.today)
     expiry_date = models.DateField()
 
     # for preventing
-    class Meta:
-        unique_together = ("student", "book_id")
+    # class Meta:
+        # unique_together = ("student", "book_id")
 
 
 # Student's Marks

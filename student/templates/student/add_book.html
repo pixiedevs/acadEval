@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Add Books
+{% endblock title %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+
+<div class="container-fluid">
+    <div class="mt-5 container-fluid neupm p-2">
+        <h4 class="text-center alert alert-info">Add Books</h4>
+        <form action="" method="POST">
+            {% csrf_token %} {{form.as_p}}
+            <input type="submit" class="btn btn-success" value="Send" />
+        </form>
+    </div>
+</div>
+{% endblock body %}

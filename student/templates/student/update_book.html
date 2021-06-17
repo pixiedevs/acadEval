@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %} {% block title %} Update Books {% endblock title %}
+{% block body %} {% block message %}{% endblock message %}
+
+<div class="container-fluid">
+  <div class="mt-5 container-fluid neupm p-2">
+    <h4 class="text-center alert alert-info">Update Books</h4>
+    <form action="" method="post" novalidate>
+      {% csrf_token %} {{form.as_p}}
+      <input type="submit" value="Update" class="btn btn-success" />
+      <a href="{% url 'library' %}" class="btn btn-danger">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock body %}
