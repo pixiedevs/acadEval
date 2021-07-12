@@ -6,7 +6,6 @@ urlpatterns = [
     path('attendance/', views.showAttendance, name="showStudentAttendance"),
     path('marks/', views.showMarks, name="showStudentMarks"),
     path('marks/add/', views.addMarks, name="addStudentMarks"),
-    path('library/', views.library, name="library"),
     path('classes/', views.StudentClasses, name="all_classes"),
     path('profile/', views.viewProfile, name="view_profile"),
     
@@ -15,4 +14,10 @@ urlpatterns = [
 
     path('notices/', views.viewAllNotices, name="view_notices"),
     path('notices/<int:id>/', views.viewNotice, name="view_notice"),
+
+    # Books
+    path('library/', views.library, name="library"),
+    path('add-book/', views.addBook, name='add_book'),
+    path('update-book/<int:id>/', views.updateBook, name='update_book'),
+    path('delete-book/<int:id>/', views.deleteBook, name='delete_book'),
 ]
