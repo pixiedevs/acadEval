@@ -10,23 +10,25 @@ Login
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 <div class="container-fluid loginBg gear-bg">
-    <div class="container-fluid mt-3 neupm2">
+    <div class="container-fluid mt-3 neupm2 ">
         <form action="" method="post" class="container">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="exampleInputTxt" class="form-label">Username</label>
+                <i class="fas fa-user"></i>
+                <label for="exampleInputTxt" class="form-label"><b>Username</b></label>
                 <input name="username" type="txt" class="form-control" id="exampleInputTxt" autofocus required>
             </div>
 
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <i class="fas fa-unlock"></i>
+                <label for="exampleInputPassword1" class="form-label"><b>Password</b></label>
                 <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
             </div>
             <div class="mb-3">
                 <a href="{% url 'password_reset' %}">Forgot Password</a>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary shadow-sm">Login</button>
         </form>
     </div>
 </div>
