@@ -32,10 +32,10 @@ def contact(request):
         if fm.is_valid():
             nm = fm.cleaned_data['name']
             em = fm.cleaned_data['email']
-            mn = fm.cleaned_data['Mobile_no']
-            concern = fm.cleaned_data['Elaborate_Your_Concern']
-            reg = Contact(name=nm, email=em, Mobile_no=mn,
-                          Elaborate_Your_Concern=concern)
+            mn = fm.cleaned_data['mobile_no']
+            concern = fm.cleaned_data['message']
+            reg = Contact(name=nm, email=em, mobile_no=mn,
+                          message=concern)
             reg.save()
             messages.success(
                 request, 'Your message has been successfully submitted')

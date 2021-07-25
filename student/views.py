@@ -28,7 +28,7 @@ def showAttendance(request):
             sem=sem, month=month).values()
         return JsonResponse(list(data), safe=False)
 
-    return render(request, 'student/attendance.html', {"sem": sems, "month": months[:datetime.now().month]})
+    return render(request, 'student/attendance.html', {"sem": sems, "month": months})
 
 
 # library views
@@ -52,6 +52,7 @@ def addBook(request):
                 new_book.student = request.user.student
                 new_book.save()
                 form = BookForm()
+                return redirect('/student/library')
         else:
             form = BookForm()
         return render(request, 'student/add_book.html', {'form': form})
@@ -60,6 +61,7 @@ def addBook(request):
 
 
 # Update Books
+@student_only
 def updateBook(request, id):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -67,6 +69,7 @@ def updateBook(request, id):
             form = BookForm(request.POST, instance=pi)
             if form.is_valid():
                 form.save()
+                return redirect('/student/library')
         else:
             pi = Book.objects.get(pk=id)
             form = BookForm(instance=pi)
@@ -75,13 +78,12 @@ def updateBook(request, id):
         return redirect('/login/')
 
 # Delete Book
-
-
+@student_only
 def deleteBook(request, id):
     if request.user.is_authenticated:
         pi = Book.objects.get(pk=id)
         pi.delete()
-        return render(request, 'student/studentLibrary.html')
+        return redirect('/student/library')
     else:
         return redirect('/login/')
 
