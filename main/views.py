@@ -49,16 +49,16 @@ def contact(request):
 # for redirect to dashboard as type
 @auth_req
 def dashboardAsType(request):
-    if request.user.profile.type() == "student":
+    if request.user.profile.type == "student":
         return redirect('student/')
 
-    elif request.user.profile.type() == "director":
+    elif request.user.profile.type == "director":
         return redirect('s_Home')
 
-    elif request.user.profile.type() == "hod":
+    elif request.user.profile.type == "hod":
         return redirect('s_Home')
 
-    elif request.user.profile.type() == "teacher":
+    elif request.user.profile.type == "teacher":
         return redirect('s_Home')
 
     return redirect('home')

@@ -1,12 +1,13 @@
 from main.decoraters import director_only, hod_only, staff_only, teacher_only
 from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
-from student.models import Book, Student, Mark, StudentClass
+from student.models import Book, Student, Mark, StudentAttendance, StudentClass
 from main.models import Notice
 from staff.models import StudentNote
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
+import datetime
 
 # Create your views here.
 
@@ -18,19 +19,87 @@ def index(request):
 
 @staff_only
 def attendance(request):
-    return render(request, 'staff/insert-attendance.html')
+    branches = "CSE, IT, ECE, ME, CE"
+    data = {"branches": branches.split(", "), "semesters": range(1, 9)}
+
+    return render(request, 'staff/insert-attendance.html', {"data":data})
 
 
 @staff_only
-def marks(request, semester=6, branch=None):
-    if branch is None:
-        branch = request.user.profile.staff().department
-    if request.user.profile.is_director:
-        Marks = Mark.objects.filter(semester=semester)
+def viewAttendance(request):
+    branches = "CSE, IT, ECE, ME, CE"
+    branch = request.GET.get("branchSelect", request.user.profile.staff.department)
+    semester = request.GET.get("semSelect", 6)
+    students = Student.objects.filter(branch=branch)
+    attendance = []
+
+    for s in students:
+        attendance.append(
+            {"student": s.user, "attendance": s.attendance.filter(semester=semester, is_present=True).count()})
+    
+    
+    data = {"branches":branches.split(", "), "semesters": range(1, 9), "attendance":attendance, "branch":branch, "semester":semester}
+
+    return render(request, 'staff/all-students-attendance.html', {"data":data})
+
+
+@staff_only
+def addAttendanceByEnroll(request):
+    error_info = ""
+    if request.method == 'POST':
+        enrolls = request.POST["EnrollInput"].upper()
+        semester = request.POST["semesterInput"]
+        date = request.POST["dateInput"]
+        present = bool(request.POST.get("presentInput", "off"))
+        # branch = request.POST["branchInput"].upper()
+
+        college = request.user.profile.staff.college
+        # print(enrolls, semester, date, present)
+
+        enrolls = enrolls.split(", ")
+        enrolls_count = len(enrolls)
+
+        for enroll in enrolls:
+            try:
+                student = Student.objects.get(user=enroll)
+                StudentAttendance.objects.update_or_create(student=student, semester=semester, date=date, is_present=present)
+            except:
+                error_info.append(enroll+", ")
+                enrolls_count-=1
+                # messages.ERROR(request, "There is a problem with adding attendance!")
+
+        messages.success(
+            request, f'Attendance of {enrolls_count} students has been added successfully.\n{error_info if len(error_info) != 0 else ""}')
+        
     else:
-        Marks = Mark.objects.filter(
-            student__branch__contains=branch, semester=semester)
-    return render(request, 'staff/all-students-marks.html', {"marks": Marks})
+        messages.ERROR(request, "There is a problem with adding attendance!")
+        
+    return redirect("s_attendance")
+
+
+@staff_only
+def marks(request):
+    branches = "CSE, IT, ECE, ME, CE"
+    semesters = range(1, 9)
+    # if request.user.profile.is_director:
+    #     branch = request.GET.get("branchSelect", request.user.profile.staff.department)
+    # else:
+    #     branch = request.user.profile.staff.department
+    branch = request.GET.get("branchSelect", request.user.profile.staff.department)
+
+    semester = request.GET.get("semSelect", 6)
+
+    marks = Mark.objects.filter(
+        student__branch__contains=branch, semester=semester)
+
+    data = {}
+    data["marks"] = marks
+    data["semester"] = semester
+    data["semesters"] = semesters
+    data["branch"] = branch
+    data["branches"] = branches.split(", ")
+
+    return render(request, 'staff/all-students-marks.html', {"data": data})
 
 
 @staff_only
@@ -40,8 +109,9 @@ def library(request):
 
 @staff_only
 def classes(request):
+
     data = sorted(StudentClass.objects.filter(
-        branch__icontains=request.user.profile.staff().department), key=lambda x: x.date, reverse=True)
+        branch__icontains=request.user.profile.staff.department), key=lambda x: x.date, reverse=True)
     return render(request, 'staff/classes.html', {"data": data, "dataName": "Class"})
 
 
@@ -70,6 +140,38 @@ def addClasses(request):
         return redirect("classes")
 
     return render(request, 'staff/add-class.html')
+
+
+@staff_only
+def updateClasses(request, id):
+    branches = "CSE, IT, ECE, ME, CE"
+    studentClass = StudentClass.objects.get(id=id)
+    if request.user.profile.has_permission(studentClass.tutor):
+        if request.method == 'POST':
+            studentClass.subject = request.POST['subject']
+            branch = request.POST['branch'].upper()
+
+            if branch == "ALL":
+                branch = branches
+            studentClass.branch = branch
+
+            studentClass.semester = request.POST['semester']
+            studentClass.url = request.POST['class_url']
+            studentClass.start_time = request.POST['start_time']
+            studentClass.end_time = request.POST['end_time']
+            studentClass.date = request.POST['date']
+            studentClass.save()
+
+            messages.success(
+                request, f'{studentClass.subject} class has been added successfully.')
+            return redirect("classes")
+        return render(request, 'staff/update-class.html', {"studentClass": studentClass})
+
+    else:
+        messages.error(request, "You do not have permition to update this class.")
+
+    return redirect("classes")
+
 
 
 # this method for add student by vishal
@@ -164,7 +266,7 @@ def addHod(request):
 @staff_only
 def viewAllNotices(request):
     notices = sorted(Notice.objects.filter(
-        branch=request.user.profile.staff().department), key=lambda x: x.modified_at.date(), reverse=True)
+        branch=request.user.profile.staff.department), key=lambda x: x.modified_at.date(), reverse=True)
     return render(request, "staff/view-all-notices.html", {"data": notices, "dataName": "notice"})
 
 
@@ -190,7 +292,7 @@ def deleteNotice(request, id):
 def addNotice(request):
     if request.method == 'POST':
         notice = Notice.objects.create(
-            created_by=request.user, title=request.POST['title'], content=request.POST['content'], branch=request.user.profile.staff().department)
+            created_by=request.user, title=request.POST['title'], content=request.POST['content'], branch=request.user.profile.staff.department)
         return redirect(f'/staff/notices/{notice.id}')
     else:
         return render(request, 'staff/add-notice.html')
@@ -206,12 +308,17 @@ def updateNotice(request, id):
             return redirect(f'/staff/notices/{notice.id}')
 
         else:
-            return render(request, 'staff/add-notice.html', {"notice": notice},)
+            return render(request, 'staff/add-notice.html', {"data": notice},)
     messages.error(request, "You do not have permition to update this notice.")
     return redirect(f'/staff/notices/{id}')
 
 
 # views for notes
+"""
+Currently method viewStaffNotes is not in use
+because of teacher's note's privacy
+but it will be available for hod and director in the future
+"""
 @staff_only
 def viewStaffNotes(request):
     staff = StudentNote.objects.values_list(
@@ -220,8 +327,8 @@ def viewStaffNotes(request):
 
 
 @staff_only
-def viewAllNotesByStaff(request, username):
-    notes = sorted(StudentNote.objects.filter(created_by=username),
+def viewAllNotesByStaff(request):
+    notes = sorted(StudentNote.objects.filter(created_by=request.user),
                    key=lambda x: x.modified_at.date(), reverse=True)
 
     if notes is None or len(notes) == 0:
@@ -230,37 +337,33 @@ def viewAllNotesByStaff(request, username):
 
 
 @staff_only
-def viewNote(request, username, id):
+def viewNote(request, id):
     note = StudentNote.objects.filter(id=id).first()
     if note is None:
-        return redirect(f'/staff/notes/{username}/')
+        return redirect(f'/staff/notes/')
     else:
         return render(request, "staff/view-note.html", {"data": note, "dataName": "note"})
 
 
 @staff_only
-def deleteNote(request, username, id):
+def deleteNote(request, id):
     note = StudentNote.objects.get(id=id)
     if note.created_by == request.user:
         note.delete()
-        messages.success(request, f"note with {id} has been deleted")
-        return redirect(f'/staff/notes/{username}/')
+        messages.success(request, f"note with ID: {id} has been deleted")
+        return redirect('view_staff_notes')
 
     messages.error(request, "You do not have permition to delete this notice.")
-    return redirect(f'/staff/notes/{username}/{id}')
+    return redirect(f'/staff/notes/{id}/')
 
 
 @staff_only
-def addNote(request, username):
+def addNote(request):
     if request.method == 'POST':
-        # try:
         files = request.FILES['file']
-        # print(files.name)
-        # except:
-        #     files = None
 
         note = StudentNote.objects.create(
-            created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], branch=request.user.profile.staff().department)
+            created_by=request.user, topic=request.POST['topic'], subject=request.POST['subject'], branch=request.user.profile.staff.department)
 
         if files is not None:
             note.files = files
@@ -269,42 +372,42 @@ def addNote(request, username):
             note.content = content
         note.save()
 
-        return redirect(f'/staff/notes/{username}/{note.id}')
+        return redirect(f'/staff/notes/{note.id}/')
     else:
         return render(request, 'staff/add-note.html', {"dataName": "note"})
 
 
 @staff_only
-def updateNote(request, username, id):
+def updateNote(request, id):
     note = StudentNote.objects.get(id=id)
     if note is None:
-        return redirect(f'/staff/notes/{username}/')
+        return redirect(f'/staff/notes/')
     if note.created_by == request.user:
         if request.method == 'POST':
             note.topic = request.POST['topic']
             note.subject = request.POST['subject']
             note.content = request.POST['content']
             note.save()
-            return redirect(f'/staff/notes/{username}/{note.id}')
+            return redirect(f'/staff/notes/{note.id}/')
 
         else:
             return render(request, 'staff/add-note.html', {"data": note, "dataName": "note"})
     messages.error(request, "You do not have permition to update this note.")
-    return redirect(f'/staff/notes/{username}/{id}')
+    return redirect(f'/staff/notes/{id}/')
 
 
 # views for Student's data
 @staff_only
 def viewAllStudents(request):
     students = Student.objects.filter(
-        branch=request.user.profile.staff().department)
+        branch=request.user.profile.staff.department)
     return render(request, "staff/view-all-students.html", {"students": students})
 
 
 @staff_only
 def viewStudentProfile(request, username):
     student = Student.objects.get(
-        user=username, branch=request.user.profile.staff().department)
+        user=username, branch=request.user.profile.staff.department)
     return render(request, "student/profile.html", {"student": student})
 
 

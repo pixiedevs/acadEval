@@ -329,6 +329,10 @@ main {
 div.alert {
   max-height: 3.5rem;
 }
+.sidesafe-container {
+  margin-left: 3rem !important;
+  margin-right: 3rem !important;
+}
 @media screen and (max-width: 480px) {
   .cartDiv {
     width: 80vw;
@@ -362,7 +366,7 @@ div.alert {
   position: relative;
   left: -0.6rem;
 }
-.btnPrAnim003 {
+.btnPrAnim {
 border: none;
 color: #5c768d !important;
 text-transform: uppercase;
@@ -370,7 +374,7 @@ border-radius: 6px;
 display: inline-block;
 transition: all 100ms ease 0s;
 }
-.btnPrAnim003:hover {
+.btnPrAnim:hover {
 color: #404040 !important;
 font-weight: 700 !important;
 letter-spacing: 3px;

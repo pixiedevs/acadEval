@@ -15,8 +15,8 @@ view {{dataName}}
             <small class="text-muted">By: {{ data.created_by }}</small>
             <div class="d-flex justify-content-between">
                 {% if data.created_by == user %}
-                <a href="update" class="btn btnPrAnim003 border border-primary">Update</a>
-                <button class="btn btnPrAnim003 border border-primary ms-2" data-bs-toggle="modal"
+                <a href="update" class="btn btnPrAnim border border-primary">Update</a>
+                <button class="btn btnPrAnim border border-primary ms-2" data-bs-toggle="modal"
                     data-bs-target="#confirm-delete">Delete</button>
                 <div class="modal fade" id="confirm-delete" tabindex="-1" aria-labelledby="confirm-delete-label"
                     aria-hidden="true">

@@ -12,7 +12,7 @@ view {{dataName}}s
     <h4 class="text-center alert alert-info">{{dataName|title}}s</h4>
     <div class="d-flex justify-content-end">
         {% if not user.profile.is_student %}
-        <a href="/staff/{{dataName}}s/add/" class="btn btnPrAnim003 border border-primary">Add {{dataName}}</a>
+        <a href="/staff/{{dataName}}s/add/" class="btn btnPrAnim border border-primary">Add {{dataName}}</a>
         {% endif %}
     </div>
 

@@ -59,10 +59,10 @@
 #inBody.darkmode .neupm,
 #inBody.darkmode .neupm2-sm,
 #inBody.darkmode .neupm-sm {
-    background: var(--dark-bg);
+    background: #222;
     box-shadow: 5px 5px 10px #1a1a1a,
     -5px -5px 10px #3b3b3b;
-    border: 8px solid var(--dark-bg);
+    border: 8px solid #202020;
     color: #ececec;
 }
 #inBody.darkmode .neupm2-sm,

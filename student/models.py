@@ -16,22 +16,26 @@ class Student(models.Model):
     father_name = models.CharField(max_length=70, blank=True)
     student_id = models.CharField(max_length=70, unique=True)
     # enrollment = models.CharField(max_length=70, blank=True, unique=True)
-    mobile_no = PhoneNumberField(blank=True)
-    gender = models.CharField(max_length=10, blank=True)
-    father_mobile_no = PhoneNumberField(blank=True)
-    current_address = models.CharField(max_length=1000, blank=True)
-    permanent_address = models.CharField(max_length=1000, blank=True)
-    branch = models.CharField(max_length=10, blank=True)
     batch_year = models.IntegerField(blank=True, null=True)
-    semester = models.IntegerField(default=1, blank=True)
-    year = models.IntegerField(default=1, blank=True)
+    branch = models.CharField(max_length=10, blank=True)
+    current_address = models.CharField(max_length=1000, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    guardian_name = models.CharField(max_length=50, blank=True)
+    father_mobile_no = PhoneNumberField(blank=True)
+    gender = models.CharField(max_length=10, blank=True)
     guardian_mobile_no = PhoneNumberField(blank=True)
+    guardian_name = models.CharField(max_length=50, blank=True)
+    mobile_no = PhoneNumberField(blank=True)
+    permanent_address = models.CharField(max_length=1000, blank=True)
+    semester = models.IntegerField(default=1, blank=True)
     time = models.DateTimeField(auto_now_add=True, blank=True)
+    year = models.IntegerField(default=1, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
+
+    @property
+    def full_name(self) -> str:
+        return self.first_name + " " + self.last_name
 
     @classmethod
     def create_student(cls, username, password, email=None, branch=None, first_name=None, last_name=None, student_id=None, date_of_birth=None, semester=None, year=None, batch_year=None):
@@ -100,7 +104,7 @@ class StudentAttendance(models.Model):
 
     # for preventing duplicate attendance
     class Meta:
-        unique_together = ("student", "date")
+        unique_together = ("student_id", "date",)
 
 
 # Student's Books

@@ -66,10 +66,13 @@ Marks
             </table>
         </div>
         <div class="row">
+            {% comment %}
             <!-- <object data="{{ marks.file.url }}" type="application/pdf" width="300" height="200">
             </object> -->
-            <a href="http://127.0.0.1:8000{{ marks.file.url }}">Download PDF</a>
-            <embed src="http://127.0.0.1:8000{{ marks.file.url }}"  type="application/pdf">
+            
+        {% endcomment %}
+            <a href="{{ marks.file.url }}">Download PDF</a>
+            <embed src="{{ marks.file.url }}"  type="application/pdf">
         </div>
 
     </div>

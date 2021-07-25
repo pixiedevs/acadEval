@@ -23,17 +23,33 @@ class Profile(models.Model):
     is_hod = models.BooleanField(default=False)
     is_director = models.BooleanField(default=False)
 
+    @property
     def type(self) -> str:
         return "student" if self.is_student else "teacher" if self.is_teacher else "hod" if self.is_hod else "director" if self.is_director else "visitor"
 
+    @property
     def staff(self):
         return self.user.student if self.is_student else self.user.teacher if self.is_teacher else self.user.hod if self.is_hod else self.user.director if self.is_director else None
 
+    @property
     def is_staff(self):
         return True if (self.is_teacher or self.is_hod or self.is_director) else False
 
+    @property
     def type_url(self):
         return "staff" if (self.is_teacher or self.is_hod or self.is_director) else "student" if self.is_student else ""
+
+    def has_permission(self, creator):
+        if creator is None:
+            return False
+            
+        elif self.user == creator or (creator.profile.is_director and self.staff().college == creator.profile.staff.college):
+            return True
+            
+        else:
+            return False
+
+        # print(self.staff(), creator)
 
 
 class Notice(models.Model):

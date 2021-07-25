@@ -1,26 +1,29 @@
 {% extends 'main/base.html' %}
-{% block title %}
-All students marks
-{% endblock title %}
-{% block description %}All students marks{% endblock description %}
+{% block title %}Students Marks{% endblock title %}
+{% block description %}Students Marks{% endblock description %}
 
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
 
 <div class="container-fluid mt-5">
-    <h4 class="text-center alert alert-info"> {{ data.branch }} Students</h4>
+    <h4 class="text-center alert alert-info"><small>Sem: {{ data.semester }} {{ data.branch }} Students </small></h4>
+
+    {% comment %}
     <!-- <div class="d-flex justify-content-end">
         <a href="/staff/students/add" class="btn btnPrAnim border border-primary">Add Student</a>
     </div> -->
+    {% endcomment %}
+
 
     <form action="" method="GET">
-        <div class="d-flex justify-content-around p-2 neupm2-sm">
+        <div class="d-flex justify-content-around flex-wrap p-2 neupm2-sm">
+
             <div class="p-2">
-                <label for="sem">Semester:</label>
+                <label for="sem">Sem:</label>
                 <select name="semSelect" id="sem">
                     {% for s in data.semesters %}
-                    <option value="{{s}}">{{s}}</option>
+                    <option value="{{s}}"> {{s}}</option>
 
                     {% endfor %}
                 </select>
@@ -29,51 +32,45 @@ All students marks
                 <label for="branch">Branch:</label>
 
                 <select name="branchSelect" id="branch">
-                    {% for m in data.branches %}
-                    <option value="{{ m }}">{{m}}</option>
+                    {% for b in data.branches %}
+                    <option value="{{b}}">{{b}}</option>
 
                     {% endfor %}
                 </select>
             </div>
 
-            <button class="btn btn-primary" type="submit">Fetch</button>
+            <button type="submit" class="btn btn-primary">Fetch</button>
         </div>
     </form>
+
     <div class="d-flex">
-        <table class="table table-striped neupm2 mt-2">
+        <table class="table table-striped neupm2 mt-2 ms-0" id="attendanceDataTable">
             <thead>
                 <tr>
-                    <th scope="col">Enroll</th>
-                    <th scope="col">SGPA</th>
-                    <th scope="col">CGPA</th>
-                    <th scope="col">RESULT</th>
+                    <th>#</th>
+                    <th>Enrollment</th>
+                    <th>%</th>
                 </tr>
             </thead>
+            {% comment %}
+            <tfoot>
+                <tr>
+                    <th> ={{ data.attendance|length }}</th>
+                    <th>Enroll</th>
+                    <th>%</th>
+                </tr>
+            </tfoot>
+            {% endcomment %}
             <tbody>
 
-                {% for mark in data.marks %}
-                <tr
-                    onclick="showModal({ student: 'Enroll: {{mark.student}}<br>Name: {{mark.student.first_name}} {{mark.student.last_name}}', sgpa: '{{mark.sgpa}}', cgpa: '{{mark.cgpa}}', result: '{{mark.result}}', url:'{{mark.file_url}}'})">
+                {% for at in data.attendance %}
+                <tr onclick="showModal({ student: 'Enroll: {{at.student}}<br>', result: '{{ at.attendance }}'})">
                     <!-- <th scope="row">{{forloop.counter}}</th> -->
-                    <td>{{mark.student}}</td>
-                    <td>{{mark.sgpa}}</td>
-                    <td>{{mark.cgpa}}</td>
-                    <td>
-                        {% if mark.result == "PASS" %}
-                        <small class="border border-2 border-primary">Pass</small>
-                        {% else %}
-                        <small class="border border-2 border-danger">Fail</small>
-                        {% endif %}
-                    </td>
+                    <td> {{ forloop.counter }}</td>
+                    <td> {{at.student}}</td>
+                    <td> {{at.attendance}}</td>
                 </tr>
                 {% endfor %}
-                {% if not data.marks %}
-                    <td>No</td>
-                    <td>data</td>
-                    <td>available</td>
-                    <td>here</td>
-                {% endif %}
-
 
 
             </tbody>
@@ -93,7 +90,6 @@ All students marks
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="#" id="model-file-download" class="btn btn-primary">Download PDF</a>
                 </div>
             </div>
         </div>
@@ -103,10 +99,10 @@ All students marks
 <script>
     this.sem.value = '{{ data.semester }}'
     this.branch.value = '{{ data.branch }}'
-    function showModal({ student, sgpa, cgpa, result, url }) {
+
+    function showModal({ student, result }) {
         document.getElementById("exampleModalLabel").innerHTML = student
-        document.getElementsByClassName("modal-body")[0].innerHTML = "SGPA: " + sgpa + "<br>CGPA: " + cgpa + "<br>Result: " + result
-        document.getElementById("model-file-download").href = url
+        document.getElementsByClassName("modal-body")[0].innerHTML = "Attendance: " + result
         var myModal = new bootstrap.Modal(document.getElementById('student-result'))
         myModal.show()
     }

@@ -130,6 +130,8 @@ def StudentClasses(request):
 @student_only
 def showMarks(request):
     student = Student.objects.get(user=request.user)
+    current_stu_sem = student.semester
+    
     if request.method == 'POST':
         semester = request.POST['sem']
         print(semester)
@@ -140,9 +142,12 @@ def showMarks(request):
             return render(request, 'student/add-marks.html', {"sem": semester})
 
     else:
-        marks = student.mark.get(semester=student.semester)
-        
-    semesters = range(1, request.user.student.semester+1)
+        try:
+            marks = student.mark.get(semester=current_stu_sem)
+        except Exception as e:
+            return render(request, 'student/add-marks.html', {"sem": current_stu_sem})
+
+    semesters = range(1, current_stu_sem+1)
     return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
 
 

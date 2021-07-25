@@ -6,107 +6,177 @@
 <div class="col-lg-8 mt-5 neupm p-3">
     <h4 class="text-center alert alert-info">Attendance</h4>
 
-    <h6 class="text-center alert alert-secondary">Click to view {{ user.profile.staff.department }} student's attendance by semester-</h6>
-    <div class="d-flex justify-content-center">
-        <div class="d-flex align-content-stretch flex-wrap m-5 mt-2">
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 1</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 2</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 3</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 4</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 5</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 6</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 7</a>
-
-            </div>
-            <div style="height: 50px; width: 50px; margin: 0.5rem;">
-                <a class="btn btn-outline-secondary">sem: 8</a>
-
-            </div>
+        <div class="d-flex justify-content-center mb-2">
+            <a href="view/">
+                <button class="btn btn-secondary">View Attendance</button>
+            </a>
         </div>
+
+    <h6 class="text-center alert alert-secondary">Insert Attendance by Enrollments</h6>
+    <div class="ms-5 me-5">
+        <form method="POST" action="by-enrollments/">
+            <div class="form-group">
+                <label for="EnrollInput">Enrollments: <small id="wordCount"></small></label><br>
+                <textarea class="form-control" name="EnrollInput" id="EnrollInput" placeholder="Comma ', ' separated"
+                    onchange="validateEnrollments()" required></textarea>
+            </div>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="semesterInput">Semester:</label><br>
+                <input type="number" class="form-control" name="semesterInput" id="semesterInput">
+            </div>
+            <div class="form-group mb-2">
+                <label for="dateInput">Date:</label><br>
+                <input type="date" class="form-control" name="dateInput" id="dateInput" value="{% now 'Y-m-d' %}"
+                    required>
+            </div>
+            <!-- <div class="form-group">
+                <label for="branchInput">branch:</label><br>
+                <input type="text" class="form-control" name="branchInput" id="branchInput" value="{{ user.profile.staff.department }}">
+            </div> -->
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="presentInput" name="presentInput" checked required>
+                <label class="form-check-label" for="presentInput">Is Present</label>
+            </div>
+            <div class="form-group d-flex justify-content-center mb-3 mt-3">
+                <button class="btn btn-secondary" type="submit">Submit</button>
+            </div>
+        </form>
+
     </div>
-    
-    <form class="m-5">
-        <div class="form-group">
-            <label for="attendanceFileInput">Excel file:</label><br>
-            <input type="file" class="form-control-file" id="attendanceFileInput">
-        </div>
-        <div class="form-group mt-3">
-            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+    <h6 class="text-center alert alert-secondary">Or insert Attendance by Excel sheet</h6>
+
+    <form>
+        <div class="mb-3 sidesafe-container">
+            <div class="form-group">
+                <label for="attendanceFileInput">Excel file:</label><br>
+                <input type="file" class="form-control-file" id="attendanceFileInput">
+            </div>
+            <div class="form-group mt-3">
+                <button class="btn btn-outline-secondary" type="submit" disabled>Submit</button>
+            </div>
         </div>
     </form>
 
-    <div class="container mt-5">
-        <b class="text-danger">Format of the sheet's column should be</b><br>
-        <table class="table table-sm m-3">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"><small>student</small></th>
-                    <th scope="col"><small>semester</small></th>
-                    <th scope="col"><small>date</small></th>
-                    <th scope="col"><small>is_present</small></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row"><small>0192CS18XYZ</small></th>
-                    <td><small>6</small></td>
-                    <td>06/<small>16</small>/2021</td>
-                    <td><small>1</small></td>
-                </tr>
-                <tr>
-                    <th scope="row"><small>0192CS18XXZ</small></th>
-                    <td><small>6</small></td>
-                    <td><small>06</small>/16/2021</td>
-                    <td><small>0</small></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <b class="text-info">Note:-</b>
-
-        <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <span class="badge bg-primary rounded-pill">1.</span>
-                <div class="ms-2 me-auto">
-                    Where student column for "student id".
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <span class="badge bg-primary rounded-pill">2.</span>
-                <div class="ms-2 me-auto">
-                    Date field/column is optional and by default inserts current date to the database table.
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <span class="badge bg-primary rounded-pill">3.</span>
-                <div class="ms-2 me-auto">
-                    1 or 0 in "is_present" column represent 'is student' present or not respectively.
-                    Default/blank represent student is not preset.
-                </div>
-            </li>
-        </ul>
+    <div class="d-flex justify-content-center sidesafe-container mt-5">
+        <button class="btn btn-secondary" onclick="showModal()">View demo</button>
+        
     </div>
 
 
 </div>
+<!-- Vertically centered scrollable modal -->
+<div class="modal fade" id="data-modal" tabindex="-1" aria-labelledby="data-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="data-modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="data-modal-body">
+                <table class="table table-sm m-3" style="font-size: 0.8rem;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"><small>student</small></th>
+                            <th scope="col"><small>semester</small></th>
+                            <th scope="col"><small>date</small></th>
+                            <th scope="col"><small>is_present</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><small>0192CS18XYZA</small></th>
+                            <td><small>6</small></td>
+                            <td>06/<small>16</small>/2021</td>
+                            <td><small>1</small></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><small>0192CS18XXZB</small></th>
+                            <td><small>6</small></td>
+                            <td><small>06</small>/16/2021</td>
+                            <td><small>0</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <b class="text-danger">Format of the sheet's column should be</b><br>
+                <b class="text-info">Note:-</b>
+                
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="badge bg-primary rounded-pill">1.</span>
+                        <div class="ms-2 me-auto">
+                            Where student column for "student id".
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="badge bg-primary rounded-pill">2.</span>
+                        <div class="ms-2 me-auto">
+                            Date field/column is optional and by default inserts current date to the database table.
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="badge bg-primary rounded-pill">3.</span>
+                        <div class="ms-2 me-auto">
+                            1 or 0 in "is_present" column represent 'is student' present or not respectively.
+                            Default/blank represent student is not preset.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if (sessionStorage.attendanceEnrolls) {
+        this.EnrollInput.value = sessionStorage.attendanceEnrolls;
+        validateEnrollments();
+    }
+    // if (sessionStorage.sem) {
+    //     this.semesterInput.value = sessionStorage.sem;
+    // }
+    // if (sessionStorage.department) {
+    //     this.branchInput.value = sessionStorage.department;
+    // }
+    if (this.EnrollInput.value.length > 50 && this.EnrollInput.value.length < 250) {
+        console.log(this.EnrollInput.value.length);
+        this.EnrollInput.style.height = this.EnrollInput.value.length * 2;
+    }
+
+    function validateEnrollments() {
+        enrolls = this.EnrollInput.value;
+        if (enrolls.length > 10) {
+            enrolls = enrolls.replaceAll('\n', '');
+            enrolls = enrolls.replaceAll(', ', ',');
+            enrolls = enrolls.replaceAll(',', ', ');
+            enrolls = enrolls.replaceAll(',,', ',');
+            enrolls = enrolls.toUpperCase();
+
+            // !Number.isInteger(Number(enrolls.charAt(enrolls.length - 1)))) ||
+            while ((!Number.isInteger(Number(enrolls.charAt(enrolls.length - 1)))) || enrolls.charAt(enrolls.length - 1) == ',' || enrolls.charAt(enrolls.length - 1) == ' ') {
+                enrolls = enrolls.slice(0, -1);
+            }
+            this.EnrollInput.value = temp = enrolls;
+            sessionStorage.attendanceEnrolls = enrolls;
+
+            if (temp.length) {
+                words = temp.split(",").length;
+                this.wordCount.style.color = "red";
+                this.wordCount.style.fontWeight = "bold";
+                this.wordCount.innerText = words;
+            }
+        }
+        else
+            this.wordCount.innerText = "";
+    }
+    function showModal(/* { title, body } */) {
+        // document.getElementById("data-modal-title").innerHTML = title;
+        // document.getElementsByClassName("data-modal-body")[0].innerHTML = body;
+        var myModal = new bootstrap.Modal(document.getElementById('data-modal'));
+        myModal.show();
+    }
+</script>
 
 {% endblock body %}
