@@ -4,7 +4,7 @@ from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
 from django.shortcuts import redirect, render
-from datetime import datetime
+import datetime
 from .forms import BookForm
 
 # Create your views here.
@@ -22,8 +22,8 @@ def showAttendance(request):
               "July", "August", "September", "October", "November", "December"]
 
     if request.method == 'POST':
-        sem = request.POST['sem']
-        month = request.POST['month']
+        sem = request.POST.get('sem', request.user.student.semester)
+        month = request.POST.get('month', datetime.date.today().month)
         data = request.user.student.get_attendance_by_sem_month(
             sem=sem, month=month).values()
         return JsonResponse(list(data), safe=False)

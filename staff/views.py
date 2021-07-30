@@ -28,17 +28,23 @@ def attendance(request):
 @staff_only
 def viewAttendance(request):
     branches = "CSE, IT, ECE, ME, CE"
-    branch = request.GET.get("branchSelect", request.user.profile.staff.department)
-    semester = request.GET.get("semSelect", 6)
+    months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
+    branch = request.GET.get("branch", request.user.profile.staff.department)
+    semester = request.GET.get("sem", 6)
     students = Student.objects.filter(branch=branch)
+    
+    fromDate = request.GET.get("fromDate", datetime.date.min)
+    toDate = request.GET.get("toDate", datetime.date.today())
+
+    
     attendance = []
 
     for s in students:
         attendance.append(
-            {"student": s.user, "attendance": s.attendance.filter(semester=semester, is_present=True).count()})
+            {"student": s.user, "attendance": s.attendance.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate is not "" else datetime.date.min, date__lte=toDate if toDate is not "" else datetime.date.today()).count()})
     
     
-    data = {"branches":branches.split(", "), "semesters": range(1, 9), "attendance":attendance, "branch":branch, "semester":semester}
+    data = {"branches":branches.split(", "), "semesters": range(1, 9), "attendance":attendance, "branch":branch, "semester":semester, "months":months, "toDate": toDate, "fromDate": fromDate}
 
     return render(request, 'staff/all-students-attendance.html', {"data":data})
 
@@ -61,7 +67,11 @@ def addAttendanceByEnroll(request):
 
         for enroll in enrolls:
             try:
-                student = Student.objects.get(user=enroll)
+                if request.user.profile.is_director:
+                    student = Student.objects.get(user=enroll)
+                else:
+                    student = Student.objects.get(
+                        branch=request.user.profile.staff.department, user=enroll)
                 StudentAttendance.objects.update_or_create(student=student, semester=semester, date=date, is_present=present)
             except:
                 error_info.append(enroll+", ")
