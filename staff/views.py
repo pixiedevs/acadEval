@@ -1,3 +1,4 @@
+from django.db.models.expressions import F
 from main.decoraters import director_only, hod_only, staff_only, teacher_only
 from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
@@ -8,7 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 import datetime
-
+from main.resources import StudentAttendanceResource
+from django.http.response import HttpResponse
+from django.db.models import Count
 # Create your views here.
 
 
@@ -30,20 +33,34 @@ def viewAttendance(request):
     branches = "CSE, IT, ECE, ME, CE"
     months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
     branch = request.GET.get("branch", request.user.profile.staff.department)
-    semester = request.GET.get("sem", 6)
+    semester = request.GET.get("semSelect", 6)
+    export = bool(request.GET.get("export", False))
     students = Student.objects.filter(branch=branch)
     
     fromDate = request.GET.get("fromDate", datetime.date.min)
     toDate = request.GET.get("toDate", datetime.date.today())
 
     
-    attendance = []
+    # attendance = []
+    dt = StudentAttendance.objects.get_queryset()
+    adt = StudentAttendance.objects.raw("select id, student_id, semester, count(is_present) as is_present from student_studentattendance where is_present = 1 group by student_id")
+    for a in adt:
+        print(a)
+    # for s in students:
+    #     at = s.attendance.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate is not "" else datetime.date.min, date__lte=toDate if toDate is not "" else datetime.date.today())
+    #     dt.union(at)
+    #     attendance.append(
+    #         {"student": s.user, "attendance": at.count()})
 
-    for s in students:
-        attendance.append(
-            {"student": s.user, "attendance": s.attendance.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate is not "" else datetime.date.min, date__lte=toDate if toDate is not "" else datetime.date.today()).count()})
+        attendance = (StudentAttendance.objects.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate != "" else datetime.date.min,
+                      date__lte=toDate if toDate != "" else datetime.date.today()).annotate(enrollment=F("student__user")).values("enrollment").annotate(attendance=Count("is_present")).order_by())
     
-    
+    if export:
+        results = StudentAttendanceResource().export(dt)
+        # print(results.csv)
+        response = HttpResponse(results.xls, content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="attendance_112.xls"'
+        return response
     data = {"branches":branches.split(", "), "semesters": range(1, 9), "attendance":attendance, "branch":branch, "semester":semester, "months":months, "toDate": toDate, "fromDate": fromDate}
 
     return render(request, 'staff/all-students-attendance.html', {"data":data})
@@ -63,6 +80,12 @@ def addAttendanceByEnroll(request):
         # print(enrolls, semester, date, present)
 
         enrolls = enrolls.split(", ")
+        print(enrolls)
+        print(len(enrolls))
+        if(len(enrolls) == 1):
+            enrolls = enrolls[0].split(",")
+        print(enrolls)
+
         enrolls_count = len(enrolls)
 
         for enroll in enrolls:
@@ -74,7 +97,7 @@ def addAttendanceByEnroll(request):
                         branch=request.user.profile.staff.department, user=enroll)
                 StudentAttendance.objects.update_or_create(student=student, semester=semester, date=date, is_present=present)
             except:
-                error_info.append(enroll+", ")
+                error_info += (enroll+", ")
                 enrolls_count-=1
                 # messages.ERROR(request, "There is a problem with adding attendance!")
 

@@ -102,6 +102,10 @@ class StudentAttendance(models.Model):
     def __str__(self):
         return f"{self.student} {self.date} {self.is_present}"
 
+    @property
+    def enrollment(self):
+        return self.student.user.username
+
     # for preventing duplicate attendance
     class Meta:
         unique_together = ("student_id", "date",)

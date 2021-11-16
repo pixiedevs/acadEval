@@ -9,8 +9,8 @@
 <div class="container-fluid mt-5">
     <h4 class="text-center alert alert-info"><small>Sem: {{ data.semester }} {{ data.branch }} Students </small></h4>
 
-    <!-- <div class="d-flex justify-content-end">
-        <a href="monthly/" class="btn btnPrAnim border border-primary">Monthly</a>
+    <!-- <div class="d-flex justify-content-end mb-2">
+        <a onclick="exportData()" class="btn btnPrAnim border border-primary">Export to excel</a>
     </div> -->
 
 
@@ -48,7 +48,11 @@
                 </select>
             </div>
             {% endif %}
-
+            
+            <div class="p-2">
+                <label for="export">Export:</label>
+                <input type="checkbox" name="export" id="export">
+            </div>
 
             <button type="submit" class="btn btn-primary">Fetch</button>
         </div>
@@ -75,10 +79,10 @@
             <tbody>
 
                 {% for at in data.attendance %}
-                <tr onclick="showModal({ student: 'Enroll: {{at.student}}<br>', result: '{{ at.attendance }}'})">
+                <tr onclick="showModal({ student: 'Enroll: {{at.enrollment}}<br>', result: '{{ at.attendance }}'})">
                     <!-- <th scope="row">{{forloop.counter}}</th> -->
                     <td> {{ forloop.counter }}</td>
-                    <td> {{at.student}}</td>
+                    <td> {{at.enrollment}}</td>
                     <td> {{at.attendance}}</td>
                 </tr>
                 {% endfor %}
@@ -108,9 +112,9 @@
 </div>
 </div>
 <script>
-    this.sem.value = '{{ data.semester }}'
+    this.sem.value = '{{ data.semester }}';
     if (this.branch)
-        this.branch.value = '{{ data.branch }}'
+        this.branch.value = '{{ data.branch }}';
 
 
     function showModal({ student, result }) {
@@ -119,5 +123,25 @@
         var myModal = new bootstrap.Modal(document.getElementById('student-result'))
         myModal.show()
     }
+    // function exportData() {
+    //     url = window.location.href;
+    //     // if(document.getElementById("br"))
+    //     data = new Object();
+    //     if(this.branch)
+    //         data.branch = this.branch;
+
+    //         data.sem = this.sem;
+    //         data.fromDate = this.fromDate;
+    //         data.toDate = this.toDate;
+            
+    //     $.ajax({
+    //         method: 'GET',
+    //         data: data,
+    //         url: url,
+    //         success: function (response) {
+    //             console.log("exported");
+    //         }
+    //     })
+    // }
 </script>
 {% endblock body %}

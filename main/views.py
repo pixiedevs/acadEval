@@ -70,9 +70,9 @@ def loginHandle(request):
     if request.method == 'POST':
         loginUsername = request.POST['username']
         loginpassword = request.POST['password']
+        print(loginpassword)
 
         user = authenticate(username=loginUsername, password=loginpassword)
-
         if user is not None:
             login(request, user)
             messages.success(request, "You are successfully Logged In")
