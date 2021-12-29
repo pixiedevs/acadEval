@@ -332,7 +332,7 @@ def viewAllNotesByStaff(request):
                    key=lambda x: x.modified_at.date(), reverse=True)
 
     if notes is None or len(notes) == 0:
-        return redirect('view_staff_notes')
+        return redirect('add_note')
     return render(request, "staff/view-all-notes.html", {"data": notes, "dataName": "note"})
 
 
