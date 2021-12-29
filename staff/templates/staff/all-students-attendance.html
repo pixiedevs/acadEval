@@ -9,15 +9,22 @@
 <div class="container-fluid mt-5">
     <h4 class="text-center alert alert-info"><small>Sem: {{ data.semester }} {{ data.branch }} Students </small></h4>
 
-    {% comment %}
     <!-- <div class="d-flex justify-content-end">
-        <a href="/staff/students/add" class="btn btnPrAnim border border-primary">Add Student</a>
+        <a href="monthly/" class="btn btnPrAnim border border-primary">Monthly</a>
     </div> -->
-    {% endcomment %}
 
 
     <form action="" method="GET">
         <div class="d-flex justify-content-around flex-wrap p-2 neupm2-sm">
+            <div class="p-2">
+                <label for="fromDate">Date from: </label>
+                <input type="date" name="fromDate" id="fromDate" value="{{ data.fromDate}}">
+            </div>
+
+            <div class="p-2">
+                <label for="toDate">Date to: </label>
+                <input type="date" name="toDate" id="toDate" value="{{ data.toDate}}">
+            </div>
 
             <div class="p-2">
                 <label for="sem">Sem:</label>
@@ -28,6 +35,8 @@
                     {% endfor %}
                 </select>
             </div>
+
+            {% if user.profile.is_director %}
             <div class="p-2">
                 <label for="branch">Branch:</label>
 
@@ -38,6 +47,8 @@
                     {% endfor %}
                 </select>
             </div>
+            {% endif %}
+
 
             <button type="submit" class="btn btn-primary">Fetch</button>
         </div>
@@ -98,7 +109,9 @@
 </div>
 <script>
     this.sem.value = '{{ data.semester }}'
-    this.branch.value = '{{ data.branch }}'
+    if (this.branch)
+        this.branch.value = '{{ data.branch }}'
+
 
     function showModal({ student, result }) {
         document.getElementById("exampleModalLabel").innerHTML = student
