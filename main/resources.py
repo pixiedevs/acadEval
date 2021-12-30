@@ -20,8 +20,8 @@ class StudentAttendanceResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = True
         exclude = ('id', )
-        fields = ('student__student_id', 'semester', 'date', 'is_present')
-        import_id_fields = ('student__student_id',)
+        fields = ('enrollment', 'semester', 'date', 'is_present')
+        import_id_fields = ('enrollment',)
 
 
 # Below code is in development

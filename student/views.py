@@ -115,7 +115,6 @@ def deleteBook(request, id):
         return redirect('/login/')
 
 
-# for student notes made/provided by teachers
 @student_only
 def viewProfile(request):
     student = request.user.student

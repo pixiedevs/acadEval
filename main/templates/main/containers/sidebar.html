@@ -2,7 +2,7 @@
 <aside class="sidebar" id="sidebar">
     <ul class="sidebar-sidebar">
         <li class="logo">
-            <a href="/{{ user.profile.type_url }}/profile" class="sidebar-link">
+            <a href="/{{ user.profile.type_url }}/profile/" class="sidebar-link">
                 <span class="link-text logo-text">
                     {{user.username}} <br><small class="blink-me">View Profile</small>
                 </span>
@@ -14,7 +14,7 @@
 
         {% if user.profile.is_staff %}
         <li class="sidebar-item">
-            <a href="/{{ user.profile.type_url }}/students" class="sidebar-link">
+            <a href="/{{ user.profile.type_url }}/students/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-user-graduate fa-lg"></i>
 
@@ -26,7 +26,7 @@
 
         {% if user.profile.is_hod %}
         <li class="sidebar-item">
-            <a href="/{{ user.profile.type_url }}/add-teacher/" class="sidebar-link">
+            <a href="/{{ user.profile.type_url }}/add-teacher//" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-chalkboard-teacher fa-lg"></i>
 
@@ -59,7 +59,7 @@
         {% endif %}
 
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/classes" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/classes/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-chalkboard fa-lg"></i>
 
@@ -70,7 +70,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/notes" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/notes/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-pen-square fa-lg"></i>
 
@@ -81,7 +81,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/attendance" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/attendance/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-clipboard-list fa-lg"></i>
 
@@ -90,7 +90,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/notices" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/notices/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-exclamation-circle fa-lg" aria-hidden="true"></i>
 
@@ -100,7 +100,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/marks" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/marks/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-poll fa-lg"></i>
 
@@ -111,7 +111,7 @@
 
         {% if user.profile.is_student %}
         <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/library" class="sidebar-link">
+            <a href="/{{user.profile.type_url}}/library/" class="sidebar-link">
                 <div class="icon">
                     <i class="fas fa-book fa-lg"></i>
 

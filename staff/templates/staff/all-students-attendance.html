@@ -50,7 +50,7 @@
             {% endif %}
             
             <div class="p-2">
-                <label for="export">Export:</label>
+                <label for="export">In xls:</label>
                 <input type="checkbox" name="export" id="export">
             </div>
 
@@ -82,8 +82,8 @@
                 <tr onclick="showModal({ student: 'Enroll: {{at.enrollment}}<br>', result: '{{ at.attendance }}'})">
                     <!-- <th scope="row">{{forloop.counter}}</th> -->
                     <td> {{ forloop.counter }}</td>
-                    <td> {{at.enrollment}}</td>
-                    <td> {{at.attendance}}</td>
+                    <td> {{at.0}}</td>
+                    <td> {{at.1}}</td>
                 </tr>
                 {% endfor %}
 

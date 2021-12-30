@@ -1,5 +1,3 @@
-# from django.http.response import HttpResponse
-from django.contrib.auth.decorators import login_required
 from main.decoraters import auth_req, unauth_req
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout

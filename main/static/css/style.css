@@ -539,3 +539,6 @@ transition: all 100ms ease 0s;
 #inBody.in footer {
     margin: 0;
 }
+.row.no-gtr {
+    --bs-gutter-x: 0;
+}

@@ -136,7 +136,7 @@ class Mark(models.Model):
     file = models.FileField(upload_to='student_media/marks', unique=True)
 
     def file_url(self) -> str:
-        return f'{self.file.url}'
+        return self.file.url
 
 
 class StudentClass(models.Model):
@@ -144,7 +144,7 @@ class StudentClass(models.Model):
     tutor = models.ForeignKey(
         User, on_delete=models.CASCADE, to_field="username")
     semester = models.PositiveIntegerField(default=1)
-    branch = models.CharField(default="CSE", max_length=10)
+    branch = models.CharField(default="CSE", max_length=50)
 
     url = models.URLField(max_length=100)
     start_time = models.TimeField()
