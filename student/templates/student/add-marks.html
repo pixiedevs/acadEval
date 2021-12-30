@@ -11,12 +11,34 @@ Add marks
 <div class="container mt-5 neupm p-4">
     <h4 class="text-center alert alert-info">Add marks</h4>
 
+    <div class="row">
+        <div class="col-lg mb-3 neupm">
+    
+            <form action="{% url 'showStudentMarks'  %}" method="get">
+                <div class="d-flex justify-content-around p-2">
+                    <div class="p-2">
+                        <label for="sem">Choose semester:</label>
+                        <select name="sem" id="sem">
+                            {% for s in request.semesters %}
+                            <option value="{{s}}" {% if s is request.semesters|last %}selected {% endif %}>{{s}}</option>
+    
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <button class="btn btn-primary" type="submit">View</button>
+                </div>
+            </form>
+    
+        </div>
+    </div>
+
     <form action="{% url 'addStudentMarks'  %}" method="post" id="html_editor_form" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="mb-3">
             <label for="semesterInput" class="form-label">Semester</label>
-            <input name="semester" type="number" value="{{ sem }}" class="form-control" id="semesterInput"
+            <input name="semester" type="number" value="{{ request.sem }}" class="form-control" id="semesterInput"
                 placeholder="semester" required>
         </div>
 

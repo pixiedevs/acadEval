@@ -7,12 +7,12 @@
                     {{user.username}} <br><small class="blink-me">View Profile</small>
                 </span>
                 <div class="icon">
-                    <img src="{% static 'img/male.svg' %}" alt="" srcset="">
+                    <img src="{% static 'img/male.svg' %}" alt="">
                 </div>
             </a>
         </li>
-        {% if user.profile.is_staff %}
 
+        {% if user.profile.is_staff %}
         <li class="sidebar-item">
             <a href="/{{ user.profile.type_url }}/students" class="sidebar-link">
                 <div class="icon">
@@ -25,7 +25,6 @@
         {% endif %}
 
         {% if user.profile.is_hod %}
-
         <li class="sidebar-item">
             <a href="/{{ user.profile.type_url }}/add-teacher/" class="sidebar-link">
                 <div class="icon">
@@ -38,7 +37,6 @@
         {% endif %}
 
         {% if user.profile.is_director %}
-
         <li class="sidebar-item">
             <a href="/{{ user.profile.type_url }}/add-hod/" class="sidebar-link">
                 <div class="icon">
@@ -111,16 +109,6 @@
             </a>
         </li>
 
-        <li class="sidebar-item">
-            <a href="/{{user.profile.type_url}}/events" class="sidebar-link">
-                <div class="icon">
-                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
-
-                </div>
-                <span class="link-text">Events</span>
-            </a>
-        </li>
-
         {% if user.profile.is_student %}
         <li class="sidebar-item">
             <a href="/{{user.profile.type_url}}/library" class="sidebar-link">
@@ -131,53 +119,10 @@
                 <span class="link-text">Library</span>
             </a>
         </li>
-
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <div class="icon">
-                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
-
-                </div>
-                <span class="link-text">Attend exam</span>
-            </a>
-        </li>
         {% endif %}
-
-        {% if user.profile.is_staff %}
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <div class="icon">
-                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
-
-                </div>
-                <span class="link-text">Set Paper</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <div class="icon">
-                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
-
-                </div>
-                <span class="link-text">Edit Paper</span>
-            </a>
-        </li>
-        {% endif %}
-
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <div class="icon">
-                    <i class="fa fa-calendar-check fa-lg" aria-hidden="true"></i>
-
-                </div>
-                <span class="link-text">Show Result</span>
-            </a>
-        </li>
-
-
 
         <li class="sidebar-item" id="themeButton">
-            <a href="#" class="sidebar-link">
+            <a class="sidebar-link">
                 <div class="icon">
 
                 </div>

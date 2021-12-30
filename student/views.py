@@ -1,10 +1,12 @@
 from staff.models import StudentNote
-from student.models import Book, Mark, Student, StudentClass
+from staff.views import attendance
+from student.models import Book, Mark, Student, StudentAttendance, StudentClass
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
 from django.shortcuts import redirect, render
 import datetime
+import calendar
 from .forms import BookForm
 
 # Create your views here.
@@ -12,6 +14,10 @@ from .forms import BookForm
 
 @student_only
 def index(request):
+    student = request.user.student
+    dbg = attendance.objects.filter(semester=student.semester)
+    print(dbg)
+    # student.attendance
     return render(request, 'student/index.html')
 
 
@@ -21,12 +27,32 @@ def showAttendance(request):
     months = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
 
-    if request.method == 'POST':
-        sem = request.POST.get('sem', request.user.student.semester)
-        month = request.POST.get('month', datetime.date.today().month)
-        data = request.user.student.get_attendance_by_sem_month(
-            sem=sem, month=month).values()
-        return JsonResponse(list(data), safe=False)
+    if request.GET.get('type', '') == 'api':
+        sem = int(request.GET.get('sem', request.user.student.semester))
+        month = int(request.GET.get('month', datetime.date.today().month))
+
+        try:
+            year = request.user.student.attendance.filter(
+                student__user_id="0192CS181112", semester=5, date__month=12).first().date.year
+        except:
+            return JsonResponse([], safe=False)
+
+        daysCount = calendar.monthrange(year, month)[1]
+
+        data = {}
+        count = 0
+        for d in range(1, daysCount+1):
+            try:
+                data[str(d)] = (request.user.student.attendance.filter(
+                    semester=sem, date__month=month, date__day=d).first().is_present)
+            except:
+                data[str(d)] = False
+                count += 1
+
+        if (count == daysCount):
+            return JsonResponse([], safe=False)
+
+        return JsonResponse({"attendance": data, "absent": count, "present": daysCount-count}, safe=False)
 
     return render(request, 'student/attendance.html', {"sem": sems, "month": months})
 
@@ -76,6 +102,7 @@ def updateBook(request, id):
         return render(request, 'student/update_book.html', {'form': form})
     else:
         return redirect('/login/')
+
 
 # Delete Book
 @student_only
@@ -133,24 +160,19 @@ def StudentClasses(request):
 def showMarks(request):
     student = Student.objects.get(user=request.user)
     current_stu_sem = student.semester
-    
-    if request.method == 'POST':
-        semester = request.POST['sem']
-        print(semester)
-        try:
-            marks = student.mark.get(semester=semester)
-            
-        except:
-            return render(request, 'student/add-marks.html', {"sem": semester})
+    request.semesters = range(1, current_stu_sem+1)
+    request.sem = request.GET.get('sem', current_stu_sem)
+    if request.GET.get('req', '') == 'view':
+        request.mark = student.mark.filter(semester=request.sem).first()
+        return render(request, 'student/view-mark.html')
+    request.marks = {}
+    for sem in request.semesters:
+        request.marks[str(sem)] = ""
+        request.marks[str(sem)] = student.mark.filter(semester=sem).first()
+    if request.GET.get('req', '') == 'add' or request.marks == None:
+        return render(request, 'student/add-marks.html')
 
-    else:
-        try:
-            marks = student.mark.get(semester=current_stu_sem)
-        except Exception as e:
-            return render(request, 'student/add-marks.html', {"sem": current_stu_sem})
-
-    semesters = range(1, current_stu_sem+1)
-    return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
+    return render(request, 'student/marks.html')
 
 
 @student_only
@@ -164,7 +186,7 @@ def addMarks(request):
         mark.result = request.POST['result'].upper()
         mark.file = request.FILES['file']
         mark.save()
-        
+
         marks = request.user.student.mark.get(
             semester=request.user.student.semester)
         semesters = range(1, request.user.student.semester+1)

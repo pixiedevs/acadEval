@@ -50,7 +50,7 @@ def contact(request):
 @auth_req
 def dashboardAsType(request):
     if request.user.profile.type == "student":
-        return redirect('student/')
+        return redirect('studentHome')
 
     elif request.user.profile.type == "director":
         return redirect('s_Home')

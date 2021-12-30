@@ -86,7 +86,7 @@ class Student(models.Model):
             month = self.time.date().month
 
         attendance = self.attendance.filter(
-            semester=sem, date__icontains=f'{month}-').all()
+            semester=sem, date__icontains=f'{month}-').order_by("date")
 
         return attendance
 
