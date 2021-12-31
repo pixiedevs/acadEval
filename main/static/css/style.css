@@ -409,3 +409,136 @@ transition: all 100ms ease 0s;
     opacity: 1;
   }
 }
+
+
+    .sd-ripple-background {
+        position: relative;
+        display: flex;
+        transition: 2s ease left;
+        animation: color-rotate 5s infinite;
+        animation-direction: alternate;
+        z-index: 0;
+    }
+
+    .sd {
+        z-index: 1;
+    }
+
+    .sdd img {
+        margin-top: 3rem;
+        width: 50%;
+        min-width: 150px;
+    }
+
+    .sd div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .sd div button {
+        width: 7rem;
+        height: 2.5rem;
+        border: 2px solid #508fb9;
+        background: #4481aa38;
+        color: #5c768d !important;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        animation: color-rotate 5s infinite;
+        transition: all 100ms ease 0s;
+    }
+
+    .sd div button:hover {
+        color: #404040 !important;
+        background: #508fb9;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 100ms ease 0s;
+    }
+
+    .sidebar {
+        z-index: 2;
+    }
+
+    .sd-circle {
+        position: absolute;
+        left: 0;
+        width: 50vw;
+        background: #68a6ff;
+        height: 50vh;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        animation: ripple 15s infinite;
+        box-shadow: 0px 0px 1px 0px #508fb9;
+    }
+
+
+    .sd-circle:nth-child(1) {
+        width: 500px;
+        height: 500px;
+        opacity: 0.2;
+        left: -250px;
+        top: 0;
+    }
+
+    .sd-circle:nth-child(2) {
+        width: 400px;
+        height: 400px;
+        left: -200px;
+        top: 10%;
+        opacity: 0.4;
+    }
+
+    .sd-circle:nth-child(3) {
+        width: 300px;
+        height: 300px;
+        left: -150px;
+        top: 20%;
+        opacity: 0.6;
+    }
+
+    .sd-circle:nth-child(4) {
+        width: 200px;
+        height: 200px;
+        left: -100px;
+        top: 30%;
+        opacity: 0.7;
+    }
+
+    .sd-circle:nth-child(5) {
+        width: 100px;
+        height: 100px;
+        left: -50px;
+        top: 40%;
+        opacity: 1;
+    }
+
+
+    @keyframes ripple {
+        0% {
+            transform: scale(0.8);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(0.8);
+        }
+    }
+
+#inBody.in main,
+#content1,
+#inBody.in #content2,
+#inBody.in #content3,
+#inBody.in footer {
+    margin: 0;
+}
+.row.no-gtr {
+    --bs-gutter-x: 0;
+}

@@ -9,61 +9,61 @@ Library
 {% block message %}{% endblock message %}
 <!-- main section -->
 {% load static %}
-<div class="row container mt-5">
-     <table class="col table table-striped neupm2">
-          <tbody>
-               <tr>
-                    <td scope="row">Name: <b>{{ user.get_full_name }}</b></td>
-                    <td scope="row">Enroll: <b>{{user.username}}</b></td>
-               </tr>
-               <tr>
-                    <td scope="row">Sem: <b>{{ user.student.semester }}</b></td>
-                    <td scope="row">Year: <b>{{ user.student.year }}</b></td>
-               </tr>
-          </tbody>
-     </table>
-</div>
-
-<div class="container">
-     <div class="d-flex justify-content-end">
-          <a href="{% url 'add_book' %}" class="btn btnPrAnim border border-primary">Add Book</a>
+<div class="container flex-column justify-content-lg-start">
+     <div class="row no-gtr container mt-5">
+          <table class="col table table-striped neupm2">
+               <tbody>
+                    <tr>
+                         <td scope="row">Name: <b>{{ user.get_full_name }}</b></td>
+                         <td scope="row">Enroll: <b>{{user.username}}</b></td>
+                    </tr>
+                    <tr>
+                         <td scope="row">Sem: <b>{{ user.student.semester }}</b></td>
+                         <td scope="row">Year: <b>{{ user.student.year }}</b></td>
+                    </tr>
+               </tbody>
+          </table>
      </div>
-</div>
 
+     <div class="container">
+          <div class="d-flex justify-content-end">
+               <a href="{% url 'add_book' %}" class="btn btnPrAnim border border-primary">Add Book</a>
+          </div>
+     </div>
 
+     <div class="row no-gtr container mt-5">
 
-<div class="row container mt-5">
+          <table class="table table-striped neupm2">
+               <thead>
+                    <tr>
+                         <th scope="col"> No. </th>
+                         <th scope="col"> Book Name </th>
+                         <th scope="col"> Book Id </th>
+                         <th scope="col"> Issue Date </th>
+                         <th scope="col"> Return Date </th>
+                    </tr>
+               </thead>
 
-     <table class="table table-striped neupm2">
-          <thead>
-               <tr>
-                    <th scope="col"> No. </th>
-                    <th scope="col"> Book Name </th>
-                    <th scope="col"> Book Id </th>
-                    <th scope="col"> Issue Date </th>
-                    <th scope="col"> Return Date </th>
-               </tr>
-          </thead>
+               <tbody>
 
-          <tbody>
+                    {% for book in books %}
+                    <tr>
+                         <th scope="row">{{forloop.counter}}</th>
+                         <td> {{book.book_name}} </td>
+                         <td> {{book.book_id}} </td>
+                         <td> {{book.issue_date}} </td>
+                         <td> {{book.expiry_date}} </td>
+                         <td>
+                              <a href="{% url 'update_book' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+                              <a href="{% url 'delete_book' book.id %}" class="btn btn-danger btn-sm">Delete</a>
+                         </td>
 
-               {% for book in books %}
-               <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td> {{book.book_name}} </td>
-                    <td> {{book.book_id}} </td>
-                    <td> {{book.issue_date}} </td>
-                    <td> {{book.expiry_date}} </td>
-                    <td>
-                         <a href="{% url 'update_book' book.id %}" class="btn btn-warning btn-sm">Edit</a>
-                         <a href="{% url 'delete_book' book.id %}" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
+                    </tr>
 
-               </tr>
+                    {% endfor %}
 
-               {% endfor %}
-
-          </tbody>
-     </table>
+               </tbody>
+          </table>
+     </div>
 </div>
 {% endblock body %}

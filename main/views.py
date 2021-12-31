@@ -1,5 +1,3 @@
-# from django.http.response import HttpResponse
-from django.contrib.auth.decorators import login_required
 from main.decoraters import auth_req, unauth_req
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
@@ -50,7 +48,7 @@ def contact(request):
 @auth_req
 def dashboardAsType(request):
     if request.user.profile.type == "student":
-        return redirect('student/')
+        return redirect('studentHome')
 
     elif request.user.profile.type == "director":
         return redirect('s_Home')
@@ -70,9 +68,9 @@ def loginHandle(request):
     if request.method == 'POST':
         loginUsername = request.POST['username']
         loginpassword = request.POST['password']
+        print(loginpassword)
 
         user = authenticate(username=loginUsername, password=loginpassword)
-
         if user is not None:
             login(request, user)
             messages.success(request, "You are successfully Logged In")

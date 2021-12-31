@@ -1,14 +1,18 @@
-from main.decoraters import director_only, hod_only, staff_only, teacher_only
+import xlwt
+from django.db.models.expressions import F
+from main.decoraters import director_only, hod_only, staff_only
 from student.forms import AddStudentForm, StudentRegisterForm
 from django.shortcuts import redirect, render
-from student.models import Book, Student, Mark, StudentAttendance, StudentClass
+from student.models import Student, Mark, StudentAttendance, StudentClass
 from main.models import Notice
 from staff.models import StudentNote
 from django.contrib import messages
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 import datetime
-
+from main.resources import StudentAttendanceResource
+from django.http.response import HttpResponse
+from django.db.models import Count
 # Create your views here.
 
 
@@ -18,35 +22,64 @@ def index(request):
 
 
 @staff_only
+def viewProfile(request):
+    staff = request.user.profile.staff
+    return render(request, 'staff/profile.html', {"staff": staff})
+
+
+@staff_only
 def attendance(request):
     branches = "CSE, IT, ECE, ME, CE"
     data = {"branches": branches.split(", "), "semesters": range(1, 9)}
 
-    return render(request, 'staff/insert-attendance.html', {"data":data})
+    return render(request, 'staff/insert-attendance.html', {"data": data})
 
 
 @staff_only
 def viewAttendance(request):
     branches = "CSE, IT, ECE, ME, CE"
-    months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
+    months = ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"]
     branch = request.GET.get("branch", request.user.profile.staff.department)
-    semester = request.GET.get("sem", 6)
-    students = Student.objects.filter(branch=branch)
-    
+    semester = request.GET.get("semSelect", 6)
+    export = bool(request.GET.get("export", False))
+
     fromDate = request.GET.get("fromDate", datetime.date.min)
     toDate = request.GET.get("toDate", datetime.date.today())
 
-    
-    attendance = []
+    attendance = (StudentAttendance.objects.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate != "" else datetime.date.min,
+                    date__lte=toDate if toDate != "" else datetime.date.today()).annotate(enrollment=F("student__user")).values_list("enrollment").annotate(attendance=Count("is_present")).order_by())
 
-    for s in students:
-        attendance.append(
-            {"student": s.user, "attendance": s.attendance.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate is not "" else datetime.date.min, date__lte=toDate if toDate is not "" else datetime.date.today()).count()})
-    
-    
-    data = {"branches":branches.split(", "), "semesters": range(1, 9), "attendance":attendance, "branch":branch, "semester":semester, "months":months, "toDate": toDate, "fromDate": fromDate}
+    if export:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = f'attachment; filename="attendance-sem{semester}-{datetime.date.today()}.xls"'
 
-    return render(request, 'staff/all-students-attendance.html', {"data":data})
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Attendance')
+
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+        columns = ['student', 'attendance']
+
+        for col in range(len(columns)):
+            ws.write(row_num, col, columns[col], font_style)
+
+        font_style = xlwt.XFStyle()
+
+        for row in attendance:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+
+        return response
+    data = {"branches": branches.split(", "), "semesters": range(1, 9), "attendance": attendance,
+            "branch": branch, "semester": semester, "months": months, "toDate": toDate, "fromDate": fromDate}
+
+    return render(request, 'staff/all-students-attendance.html', {"data": data})
 
 
 @staff_only
@@ -57,12 +90,11 @@ def addAttendanceByEnroll(request):
         semester = request.POST["semesterInput"]
         date = request.POST["dateInput"]
         present = bool(request.POST.get("presentInput", "off"))
-        # branch = request.POST["branchInput"].upper()
-
-        college = request.user.profile.staff.college
-        # print(enrolls, semester, date, present)
 
         enrolls = enrolls.split(", ")
+        if(len(enrolls) == 1):
+            enrolls = enrolls[0].split(",")
+
         enrolls_count = len(enrolls)
 
         for enroll in enrolls:
@@ -72,18 +104,19 @@ def addAttendanceByEnroll(request):
                 else:
                     student = Student.objects.get(
                         branch=request.user.profile.staff.department, user=enroll)
-                StudentAttendance.objects.update_or_create(student=student, semester=semester, date=date, is_present=present)
+                StudentAttendance.objects.update_or_create(
+                    student=student, semester=semester, date=date, is_present=present)
             except:
-                error_info.append(enroll+", ")
-                enrolls_count-=1
+                error_info += (enroll+", ")
+                enrolls_count -= 1
                 # messages.ERROR(request, "There is a problem with adding attendance!")
 
         messages.success(
             request, f'Attendance of {enrolls_count} students has been added successfully.\n{error_info if len(error_info) != 0 else ""}')
-        
+
     else:
         messages.ERROR(request, "There is a problem with adding attendance!")
-        
+
     return redirect("s_attendance")
 
 
@@ -95,7 +128,8 @@ def marks(request):
     #     branch = request.GET.get("branchSelect", request.user.profile.staff.department)
     # else:
     #     branch = request.user.profile.staff.department
-    branch = request.GET.get("branchSelect", request.user.profile.staff.department)
+    branch = request.GET.get(
+        "branchSelect", request.user.profile.staff.department)
 
     semester = request.GET.get("semSelect", 6)
 
@@ -178,10 +212,10 @@ def updateClasses(request, id):
         return render(request, 'staff/update-class.html', {"studentClass": studentClass})
 
     else:
-        messages.error(request, "You do not have permition to update this class.")
+        messages.error(
+            request, "You do not have permition to update this class.")
 
     return redirect("classes")
-
 
 
 # this method for add student by vishal
@@ -329,6 +363,8 @@ Currently method viewStaffNotes is not in use
 because of teacher's note's privacy
 but it will be available for hod and director in the future
 """
+
+
 @staff_only
 def viewStaffNotes(request):
     staff = StudentNote.objects.values_list(

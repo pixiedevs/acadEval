@@ -33,63 +33,73 @@ Attendance
                 <div class="d-flex justify-content-around p-2">
 
                     <div class="p-2">
-                        <label for="sem">Choose semester:</label>
+                        <label for="sem">Select semester:</label>
                         <select name="sem" id="sem">
                             {% for s in sem %}
                             <option value="{{s}}" {% if s is sem|last %}selected {% endif %}>{{s}}</option>
-
                             {% endfor %}
+
                         </select>
                     </div>
-                    <!-- </div>
-                            <div class="col m-3 neupm"> -->
                     <div class="p-2">
-                        <label for="month">Choose month:</label>
+                        <label for="month">Select month:</label>
 
                         <select name="month" id="month">
                             {% for m in month %}
-                            <option value="{{ forloop.counter }}" {% if m is month|last %}selected {% endif %}>{{m}}</option>
-
+                            <option value="{{ forloop.counter }}" {% if m is month|last %}selected {% endif %}>{{m}}
+                            </option>
                             {% endfor %}
+
                         </select>
                     </div>
 
-                    <button class="btn btn-primary" onclick="fetchStudentAttendanceData('{{ csrf_token }}', '/student/attendance', 1)">Fetch</button>
+                    <button class="btn btn-primary" @click="store.state.attendance.fetch">Fetch</button>
                 </div>
 
             </div>
         </div>
-        <div class="row">
-            <table class="table table-striped neupm">
+        <div v-if="!store.state.attendance.show">
+            <p>Attendance not found</p>
+        </div>
+        <div class="row" @mounted="store.state.attendance.fetch">
+            <table class="table table-striped neupm" v-if="store.state.attendance.show">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Date</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="table_data_body">
-                    
+                    <tr>
+                        <th class="stuAttSum" scope="row">
+                            <b>Days: </b>
+                            <b v-html="store.state.attendance.data.present+store.state.attendance.data.absent">
+                            </b>
+                        </th>
+                        <td class="stuAttSum">
+                            <b>Present: </b>
+                            <b v-html="store.state.attendance.data.present">
+                            </b>
+                        </td>
+
+                    </tr>
+                    <tr v-for="(a, i) in store.state.attendance.data.attendance">
+                        <th scope="row" v-html="i"></th>
+                        <td v-html="a ? 'Present' : 'Absent'"></td>
+                    </tr>
                 </tbody>
             </table>
+
         </div>
     </div>
-    <!-- <div class="col-2"></div> -->
 
     <div class="col-sm-3 mt-5">
         <div class="cartDiv2 neupm">
-            <canvas id="marksChart" onmouseover="hoverFeed('Chart representation of your attendance')"
-                onmouseout="hoverFeed('')"></canvas>
+            <canvas id="marksChart"></canvas>
         </div>
 
     </div>
 </div>
-<div id="hoverFeed" class="neupm"></div>
-
-<script src="{% static 'js/addons.js' %}"></script>
-<script>
-    fetchStudentAttendanceData('{{ csrf_token }}', '/student/attendance/', 1);
-</script>
 <!-- Body block End -->
 
 {% endblock body %}

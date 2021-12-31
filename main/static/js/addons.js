@@ -1,7 +1,9 @@
 // for adding canvas chart to given id
 function makeChart(type, id, labels, title, data) {
-    if (window.attendanceChart != null) {
+    try {
         window.attendanceChart.destroy();
+    } catch (error) {
+
     }
 
     var ctx = document.getElementById(id).getContext('2d');
@@ -83,6 +85,6 @@ function setStudentAttendanceData(tableData) {
 
         table_data_body.innerHTML += row;
     }
-    
-    makeChart("doughnut", "marksChart", ['Present', 'Absent'], '', [sum, total- sum]);
+
+    makeChart("doughnut", "marksChart", ['Present', 'Absent'], '', [sum, total - sum]);
 }

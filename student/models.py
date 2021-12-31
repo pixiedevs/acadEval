@@ -86,7 +86,7 @@ class Student(models.Model):
             month = self.time.date().month
 
         attendance = self.attendance.filter(
-            semester=sem, date__icontains=f'{month}-').all()
+            semester=sem, date__icontains=f'{month}-').order_by("date")
 
         return attendance
 
@@ -101,6 +101,10 @@ class StudentAttendance(models.Model):
 
     def __str__(self):
         return f"{self.student} {self.date} {self.is_present}"
+
+    @property
+    def enrollment(self):
+        return self.student.user.username
 
     # for preventing duplicate attendance
     class Meta:
@@ -132,7 +136,7 @@ class Mark(models.Model):
     file = models.FileField(upload_to='student_media/marks', unique=True)
 
     def file_url(self) -> str:
-        return f'{self.file.url}'
+        return self.file.url
 
 
 class StudentClass(models.Model):
@@ -140,7 +144,7 @@ class StudentClass(models.Model):
     tutor = models.ForeignKey(
         User, on_delete=models.CASCADE, to_field="username")
     semester = models.PositiveIntegerField(default=1)
-    branch = models.CharField(default="CSE", max_length=10)
+    branch = models.CharField(default="CSE", max_length=50)
 
     url = models.URLField(max_length=100)
     start_time = models.TimeField()

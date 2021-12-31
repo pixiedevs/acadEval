@@ -26,7 +26,7 @@
         </div>
         <div class="form-group mb-2">
             <label for="dateInput">Date:</label><br>
-            <input type="date" class="form-control" name="dateInput" id="dateInput" value="{% now 'Y-m-d' %}" required>
+            <input type="datetime" class="form-control" name="dateInput" id="dateInput" value="{% now 'Y-m-d' %}" required>
         </div>
 
         {% comment %}
@@ -132,6 +132,7 @@
     </div>
 </div>
 <script>
+
     if (sessionStorage.attendanceEnrolls) {
         this.EnrollInput.value = sessionStorage.attendanceEnrolls;
         validateEnrollments();
@@ -143,6 +144,13 @@
     }
 
     function validateEnrollments() {
+        // helpers
+        Array.prototype.unique = function () {
+            return Array.from(new Set(this));
+        }
+        function rmDuplicate(data) {
+            return [...new Set(data)]
+        }
         enrolls = this.EnrollInput.value;
         if (enrolls.length > 10) {
             enrolls = enrolls.replaceAll('\n', '');
@@ -154,11 +162,11 @@
             while ((!Number.isInteger(Number(enrolls.charAt(enrolls.length - 1)))) || enrolls.charAt(enrolls.length - 1) == ',' || enrolls.charAt(enrolls.length - 1) == ' ') {
                 enrolls = enrolls.slice(0, -1);
             }
-            this.EnrollInput.value = temp = enrolls;
-            sessionStorage.attendanceEnrolls = enrolls;
-
+            this.EnrollInput.value = temp = rmDuplicate(enrolls.split(", "));
+            sessionStorage.attendanceEnrolls = rmDuplicate(enrolls.split(", "));
+            // console.log(rmDuplicate(temp.split(", ")));
             if (temp.length) {
-                words = temp.split(",").length;
+                words = temp.length;
                 this.wordCount.style.color = "red";
                 this.wordCount.style.fontWeight = "bold";
                 this.wordCount.innerText = words;

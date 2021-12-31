@@ -1,7 +1,5 @@
 {% extends 'main/base.html' %}
-{% block title %}
-Marks
-{% endblock title %}
+{% block title %}Marks{% endblock title %}
 {% block description %}Marks page{% endblock description %}
 
 {% block body %}
@@ -22,8 +20,8 @@ Marks
         </tbody>
     </table>
 </div>
-<div class="row container mt-2">
 
+<div class="row container mt-2">
     <div class="col-lg">
         <div class="row">
             <table class="table table-striped neupm">
@@ -33,34 +31,22 @@ Marks
                         <th scope="col">Result</th>
                         <th scope="col">SGPA</th>
                         <th scope="col">CGPA</th>
-                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody id="table_data_body">
-                    {% for key, mark in request.marks.items %}
                     <tr>
-                        <th scope="row">{{key}}</th>
-                        <td>{{ mark.result }}</td>
-                        <td>{{ mark.sgpa }}</td>
-                        <td>{{ mark.cgpa }}</td>
-                        {% if mark.result %}
-                        <td><a href="?sem={{key}}&req=view">
-                                view
-                            </a></td>
-                        {%else%}
-                        <td><a href="?sem={{key}}&req=add">
-                                add
-                            </a></td>
-                        {%endif%}
+                        <th scope="row">{{request.sem}}</th>
+                        <td>{{ request.mark.result }}</td>
+                        <td>{{ request.mark.sgpa }}</td>
+                        <td>{{ request.mark.cgpa }}</td>
                     </tr>
-                    {% endfor %}
                 </tbody>
             </table>
+            <a href="{{ request.mark.file_url }}"><button class="btn btn-secondary">View PDF</button></a>
         </div>
-
     </div>
-
 </div>
-<!-- Body block End -->
+
+<!-- main section End -->
 
 {% endblock body %}

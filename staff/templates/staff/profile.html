@@ -1,0 +1,165 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Profile
+{% endblock title %}
+{% block description %}Profile{% endblock description %}
+
+{% block body %}
+{% block message %}{% endblock message %}
+<!-- main section -->
+{% load static %}
+<div class="container mt-5 neupm p-2">
+    <h4 class="text-center alert alert-info"> Staff Profile{{user.profile.is_staff}}</h4>
+
+    <div class="row">
+        <div class="container mt-1">
+            <div class="card text-center ">
+            </div>
+            <div class="card-body-center">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <img src="{% static 'img/logo.png' %}" alt="staff profile" class="round-circle" width="150">
+                        {% if user.profile.is_staff %}
+                        <button class="btn btnPrAnim border border-primary align-self-center"
+                            id="update-btn">UPDATE</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col mt-1">
+        <div class="card mb-3 content neupm">
+            <h1 class="m-3 pt-3">About</h1>
+            <div class="card-body">
+                <form action="" method="post">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Full Name</h5>
+                        </div>
+                        <div class="col-md-9">
+                            {{ staff.first_name }} {{ staff.last_name }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Username</h5>
+                        </div>
+                        <div class="col-md-9">
+                            {{staff}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Email</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="email" class="form-control border-0" name="email" value="{{ staff.email }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Department</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control border-0" name="department" value="{{ staff.department }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Expertise</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="number" class="form-control border-0" name="expertise" value="{{ staff.expertise }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Mobile No.</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="tel" class="form-control border-0" name="mobile_no"
+                                value="{{ staff.mobile_no }}" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Gender</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control border-0" name="gender" value="{{ staff.gender }}"
+                                disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Date Of Birth</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="datetime" class="form-control border-0" name="date_of_birth"
+                                value="{{ staff.date_of_birth|date:'d/m/Y' }}" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Current Address</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control border-0" name="current_address"
+                                value="{{ staff.current_address }}" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Permanent Address</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control border-0" name="permanent_address"
+                                value="{{ staff.permanent_address }}" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn btnPrAnim border border-primary d-none"
+                        id="submit-btn">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.profile.is_staff %}
+<script>
+    update_btn = document.querySelector("#update-btn")
+    update_btn.onclick =
+        function dataUpdate() {
+            allInput = document.querySelectorAll(".form-control")
+            for (let idx = 0; idx < allInput.length; idx++) {
+                if (allInput[idx].disabled == true)
+                    allInput[idx].disabled = false
+                else
+                    allInput[idx].disabled = true
+
+                allInput[idx].classList.toggle("border-0")
+            }
+            document.querySelector("#submit-btn").classList.toggle("d-none")
+            if (update_btn.innerText == "UPDATE")
+                update_btn.innerText = "CANCEL"
+            else
+                update_btn.innerText = "UPDATE"
+        }
+</script>
+{% endif %}
+{% endblock body %}

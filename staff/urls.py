@@ -4,6 +4,7 @@ from staff import views
 urlpatterns = [
     # for all
     path('', views.index, name="s_Home"),
+    path('profile/', views.viewProfile, name="staff_profile"),
     path('attendance/', views.attendance, name="s_attendance"),
     path('attendance/view/', views.viewAttendance, name="s_view_attendance"),
     path('attendance/by-enrollments/', views.addAttendanceByEnroll,
