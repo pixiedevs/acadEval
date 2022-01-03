@@ -274,7 +274,7 @@ footer {
   display: none;
 }
 
-.cartDiv {
+.chart-block {
     margin: 0.2rem;
     position: relative;
     padding: 1.5rem;
@@ -333,8 +333,16 @@ div.alert {
   margin-left: 3rem !important;
   margin-right: 3rem !important;
 }
+
+.chart-block {
+  height: clamp(360px, 400px, 50vh);
+}
+
 @media screen and (max-width: 480px) {
-  .cartDiv {
+  .chart-block {
+    height: clamp(200px, 300px, 45vh);
+  }
+  .chart-block {
     width: 80vw;
     margin: 0;
   }

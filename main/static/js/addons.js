@@ -1,14 +1,6 @@
-// for adding canvas chart to given id
-function makeChart(type, id, labels, title, data) {
-    try {
-        window.attendanceChart.destroy();
-    } catch (error) {
-
-    }
-
-    var ctx = document.getElementById(id).getContext('2d');
-    window.attendanceChart = new Chart(ctx, {
-        // type: 'pie',
+function makeChart(type, canvas, labels, title, data) {
+    let ctx = canvas.getContext('2d');
+    new Chart(ctx, {
         type: type,
         data: {
             labels: labels,
@@ -45,46 +37,29 @@ function makeChart(type, id, labels, title, data) {
         }
     });
 }
-function fetchStudentAttendanceData(csrf, url, op) {
-    sem = document.getElementById("sem").value
-    month = document.getElementById("month").value
-    if (url[url.length - 1] != '/') {
-        url += '/'
-    }
-    $.ajax({
-        method: 'POST',
-        url: url,
-        data: {
-            csrfmiddlewaretoken: csrf,
-            sem: sem,
-            month: month,
-        },
-        success: function (response) {
 
-            if (op == 1) {
-                setStudentAttendanceData(response)
+function createCharts() {
+
+    let chartBlocks = document.querySelectorAll(".chart-block");
+
+    chartBlocks.forEach(block => {
+        let canvas = null;
+        block.childNodes.forEach(element => {
+            if (element.tagName == 'CANVAS') {
+                canvas = element;
             }
-        }
-    })
-}
-function setStudentAttendanceData(tableData) {
+        });
+        if (canvas == null)
+            return;
 
-    // inserting data using ajax
-    table_data_body = document.getElementById("table_data_body")
-    table_data_body.innerHTML = ''
-    var sum = 0
-    var total = tableData.length
-    for (let idx = 0; idx < tableData.length; idx++) {
-        var status = tableData[idx].is_present ? 'Present' : 'Absent';
-        sum += tableData[idx].is_present ? 1 : 0
-        var row = `<tr>
-                <th scope="row">${idx + 1}</th>
-                <td>${tableData[idx].date}</td>
-                <td>${status}</td>
-                </tr>`
+        if (canvas.tagName != 'CANVAS')
+            canvas = block.childNodes[2];
 
-        table_data_body.innerHTML += row;
-    }
+        let type = canvas.getAttribute("type");
+        let labels = canvas.getAttribute("labels").split(", ");
+        let title = canvas.getAttribute("title").split(", ");
+        let data = canvas.getAttribute("data").split(", ");
 
-    makeChart("doughnut", "marksChart", ['Present', 'Absent'], '', [sum, total - sum]);
+        makeChart(type, canvas, labels, title, data);
+    });
 }

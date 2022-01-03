@@ -106,6 +106,10 @@ class StudentAttendance(models.Model):
     def enrollment(self):
         return self.student.user.username
 
+    @property
+    def name(self):
+        return self.student.full_name
+
     # for preventing duplicate attendance
     class Meta:
         unique_together = ("student_id", "date",)
@@ -122,7 +126,7 @@ class Book(models.Model):
 
     # for preventing
     # class Meta:
-        # unique_together = ("student", "book_id")
+    # unique_together = ("student", "book_id")
 
 
 # Student's Marks
@@ -130,7 +134,8 @@ class Mark(models.Model):
     student = models.ForeignKey(
         Student, related_name='mark', on_delete=models.CASCADE, to_field="student_id")
     semester = models.PositiveIntegerField()
-    result = models.CharField(max_length=4)
+    result = models.CharField(
+        choices=(('PASS', 'PASS',), ('FAIL', 'FAIL',),), default='PASS', max_length=4)
     sgpa = models.FloatField(verbose_name="SGPA")
     cgpa = models.FloatField(verbose_name="CGPA")
     file = models.FileField(upload_to='student_media/marks', unique=True)

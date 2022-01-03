@@ -35,103 +35,103 @@ Profile
                 <form action="" method="post">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Full Name</h5>
+                            <p>Full Name</p>
                         </div>
                         <div class="col-md-9">
                             {{ staff.first_name }} {{ staff.last_name }}
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Username</h5>
+                            <p>Username</p>
                         </div>
                         <div class="col-md-9">
                             {{staff}}
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Email</h5>
+                            <p>Email</p>
                         </div>
                         <div class="col-md-9">
                             <input type="email" class="form-control border-0" name="email" value="{{ staff.email }}"
                                 disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Department</h5>
+                            <p>Department</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="department" value="{{ staff.department }}"
                                 disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Expertise</h5>
+                            <p>Expertise</p>
                         </div>
                         <div class="col-md-9">
                             <input type="number" class="form-control border-0" name="expertise" value="{{ staff.expertise }}"
                                 disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Mobile No.</h5>
+                            <p>Mobile No.</p>
                         </div>
                         <div class="col-md-9">
                             <input type="tel" class="form-control border-0" name="mobile_no"
                                 value="{{ staff.mobile_no }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Gender</h5>
+                            <p>Gender</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="gender" value="{{ staff.gender }}"
                                 disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Date Of Birth</h5>
+                            <p>Date Of Birth</p>
                         </div>
                         <div class="col-md-9">
                             <input type="datetime" class="form-control border-0" name="date_of_birth"
                                 value="{{ staff.date_of_birth|date:'d/m/Y' }}" disabled>
                         </div>
                     </div>
-                    <hr>
-                    <hr>
+                    <hr class="m-1">
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Current Address</h5>
+                            <p>Current Address</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="current_address"
                                 value="{{ staff.current_address }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Permanent Address</h5>
+                            <p>Permanent Address</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="permanent_address"
                                 value="{{ staff.permanent_address }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <button type="submit" class="btn btnPrAnim border border-primary d-none"
                         id="submit-btn">Submit</button>
                 </form>

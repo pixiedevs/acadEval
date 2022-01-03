@@ -14,21 +14,26 @@ Classes
 <div class="container mt-3">
     <h4 class="text-center alert alert-info">Classes</h4>
 
-    {% for class in data %}
+    {% for class in request.data %}
     <div class="d-flex flex-column neupm2 mb-3">
-        <div class="d-flex flex-row p-2 justify-content-between pb-0">
+        <div class="d-flex flex-row p-2 justify-content-between flex-wrap pb-0">
             <div>
-                <b>{{ class.subject|title}} <i>By:</i> <small class="text-primary"><a
-                            >{{ class.tutor|title }}</a></small></b>
-                <p>{{ class.date }}</p>
+                <b>{{ class.subject|title}}</b>
+                <br>
+                <i>By:</i>
+                <small class="text-primary">
+                    <a>{{ class.tutor|title }}</a>
+                </small>
             </div>
             <div>
+                <p>{{ class.date }}</p>
                 <p>Time:- {{ class.start_time }} - {{ class.end_time }} </p>
             </div>
         </div>
 
         <div class="d-flex flex-row justify-content-end pe-2 ps-2">
-            <div><a href="{{ class.url }}"><button class="btn btn-outline-secondary ms-2 pt-1 pb-1">Join</button></a></div>
+            <div><a href="{{ class.url }}"><button class="btn btn-outline-secondary ms-2 pt-1 pb-1">Join</button></a>
+            </div>
         </div>
     </div>
     {% endfor %}

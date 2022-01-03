@@ -8,30 +8,61 @@ Dashboard
 {% block body %}
 {% block message %}{% endblock message %}
 {% load static %}
-<div class="cartDiv neupm">
-    <canvas id="attendanceChart"></canvas>
-
+<div class="chart-block neupm2 pt-1 mt-2">
+    <a href="{% url 'showStudentAttendance' %}">
+        <div class="text-center"><b>Semester {{user.student.semester}} Attendance</b></div>
+    </a>
+    <canvas id="attendanceChart" title="Semester {{user.student.semester}} Attendance" type="pie"
+        labels="Presents, Absents"
+        data="{{request.data.attendance.present}}, {{request.data.attendance.absent}}"></canvas>
+    <div class="d-flex justify-content-evenly flex-wrap">
+        <div> <i>Attendance: </i> <b>{{request.data.attendance.present}}</b></div>
+        <div> <i>Total Days: </i> <b>{{request.data.attendance.absent|add:request.data.attendance.present}}</b></div>
+    </div>
 </div>
 
-<div class="cartDiv neupm">
-    <canvas id="marksChart"></canvas>
+<div class="chart-block neupm2 pt-1 mt-2">
+    <a href="{% url 'showStudentAttendance' %}">
+        <div class="text-center"><b>Attendance of current month</b></div>
+    </a>
+    <canvas id="currentMonthAttendanceChart" title="Current Month Attendance" type="pie" @mounted="createCharts()"
+        labels="Presents, Absents"
+        :data="'{{ request.data.attendance.monthly | last | last }}, '+({{ request.data.attendance.monthly | last | first }}-{{ request.data.attendance.monthly | last | last }})"></canvas>
+    <div class="d-flex justify-content-evenly flex-wrap">
+        <div> <i>Attendance: </i> <b>{{ request.data.attendance.monthly | last | last }}</b></div>
+        <div> <i>Total Days: </i> <b>{{ request.data.attendance.monthly | last | first }}</b></div>
+    </div>
 </div>
 
-<div class="cartDiv neupm">
-    <canvas id="attendanceChart2"></canvas>
-
+<div class="chart-block neupm2 pt-1 mt-2">
+    <a href="{% url 'showStudentAttendance' %}">
+        <div class="text-center"><b>Attendance of all months</b></div>
+    </a>
+    <canvas id="monthlyAttendanceChart" title="Attendance of all months" type="bar"
+        labels="{% for at in request.data.attendance.months %}{{ at | first }}-{{ at | last }}{% if not forloop.last %}, {% endif %}{% endfor %}"
+        data="{% for at in request.data.attendance.monthly %}{{ at | last }}{% if not forloop.last %}, {% endif %}{% endfor %}"></canvas>
+    <div class="d-flex justify-content-around flex-wrap">
+        {% for at in request.data.attendance.monthly %}
+        <div> <i>At: </i> <b>{{ at | last }}</b></div>
+        {% endfor %}
+    </div>
 </div>
 
-<div class="cartDiv neupm">
-    <canvas id="marksChart2"></canvas>
+<div class="chart-block neupm2 pt-1 mt-2">
+    <a href="{% url 'showStudentMarks' %}">
+        <div class="text-center"><b>SGPA of all semesters</b></div>
+    </a>
+    <canvas id="marksChart2" title="" type="bar"
+        labels="{% for mark in request.data.marks %}{{mark.semester}}{% if not forloop.last %}, {% endif %}{% endfor %}"
+        data="{% for mark in request.data.marks %}{{mark.sgpa}}{% if not forloop.last %}, {% endif %}{% endfor %}"></canvas>
+    <div class="d-flex justify-content-around flex-wrap">
+        {% for mark in request.data.marks %}
+        <div> <b>{{ mark.sgpa }}</b></div>
+        {% endfor %}
+    </div>
 </div>
+
+
 
 <script src="{% static 'js/addons.js' %}"></script>
-<script>
-    makeChart("line", "attendanceChart", ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], '', [12, 21, 33, 5, 2, 12]);
-    makeChart("bar", "marksChart", ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Green', 'Purple'], '', [12, 21, 33, 5, 2, 12, 45, 16]);
-
-    makeChart("line", "attendanceChart2", ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], '', [12, 21, 33, 5, 2, 12]);
-    makeChart("doughnut", "marksChart2", ['Red', ''], '', [12, 100]);
-</script>
 {% endblock body %}

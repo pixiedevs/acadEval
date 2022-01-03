@@ -48,7 +48,7 @@ def viewAttendance(request):
     toDate = request.GET.get("toDate", datetime.date.today())
 
     attendance = (StudentAttendance.objects.filter(semester=semester, is_present=True, date__gte=fromDate if fromDate != "" else datetime.date.min,
-                    date__lte=toDate if toDate != "" else datetime.date.today()).annotate(enrollment=F("student__user")).values_list("enrollment").annotate(attendance=Count("is_present")).order_by())
+                                                   date__lte=toDate if toDate != "" else datetime.date.today()).annotate(enrollment=F("student__user")).annotate(name=F("student__first_name")).values_list("enrollment", "name").annotate(attendance=Count("is_present")).order_by())
 
     if export:
         response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -61,7 +61,7 @@ def viewAttendance(request):
 
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
-        columns = ['student', 'attendance']
+        columns = ['student', 'name', 'attendance']
 
         for col in range(len(columns)):
             ws.write(row_num, col, columns[col], font_style)
@@ -89,7 +89,7 @@ def addAttendanceByEnroll(request):
         enrolls = request.POST["EnrollInput"].upper()
         semester = request.POST["semesterInput"]
         date = request.POST["dateInput"]
-        present = bool(request.POST.get("presentInput", "off"))
+        present = bool(True if request.POST.get("presentInput", "off") == "on" else False)
 
         enrolls = enrolls.split(", ")
         if(len(enrolls) == 1):
@@ -104,12 +104,17 @@ def addAttendanceByEnroll(request):
                 else:
                     student = Student.objects.get(
                         branch=request.user.profile.staff.department, user=enroll)
-                StudentAttendance.objects.update_or_create(
-                    student=student, semester=semester, date=date, is_present=present)
+                    at = StudentAttendance.objects.filter(
+                        student=student, semester=semester, date=date).first()
+                    if at == None:
+                        at = StudentAttendance.objects.create(
+                            student=student, semester=semester, date=date, is_present=present)
+                    else:
+                        at.is_present=present
+                        at.save()
             except:
                 error_info += (enroll+", ")
                 enrolls_count -= 1
-                # messages.ERROR(request, "There is a problem with adding attendance!")
 
         messages.success(
             request, f'Attendance of {enrolls_count} students has been added successfully.\n{error_info if len(error_info) != 0 else ""}')

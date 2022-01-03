@@ -48,7 +48,7 @@
                 </select>
             </div>
             {% endif %}
-            
+
             <div class="p-2">
                 <label for="export">In xls:</label>
                 <input type="checkbox" name="export" id="export">
@@ -64,6 +64,7 @@
                 <tr>
                     <th>#</th>
                     <th>Enrollment</th>
+                    <th>Name</th>
                     <th>%</th>
                 </tr>
             </thead>
@@ -79,11 +80,11 @@
             <tbody>
 
                 {% for at in data.attendance %}
-                <tr onclick="showModal({ student: 'Enroll: {{at.enrollment}}<br>', result: '{{ at.attendance }}'})">
-                    <!-- <th scope="row">{{forloop.counter}}</th> -->
-                    <td> {{ forloop.counter }}</td>
+                <tr onclick="showModal({ student: {enrollment:'{{at.0}}', name:'{{at.1}}'}, result: '{{ at.2 }}'})">
+                    <th scope="row">{{forloop.counter}}</th>
                     <td> {{at.0}}</td>
                     <td> {{at.1}}</td>
+                    <td> {{at.2}}</td>
                 </tr>
                 {% endfor %}
 
@@ -104,6 +105,9 @@
 
                 </div>
                 <div class="modal-footer">
+                    <a href="#" class="student-profile">
+                        <button type="button" class="btn btn-primary">View Profile</button>
+                    </a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -118,30 +122,12 @@
 
 
     function showModal({ student, result }) {
-        document.getElementById("exampleModalLabel").innerHTML = student
+        var studentLink = document.querySelector("a.student-profile")
+        studentLink.setAttribute("href", '/staff/students/' + student.enrollment + '/');
+        document.getElementById("exampleModalLabel").innerHTML = 'Enroll: ' + student.enrollment + '\n Name: '+student.name;
         document.getElementsByClassName("modal-body")[0].innerHTML = "Attendance: " + result
         var myModal = new bootstrap.Modal(document.getElementById('student-result'))
         myModal.show()
     }
-    // function exportData() {
-    //     url = window.location.href;
-    //     // if(document.getElementById("br"))
-    //     data = new Object();
-    //     if(this.branch)
-    //         data.branch = this.branch;
-
-    //         data.sem = this.sem;
-    //         data.fromDate = this.fromDate;
-    //         data.toDate = this.toDate;
-            
-    //     $.ajax({
-    //         method: 'GET',
-    //         data: data,
-    //         url: url,
-    //         success: function (response) {
-    //             console.log("exported");
-    //         }
-    //     })
-    // }
 </script>
 {% endblock body %}

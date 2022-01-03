@@ -9,7 +9,7 @@ Marks
 <!-- main section -->
 {% load static %}
 <div class="row container mt-5">
-    <table class="col table table-striped neupm">
+    <table class="col table table-striped neupm2">
         <tbody>
             <tr>
                 <td scope="row">Name: <b>{{ user.get_full_name }}</b></td>
@@ -26,7 +26,7 @@ Marks
 
     <div class="col-lg">
         <div class="row">
-            <table class="table table-striped neupm">
+            <table class="table table-striped neupm2">
                 <thead>
                     <tr>
                         <th scope="col">Sem</th>
@@ -45,11 +45,11 @@ Marks
                         <td>{{ mark.cgpa }}</td>
                         {% if mark.result %}
                         <td><a href="?sem={{key}}&req=view">
-                                view
+                                <button class="btn btn-secondary pt-0 pb-0">view</button>
                             </a></td>
                         {%else%}
                         <td><a href="?sem={{key}}&req=add">
-                                add
+                                <button class="btn btn-secondary pt-0 pb-0">add</button>
                             </a></td>
                         {%endif%}
                     </tr>

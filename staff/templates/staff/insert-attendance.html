@@ -18,6 +18,7 @@
             <label for="EnrollInput">Enrollments: <small id="wordCount"></small></label><br>
             <textarea class="form-control" name="EnrollInput" id="EnrollInput" placeholder="Comma ', ' separated"
                 onchange="validateEnrollments()" required></textarea>
+            <button class="btn" type="button" onclick="clearInroll()"><i class="btn-outline-danger">clear</i></button>
         </div>
         {% csrf_token %}
         <div class="form-group">
@@ -38,7 +39,7 @@
         {% endcomment %}
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="presentInput" name="presentInput" checked required>
+            <input class="form-check-input" type="checkbox" id="presentInput" name="presentInput" checked>
             <label class="form-check-label" for="presentInput">Is Present</label>
         </div>
         <div class="form-group d-flex justify-content-center mb-3 mt-3">
@@ -51,8 +52,8 @@
     <form>
         <div class="mb-3">
             <div class="form-group">
-                <label for="attendanceFileInput">Excel file:</label><br>
-                <input type="file" class="form-control-file" id="attendanceFileInput">
+                <label for="attendanceFileInput">Excel file: <b class="text-warning">UPCOMING</b> </label><br>
+                <input type="file" class="form-control-file" id="attendanceFileInput" disabled>
             </div>
             <div class="form-group mt-3">
                 <button class="btn btn-outline-secondary" type="submit" disabled>Submit</button>
@@ -141,6 +142,11 @@
     if (this.EnrollInput.value.length > 50 && this.EnrollInput.value.length < 250) {
         console.log(this.EnrollInput.value.length);
         this.EnrollInput.style.height = this.EnrollInput.value.length * 2;
+    }
+
+    function clearInroll() {
+        this.EnrollInput.value = "";
+        sessionStorage.attendanceEnrolls = "";
     }
 
     function validateEnrollments() {

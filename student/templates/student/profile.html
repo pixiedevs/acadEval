@@ -18,11 +18,7 @@ Profile
             <div class="card-body-center">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <img src="{% static 'img/logo.png' %}" class="round-circle" width="150">
-                        {% if user.student == student %}
-                        <button class="btn btnPrAnim border border-primary align-self-center"
-                            id="update-btn">UPDATE</button>
-                        {% endif %}
+                        <img src="{% static 'img/logo.png' %}" alt="profile pic" class="round-circle" width="150">
                     </div>
                 </div>
             </div>
@@ -30,183 +26,170 @@ Profile
     </div>
     <div class="col mt-1">
         <div class="card mb-3 content neupm">
-            <h1 class="m-3 pt-3">About</h1>
             <div class="card-body">
                 <form action="" method="post">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Full Name</h5>
+                            <p>Full Name</p>
                         </div>
                         <div class="col-md-9">
                             {{ student.first_name }} {{ student.last_name }}
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Email</h5>
+                            <p>Enrollment</p>
                         </div>
                         <div class="col-md-9">
-                            <input type="email" class="form-control border-0" name="email" value="{{ student.email }}"
-                                disabled>
+                            {{ student.user }}
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Fathers Name</h5>
+                            <p>Student ID</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.student_id }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Email</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.email }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Semester</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.semester }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Year</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.year }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Batch year</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.batch_year }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Gender</p>
+                        </div>
+                        <div class="col-md-9">
+                            {{ student.gender }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Date Of Birth</p>
+                        </div>
+                        {% csrf_token %}
+                        <div class="col-md-9">
+                            <input type="datetime" class="border-0" name="date_of_birth"
+                                value="{{ student.date_of_birth|date:'d/m/Y' }}" disabled>
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p>Fathers Name</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="father_name"
                                 value="{{ student.father_name }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Student ID</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="student_id"
-                                value="{{ student.student_id }}" disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Enrollment No.</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="user" value="{{ student.user }}"
-                                disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Branch</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="branch" value="{{ student.branch }}"
-                                disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Batch Year</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="number" class="form-control border-0" name="batch_year"
-                                value="{{ student.batch_year }}" disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Semester</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="semester"
-                                value="{{ student.semester }}" disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Year</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="number" class="form-control border-0" name="year" value="{{ student.year }}"
-                                disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Mobile No.</h5>
+                            <p>Mobile No.</p>
                         </div>
                         <div class="col-md-9">
                             <input type="tel" class="form-control border-0" name="mobile_no"
                                 value="{{ student.mobile_no }}" disabled>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Gender</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="gender" value="{{ student.gender }}"
-                                disabled>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>Date Of Birth</h5>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="datetime" class="form-control border-0" name="date_of_birth"
-                                value="{{ student.date_of_birth|date:'d/m/Y' }}" disabled>
-                        </div>
-                    </div>
-                    <hr>
+                    <hr class="m-1">
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Fathers Mobile No.</h5>
+                            <p>Fathers Mobile No.</p>
                         </div>
                         <div class="col-md-9">
                             <input type="tel" class="form-control border-0" name="father_mobile_no"
                                 value="{{ student.father_mobile_no }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Current Address</h5>
+                            <p>Current Address</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="current_address"
                                 value="{{ student.current_address }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Permanent Address</h5>
+                            <p>Permanent Address</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="permanent_address"
                                 value="{{ student.permanent_address }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
 
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Guardian Name</h5>
+                            <p>Guardian Name</p>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control border-0" name="guardian_name"
                                 value="{{ student.guardian_name }}" disabled>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-1">
                     <div class="row">
                         <div class="col-md-3">
-                            <h5>Guardian Mobile No.</h5>
+                            <p>Guardian Mobile No.</p>
                         </div>
                         <div class="col-md-9">
                             <input type="tel" class="form-control border-0" name="guardian_mobile_no"
                                 value="{{ student.guardian_mobile_no }}" disabled>
                         </div>
                     </div>
-                    <hr>
-                    <button type="submit" class="btn btnPrAnim border border-primary d-none"
-                        id="submit-btn">Submit</button>
+                    <hr class="m-1">
+                    <button type="submit" class="btn btnPrAnim border border-primary" id="submit-btn"
+                        disabled>Update</button>
+                    {% if user.student == student %}
+                    <button type="button" class="btn btnPrAnim border border-primary align-self-center"
+                        id="update-btn">EDIT</button>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -227,11 +210,13 @@ Profile
 
                 allInput[idx].classList.toggle("border-0")
             }
-            document.querySelector("#submit-btn").classList.toggle("d-none")
-            if (update_btn.innerText == "UPDATE")
+
+            submit_btn = document.querySelector("#submit-btn");
+            submit_btn.disabled = submit_btn.disabled == true ? false : true;
+            if (update_btn.innerText == "EDIT")
                 update_btn.innerText = "CANCEL"
             else
-                update_btn.innerText = "UPDATE"
+                update_btn.innerText = "EDIT"
         }
 </script>
 {% endif %}

@@ -19,7 +19,7 @@
 #inBody.darkmode main {
     background: var(--dark-bg);
 }
-#inBody.darkmode main .cartDiv {
+#inBody.darkmode main .chart-block {
     background: var(--dark-bg);
     /* 
     border-top: 1px solid rgba(0, 0, 0, 0.25);
@@ -64,6 +64,9 @@
     -5px -5px 10px #3b3b3b;
     border: 8px solid #202020;
     color: #ececec;
+}
+#inBody.darkmode .neupm2 .text-muted {
+    color: #d4d4d4 !important;
 }
 #inBody.darkmode .neupm2-sm,
 #inBody.darkmode .neupm-sm {

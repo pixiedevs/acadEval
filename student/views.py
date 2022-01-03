@@ -1,6 +1,5 @@
 from staff.models import StudentNote
-from staff.views import attendance
-from student.models import Book, Mark, Student, StudentAttendance, StudentClass
+from student.models import Book, Mark, Student, StudentClass
 from main.models import Notice
 from django.http.response import JsonResponse
 from main.decoraters import student_only
@@ -14,10 +13,28 @@ from .forms import BookForm
 
 @student_only
 def index(request):
-    student = request.user.student
-    dbg = attendance.objects.filter(semester=student.semester)
-    print(dbg)
-    # student.attendance
+    semester = request.user.student.semester
+    dateData = request.user.student.attendance.filter(
+        semester=semester).values_list('date__year', 'date__month').distinct()
+
+    request.data = {}
+    request.data["attendance"] = {"absent": 0, "present": 0, "monthly": [], "months": []}
+    request.data["attendance"]["monthly"] = []
+
+    for (year, month,) in dateData:
+        daysCount = calendar.monthrange(year, month)[1]
+        request.data["attendance"]["absent"] += daysCount
+        attendance = request.user.student.attendance.filter(
+            semester=semester, date__year=year, date__month=month).count()
+        request.data["attendance"]["present"] += attendance
+
+        request.data["attendance"]["months"].append([month, year])
+        request.data["attendance"]["monthly"].append([daysCount, attendance])
+
+    request.data["attendance"]["absent"] -= request.data["attendance"]["present"]
+
+    request.data["marks"] = request.user.student.mark.filter(result='PASS').order_by("semester", '-id').values("semester", "sgpa")
+
     return render(request, 'student/index.html')
 
 
@@ -150,9 +167,9 @@ def viewNotice(request, id):
 
 
 def StudentClasses(request):
-    data = sorted(StudentClass.objects.filter(
+    request.data = sorted(StudentClass.objects.filter(
         branch__icontains=request.user.student.branch, semester=request.user.student.semester), key=lambda x: x.date, reverse=True)
-    return render(request, 'student/classes.html', {"data": data, "dataName": "Class"})
+    return render(request, 'student/classes.html')
 
 
 @student_only
