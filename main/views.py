@@ -15,7 +15,7 @@ def index(request):
 
 # without login
 def about(request):
-    return render(request, "main/index.html")
+    return render(request, "main/about.html")
 
 
 # without login
