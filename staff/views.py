@@ -10,14 +10,45 @@ from django.contrib import messages
 from django.contrib.auth.models import Group
 from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 import datetime
-from main.resources import StudentAttendanceResource
 from django.http.response import HttpResponse
 from django.db.models import Count
 # Create your views here.
+semesters = [i for i in range(1, 9)]
+branches = "CSE, IT, ECE, ME, CE"
 
 
 @staff_only
 def index(request):
+    request.data = {}
+    staff = request.user.profile.staff
+    semester = request.GET.get('semester', 7)
+    branch = request.GET.get('branch', 'CSE')
+
+    if request.user.profile.is_teacher:
+        request.data["classes"] = StudentClass.objects.filter(
+            tutor=request.user,
+            branch__icontains=branch, semester=semester).order_by("-date")[:5]
+        request.data["notices"] = Notice.objects.filter(
+            branch__icontains=staff.department).order_by("-modified_at")[:5]
+
+    elif request.user.profile.is_hod:
+        request.data["classes"] = StudentClass.objects.filter(
+            branch__icontains=staff.department, semester=semester).order_by("-date")[:5]
+        request.data["notices"] = Notice.objects.filter(
+            branch__icontains=staff.department).order_by("-modified_at")[:5]
+
+    else:
+        request.data["classes"] = StudentClass.objects.filter(
+            branch__icontains=branch, semester=semester).order_by(
+            "-date")[:5]
+        request.data["notices"] = Notice.objects.filter(
+            branch__icontains=branch).order_by("-modified_at")[:5]
+
+    request.data["semesters"] = semesters
+    request.data["branches"] = branches.split(", ")
+    request.data["semester"] = semester
+    request.data["branch"] = branch
+
     return render(request, 'staff/index.html')
 
 
@@ -29,7 +60,6 @@ def viewProfile(request):
 
 @staff_only
 def attendance(request):
-    branches = "CSE, IT, ECE, ME, CE"
     data = {"branches": branches.split(", "), "semesters": range(1, 9)}
 
     return render(request, 'staff/insert-attendance.html', {"data": data})
@@ -89,7 +119,8 @@ def addAttendanceByEnroll(request):
         enrolls = request.POST["EnrollInput"].upper()
         semester = request.POST["semesterInput"]
         date = request.POST["dateInput"]
-        present = bool(True if request.POST.get("presentInput", "off") == "on" else False)
+        present = bool(True if request.POST.get(
+            "presentInput", "off") == "on" else False)
 
         enrolls = enrolls.split(", ")
         if(len(enrolls) == 1):
@@ -110,7 +141,7 @@ def addAttendanceByEnroll(request):
                         at = StudentAttendance.objects.create(
                             student=student, semester=semester, date=date, is_present=present)
                     else:
-                        at.is_present=present
+                        at.is_present = present
                         at.save()
             except:
                 error_info += (enroll+", ")
@@ -159,8 +190,8 @@ def library(request):
 @staff_only
 def classes(request):
 
-    data = sorted(StudentClass.objects.filter(
-        branch__icontains=request.user.profile.staff.department), key=lambda x: x.date, reverse=True)
+    data = StudentClass.objects.filter(
+        branch__icontains=request.user.profile.staff.department).order_by("-date")
     return render(request, 'staff/classes.html', {"data": data, "dataName": "Class"})
 
 
@@ -314,8 +345,8 @@ def addHod(request):
 # views for notice
 @staff_only
 def viewAllNotices(request):
-    notices = sorted(Notice.objects.filter(
-        branch=request.user.profile.staff.department), key=lambda x: x.modified_at.date(), reverse=True)
+    notices = Notice.objects.filter(
+        branch=request.user.profile.staff.department).order_by("-modified_at")
     return render(request, "staff/view-all-notices.html", {"data": notices, "dataName": "notice"})
 
 
@@ -379,8 +410,8 @@ def viewStaffNotes(request):
 
 @staff_only
 def viewAllNotesByStaff(request):
-    notes = sorted(StudentNote.objects.filter(created_by=request.user),
-                   key=lambda x: x.modified_at.date(), reverse=True)
+    notes = StudentNote.objects.filter(
+        created_by=request.user).order_by("-modified_at")
 
     if notes is None or len(notes) == 0:
         return redirect('add_note')

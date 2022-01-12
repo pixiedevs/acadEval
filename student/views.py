@@ -37,11 +37,11 @@ def index(request):
     request.data["marks"] = request.user.student.mark.filter(
         result='PASS').order_by("semester", '-id').values("semester", "sgpa")
 
-    request.data["classes"] = sorted(StudentClass.objects.filter(
-        branch__icontains=request.user.student.branch, semester=request.user.student.semester), key=lambda x: x.date, reverse=True)
+    request.data["classes"] = StudentClass.objects.filter(
+        branch__icontains=request.user.student.branch, semester=request.user.student.semester).order_by("-date")
 
-    request.data["notices"] = sorted(Notice.objects.filter(
-        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
+    request.data["notices"] = Notice.objects.filter(
+        branch=request.user.student.branch).order_by("-modified_at")
 
     return render(request, 'student/index.html')
 
@@ -183,16 +183,16 @@ def viewNote(request, id):
 
 @student_only
 def viewAllNotes(request):
-    notes = sorted(StudentNote.objects.filter(
-        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
+    notes = StudentNote.objects.filter(
+        branch=request.user.student.branch).order_by("-modified_at")
     return render(request, 'staff/view-all-notices.html', {"data": notes, "dataName": "note"})
 
 
 # for student notice created by staff
 @student_only
 def viewAllNotices(request):
-    notices = sorted(Notice.objects.filter(
-        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
+    notices = Notice.objects.filter(
+        branch=request.user.student.branch).order_by("-modified_at")
     return render(request, "staff/view-all-notices.html", {"data": notices, "dataName": "notice"})
 
 
@@ -203,8 +203,8 @@ def viewNotice(request, id):
 
 
 def StudentClasses(request):
-    request.data = sorted(StudentClass.objects.filter(
-        branch__icontains=request.user.student.branch, semester=request.user.student.semester), key=lambda x: x.date, reverse=True)
+    request.data = StudentClass.objects.filter(
+        branch__icontains=request.user.student.branch, semester=request.user.student.semester).order_by("-date")
     return render(request, 'student/classes.html')
 
 

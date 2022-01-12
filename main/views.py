@@ -15,7 +15,7 @@ def index(request):
 
 # without login
 def about(request):
-    return render(request, "main/index.html")
+    return render(request, "main/about.html")
 
 
 # without login
@@ -47,16 +47,10 @@ def contact(request):
 # for redirect to dashboard as type
 @auth_req
 def dashboardAsType(request):
-    if request.user.profile.type == "student":
+    if request.user.profile.type_url == "student":
         return redirect('studentHome')
 
-    elif request.user.profile.type == "director":
-        return redirect('s_Home')
-
-    elif request.user.profile.type == "hod":
-        return redirect('s_Home')
-
-    elif request.user.profile.type == "teacher":
+    elif request.user.profile.type_url == "staff":
         return redirect('s_Home')
 
     return redirect('home')
@@ -66,15 +60,14 @@ def dashboardAsType(request):
 @unauth_req
 def loginHandle(request):
     if request.method == 'POST':
-        loginUsername = request.POST['username']
-        loginpassword = request.POST['password']
-        print(loginpassword)
+        loginUsername = request.POST.get('username', '')
+        loginpassword = request.POST.get('password', '')
 
         user = authenticate(username=loginUsername, password=loginpassword)
         if user is not None:
             login(request, user)
             messages.success(request, "You are successfully Logged In")
-            return redirect('home')
+            return redirect('dashboard')
 
         else:
             messages.error(

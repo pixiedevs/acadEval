@@ -22,7 +22,7 @@ class Profile(models.Model):
     is_teacher = models.BooleanField(default=False)
     is_hod = models.BooleanField(default=False)
     is_director = models.BooleanField(default=False)
-    data = models.JSONField(default=dict)
+    # data = models.JSONField(default=dict)
 
     @property
     def type(self) -> str:

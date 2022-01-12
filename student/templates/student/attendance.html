@@ -36,7 +36,7 @@ Attendance
                         <label for="sem">Select semester:</label>
                         <select name="sem" id="sem">
                             {% for s in sem %}
-                            <option value="{{s}}" {% if s is sem|last %}selected {% endif %}>{{s}}</option>
+                            <option value="{{s}}" {% if forloop.last %}selected {% endif %}>{{s}}</option>
                             {% endfor %}
 
                         </select>
@@ -46,7 +46,7 @@ Attendance
 
                         <select name="month" id="month">
                             {% for m in month %}
-                            <option value="{{ forloop.counter }}" {% if m is month|last %}selected {% endif %}>{{m}}
+                            <option value="{{ forloop.counter }}" {% if forloop.last %}selected {% endif %}>{{m}}
                             </option>
                             {% endfor %}
 
