@@ -4,7 +4,7 @@
         <li class="logo">
             <a href="/{{ user.profile.type_url }}/profile/" class="sidebar-link">
                 <span class="link-text logo-text">
-                    {{user.username}} <br><small class="blink-me">View Profile</small>
+                    {{user.username}}
                 </span>
                 <div class="icon">
                     <img src="{% static 'img/male.svg' %}" alt="">
@@ -12,6 +12,25 @@
             </a>
         </li>
 
+        <li class="sidebar-item">
+            <a href="/{{ user.profile.type_url }}/profile/" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-user-graduate fa-lg"></i>
+
+                </div>
+                <span class="link-text">Profile</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="/{{ user.profile.type_url }}/" class="sidebar-link">
+                <div class="icon">
+                    <i class="fas fa-tachometer-alt fa-lg"></i>
+
+                </div>
+                <span class="link-text">Dashboard</span>
+            </a>
+        </li>
         {% if user.profile.is_staff %}
         <li class="sidebar-item">
             <a href="/{{ user.profile.type_url }}/students/" class="sidebar-link">

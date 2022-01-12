@@ -1,6 +1,6 @@
 function makeChart(type, canvas, labels, title, data) {
     let ctx = canvas.getContext('2d');
-    new Chart(ctx, {
+    return new Chart(ctx, {
         type: type,
         data: {
             labels: labels,
@@ -37,7 +37,7 @@ function makeChart(type, canvas, labels, title, data) {
         }
     });
 }
-
+var chart;
 function createCharts() {
 
     let chartBlocks = document.querySelectorAll(".chart-block");
@@ -59,7 +59,33 @@ function createCharts() {
         let labels = canvas.getAttribute("labels").split(", ");
         let title = canvas.getAttribute("title").split(", ");
         let data = canvas.getAttribute("data").split(", ");
-
-        makeChart(type, canvas, labels, title, data);
+        try {
+            chart = makeChart(type, canvas, labels, title, data);
+        } catch {
+            chart.destroy();
+            chart = makeChart(type, canvas, labels, title, data);
+        }
     });
+}
+update_btn = document.querySelector("#update-btn")
+if (update_btn) {
+    update_btn.onclick =
+    function dataUpdate() {
+        allInput = document.querySelectorAll(".form-control")
+        for (let idx = 0; idx < allInput.length; idx++) {
+            if (allInput[idx].disabled == true)
+                allInput[idx].disabled = false
+            else
+                allInput[idx].disabled = true
+
+            allInput[idx].classList.toggle("border-0")
+        }
+
+        submit_btn = document.querySelector("#submit-btn");
+        submit_btn.disabled = submit_btn.disabled == true ? false : true;
+        if (update_btn.innerText == "EDIT")
+            update_btn.innerText = "CANCEL"
+        else
+            update_btn.innerText = "EDIT"
+    }
 }

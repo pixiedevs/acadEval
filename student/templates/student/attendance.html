@@ -94,12 +94,20 @@ Attendance
     </div>
 
     <div class="col-sm-3 mt-5">
-        <div class="chart-block neupm2">
-            <canvas id="marksChart"></canvas>
+        <div class="chart-block neupm2" v-if="store.state.attendance.show">
+            <canvas id="attendanceChart" title="Month Attendance" type="doughnut"
+            labels="Presents, Absents"
+            data="3, 5"></canvas>
+            <div class="d-flex justify-content-evenly flex-wrap">
+                <div class="text-center"><b v-html="store.state.attendance.data.percentage">Percentage</b><i>%</i></div>
+                <div> <i>Presents: </i> <b v-html="store.state.attendance.data.present"></b></div>
+                <div> <i>Absents: </i> <b v-html="store.state.attendance.data.absent"></b></div>
+            </div>
         </div>
 
     </div>
 </div>
 <!-- Body block End -->
+<script src="{% static 'js/addons.js' %}"></script>
 
 {% endblock body %}

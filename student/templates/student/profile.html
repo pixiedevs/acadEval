@@ -27,7 +27,7 @@ Profile
     <div class="col mt-1">
         <div class="card mb-3 content neupm">
             <div class="card-body">
-                <form action="" method="post">
+                <form action="update/" method="post">
                     <div class="row">
                         <div class="col-md-3">
                             <p>Full Name</p>
@@ -183,10 +183,10 @@ Profile
                                 value="{{ student.guardian_mobile_no }}" disabled>
                         </div>
                     </div>
+                    {% if user.student == student %}
                     <hr class="m-1">
                     <button type="submit" class="btn btnPrAnim border border-primary" id="submit-btn"
                         disabled>Update</button>
-                    {% if user.student == student %}
                     <button type="button" class="btn btnPrAnim border border-primary align-self-center"
                         id="update-btn">EDIT</button>
                     {% endif %}
@@ -197,27 +197,6 @@ Profile
 </div>
 
 {% if user.student == student %}
-<script>
-    update_btn = document.querySelector("#update-btn")
-    update_btn.onclick =
-        function dataUpdate() {
-            allInput = document.querySelectorAll(".form-control")
-            for (let idx = 0; idx < allInput.length; idx++) {
-                if (allInput[idx].disabled == true)
-                    allInput[idx].disabled = false
-                else
-                    allInput[idx].disabled = true
-
-                allInput[idx].classList.toggle("border-0")
-            }
-
-            submit_btn = document.querySelector("#submit-btn");
-            submit_btn.disabled = submit_btn.disabled == true ? false : true;
-            if (update_btn.innerText == "EDIT")
-                update_btn.innerText = "CANCEL"
-            else
-                update_btn.innerText = "EDIT"
-        }
-</script>
+<script src="/static/js/addons.js"></script>
 {% endif %}
 {% endblock body %}

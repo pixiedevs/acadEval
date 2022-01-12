@@ -18,7 +18,8 @@ def index(request):
         semester=semester).values_list('date__year', 'date__month').distinct()
 
     request.data = {}
-    request.data["attendance"] = {"absent": 0, "present": 0, "monthly": [], "months": []}
+    request.data["attendance"] = {"absent": 0,
+                                  "present": 0, "monthly": [], "months": []}
     request.data["attendance"]["monthly"] = []
 
     for (year, month,) in dateData:
@@ -33,7 +34,14 @@ def index(request):
 
     request.data["attendance"]["absent"] -= request.data["attendance"]["present"]
 
-    request.data["marks"] = request.user.student.mark.filter(result='PASS').order_by("semester", '-id').values("semester", "sgpa")
+    request.data["marks"] = request.user.student.mark.filter(
+        result='PASS').order_by("semester", '-id').values("semester", "sgpa")
+
+    request.data["classes"] = sorted(StudentClass.objects.filter(
+        branch__icontains=request.user.student.branch, semester=request.user.student.semester), key=lambda x: x.date, reverse=True)
+
+    request.data["notices"] = sorted(Notice.objects.filter(
+        branch=request.user.student.branch), key=lambda x: x.modified_at.date(), reverse=True)
 
     return render(request, 'student/index.html')
 
@@ -136,6 +144,34 @@ def deleteBook(request, id):
 def viewProfile(request):
     student = request.user.student
     return render(request, 'student/profile.html', {"student": student})
+
+
+@student_only
+def updateProfile(request):
+    if request.method == 'POST':
+        if request.POST.get('father_name', '') != '':
+            request.user.student.father_name = request.POST.get(
+                'father_name', '')
+        if request.POST.get('mobile_no', '') != '':
+            request.user.student.mobile_no = request.POST.get('mobile_no', '')
+        if request.POST.get('father_mobile_no', '') != '':
+            request.user.student.father_mobile_no = request.POST.get(
+                'father_mobile_no', '')
+        if request.POST.get('permanent_address', '') != '':
+            request.user.student.permanent_address = request.POST.get(
+                'permanent_address', '')
+        if request.POST.get('current_address', '') != '':
+            request.user.student.current_address = request.POST.get(
+                'current_address', '')
+        if request.POST.get('guardian_name', '') != '':
+            request.user.student.guardian_name = request.POST.get(
+                'guardian_name', '')
+        if request.POST.get('guardian_mobile_no', '') != '':
+            request.user.student.guardian_mobile_no = request.POST.get(
+                'guardian_mobile_no', '')
+        request.user.student.save()
+
+    return redirect('view_profile')
 
 
 # for student notes made/provided by teachers

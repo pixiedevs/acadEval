@@ -21,7 +21,7 @@ const store = PetiteVue.reactive({
         },
         attendance: {
             data: { attendance: null, present: 0, absent: 0 },
-            show: false,
+            show: true,
             async fetch() {
                 await axios.get('/student/attendance',
                     { params: { type: "api", sem: document.getElementById("sem").value, month: document.getElementById("month").value } })
@@ -29,10 +29,14 @@ const store = PetiteVue.reactive({
                         this.data = response.data;
                         if (this.data == '') {
                             this.show = false;
+                            if(chart) chart.destroy();
                         }
-                        else
+                        else {
                             this.show = true;
-                        makeChart("doughnut", "marksChart", ['Present', 'Absent'], '', [this.data.present ?? 0, this.data.absent ?? 0]);
+                            this.data.percentage = Math.floor((this.data.present * 100) / (this.data.absent + this.data.present));
+                            document.querySelector("canvas").setAttribute("data", (this.data.present + ', ' + this.data.absent));
+                            createCharts();
+                        }
                     })
             }
         },
