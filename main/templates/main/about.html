@@ -8,4 +8,122 @@ About
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+
+<div class="about-section">
+    <div class="column1">
+      <div class="card">
+        <img src="{% static 'img/acadeval.gif' %}" alt="Technocrats Institute of Technology" style="width:600px">
+        
+      </div>
+    </div> 
+    <h1>About Us</h1>
+    <p class = "p1">AcadEval is a web application which aims to evaluate the performance of students in 
+      their academics by considering their marks like external, internal and attendance. The fuzzy logic is employee 
+      for calculating the performance of students in an effective way. 
+      The evaluation of student’s academic domain is a significant and challenging task faced by every institution 
+      and parents for the betterment of the children life. This gives emerge to numerous software and techniques. 
+      The exams are being conducted and are maintained as record such that it could be employed for future performance 
+      evaluation. The various attributes should be taken into account for the performance analysis. The attributes involves 
+      the internal marks, external marks and attendance of the students. This attributes are evaluated by means of fuzzy 
+      logic which eliminates the usage of formulas. The summing up is performed for the evaluation of performance by this 
+      method. This system is more flexible as the fuzzy logic method allows user to implement subjectivity, uncertainty of 
+      the values if demanded by the system. The results obtained in this model are more effective when compared to other 
+      statistical methods. The performance evaluation in comparison is performed for analysing the student activity in their 
+      students. The attendance is also considered to be an important criterion in this evaluation as it also determines the 
+      performance. The data will not be lost easily and is of error free in this system.</p>
+  </div>
+  <center>
+      <div class="column1">
+      <div class="card">
+        <img src="{% static 'img/tit.jpg' %}" alt="Jane" style="width:50%">
+        <div class="container">
+          <h2>Our Institution</h2>
+          <p class="title">Technocrats Group Of Institutions</p>
+          <p class="p2">Technocrats Group of Institutions is the oldest and largest NBA Accredited Education group in central India. 
+  It is affiliated to RGPV - Rajiv Gandhi Proudyogiki Vishwavidyalaya. The college is ranked 97th for Engineering 
+  by Times 2018.
+  
+  Founded in year 1999, Technocrats Group of Institutions is one of the Central India's largest and oldest Educational 
+  Group led by a team of IIT, IIM and Stanford University Alumni. Technocrats Group of Institution comprises of 4 
+  Engineering, 1 Management, 2 Pharmacy, 1 Commerce Law and Sciences and 1 Flim and Design institutes with about 16,000+ 
+  students and 1,326+ faculty members on campus, offering courses from Undergraduate upto Doctoral level.
+  
+  The group has MoUs with University of Cincinnati, University of Central Missouri, Tokyo Institute of Technology 
+  for research, King Mongkut’s University of Technology, Namibia University of Science and Technology and California 
+  Baptist University, academics as well as student exchange programs.
+  
+  The group also has Innovation Centers of Bosch, Dassault Systems, RedHat, Oracle, AWS, Bentley, Mitsubishi Electric, 
+  Siemens, Google and Texas Instruments to prepare students for industry.
+  
+  The group is the largest Technical Educational Group in Central India to have NBA Accreditation.
+  
+  The group was awarded as the "Best Engineering Institute in Central India" by Smriti Irani Hon'ble Minister of Women 
+  and Child Development, Govt. of India, at ASSOCHAM Summit & Awards 2019.
+  
+  The major recruiters that visited Technocrats Group last year included SAP, E&Y, Goldman Sachs, S&P Global, Amazon, 
+  Paytm, IBM, Capgemini, TCS, Infosys, Wipro, Mphasis, Hexaware, Virtusa, HCL, Ashok Leyland, Tech Mahindra, TATA Motors, 
+  TATA Hitachi, SONY, Calvin Klein, Tommy Hilfiger and many more.</p>
+          <p><button class="button">Read More</button></p>
+        </div>
+      </div>
+    </div>
+   </center>
+  <h2 style= "color: white">Our Team</h2>
+  <div class="row">
+    <div class="column">
+      <div class="card">
+        <img src="{% static 'img/PraPhoto.jpg' %}" alt="PraPhoto" style="width:100%">
+        <div class="container">
+          <h2>Praveen Yadav</h2>
+          <p class="title">Full Stack Developer</p>
+          <p class = "intro">My name is Praveen Yadav. I am currently pursuing my B.Tech in the field of the Computer science at Technocrats Institute of Technology.</p>
+          <p><u>praveenyadav7787@gmail.com</u></p>
+          <p><button class="button">Contact</button></p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="column">
+      <div class="card">
+        <img src="{% static 'img/VishPhoto.jpg' %}" alt="VishPhoto" style="width:100%">
+        <div class="container">
+          <h2>Vishal Gupta</h2>
+          <p class="title">Database Administrator</p>
+          <p class = "intro">My name is Vishal Gupta. I am a B.Tech(Computer Science) student at Technocrats Institute of Technology, Bhopal.</p>
+          <p><u>vishalnph@gmail.com</u></p>
+          <p><button class="button">Contact</button></p>
+        </div>
+      </div>
+    </div>
+    
+    
+  
+    <div class="column">
+      <div class="card">
+        <img src="{% static 'img/SidPhoto.jpg' %}" alt="SidPhoto" style="width:100%">
+        <div class="container">
+          <h2>Siddhartha Mishra</h2>
+          <p class="title">Front-end, Content specialist & Designer</p>
+          <p class = "intro">My name is Siddhartha Mishra. Currently, I am pursuing B.Tech in Computer Science from Technocrats Institute of Technology.</p>
+          <p><u>siddharthamishra500@gmail.com</u></p>
+          <p><button class="button">Contact</button></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <img src="{% static 'img/DeepPhoto.jpg' %}" alt="DeepPhoto" style="width:100%">
+        <div class="container">
+          <h2>Deepak Kumar</h2>
+          <p class="title">Front-end developer</p>
+          <p class = "intro">My name is Deepak Kumar Singh. I am pursuing my B.Tech in Computer Science from TIT College, Bhopal that will complete in 2022.</p>
+          <p><u>deepakkumar@gmail.com</u></p>
+          <p><button class="button">Contact</button></p>
+        </div>
+      </div>
+    </div>
 {% endblock body %}
