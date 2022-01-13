@@ -12,9 +12,9 @@ from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 import datetime
 from django.http.response import HttpResponse
 from django.db.models import Count
-# Create your views here.
+
 semesters = [i for i in range(1, 9)]
-branches = "CSE, IT, ECE, ME, CE"
+branches = ['CSE', 'IT', 'ECE', 'ME', 'CE']
 
 
 @staff_only
@@ -45,7 +45,7 @@ def index(request):
             branch__icontains=branch).order_by("-modified_at")[:5]
 
     request.data["semesters"] = semesters
-    request.data["branches"] = branches.split(", ")
+    request.data["branches"] = branches
     request.data["semester"] = semester
     request.data["branch"] = branch
 
@@ -60,14 +60,13 @@ def viewProfile(request):
 
 @staff_only
 def attendance(request):
-    data = {"branches": branches.split(", "), "semesters": range(1, 9)}
+    data = {"branches": branches, "semesters": range(1, 9)}
 
     return render(request, 'staff/insert-attendance.html', {"data": data})
 
 
 @staff_only
 def viewAttendance(request):
-    branches = "CSE, IT, ECE, ME, CE"
     months = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
     branch = request.GET.get("branch", request.user.profile.staff.department)
@@ -106,7 +105,7 @@ def viewAttendance(request):
         wb.save(response)
 
         return response
-    data = {"branches": branches.split(", "), "semesters": range(1, 9), "attendance": attendance,
+    data = {"branches": branches, "semesters": range(1, 9), "attendance": attendance,
             "branch": branch, "semester": semester, "months": months, "toDate": toDate, "fromDate": fromDate}
 
     return render(request, 'staff/all-students-attendance.html', {"data": data})
@@ -158,7 +157,6 @@ def addAttendanceByEnroll(request):
 
 @staff_only
 def marks(request):
-    branches = "CSE, IT, ECE, ME, CE"
     semesters = range(1, 9)
     # if request.user.profile.is_director:
     #     branch = request.GET.get("branchSelect", request.user.profile.staff.department)
@@ -177,7 +175,7 @@ def marks(request):
     data["semester"] = semester
     data["semesters"] = semesters
     data["branch"] = branch
-    data["branches"] = branches.split(", ")
+    data["branches"] = branches
 
     return render(request, 'staff/all-students-marks.html', {"data": data})
 
@@ -197,14 +195,13 @@ def classes(request):
 
 @staff_only
 def addClasses(request):
-    branches = "CSE, IT, ECE, ME, CE"
     if request.method == 'POST':
         studentClass = StudentClass()
         studentClass.subject = request.POST['subject']
         branch = request.POST['branch'].upper()
 
         if branch == "ALL":
-            branch = branches
+            branch = branches.join(", ")
         studentClass.branch = branch
 
         studentClass.semester = request.POST['semester']
@@ -224,7 +221,6 @@ def addClasses(request):
 
 @staff_only
 def updateClasses(request, id):
-    branches = "CSE, IT, ECE, ME, CE"
     studentClass = StudentClass.objects.get(id=id)
     if request.user.profile.has_permission(studentClass.tutor):
         if request.method == 'POST':
@@ -232,7 +228,7 @@ def updateClasses(request, id):
             branch = request.POST['branch'].upper()
 
             if branch == "ALL":
-                branch = branches
+                branch = branches.join(", ")
             studentClass.branch = branch
 
             studentClass.semester = request.POST['semester']
