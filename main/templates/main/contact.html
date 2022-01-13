@@ -8,13 +8,61 @@ Contact
 {% block body %}
 {% block message %}{% endblock message %}
 
-<div class="container-fluid">
-    <div class="mt-5 container-fluid neupm p-2">
-        <h4 class="text-center alert alert-info">Contact Us</h4>
-        <form action="" method="POST">
-            {% csrf_token %} {{form.as_p}}
-            <input type="submit" class="btn btn-success" value="Send" />
-        </form>
+<link rel="stylesheet" href="/static/css/contact.css">
+<section class="contact">
+    <div class="content">
+        <h2>Contact Us</h2>
+        <p>If Any Query.</p>
     </div>
-</div>
+    <div class="container">
+        <div class="contactInfo">
+            <div class="box">
+                <div class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                <div class="text">
+                    <h3>Address</h3>
+                    <p> Technocrats Group Campus Anand Nagar,
+                        BHEL Bhopal-462021 Madhya Pradesh,India</p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="icon"><i class="fa fa-phone" aria-hidden="true"></i></div>
+                <div class="text">
+                    <h3>Phone</h3>
+                    <p> +91 755 2751671,2751679 180030005303 (Tollfree) </p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="icon"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                <div class="text">
+                    <h3>Email</h3>
+                    <p> admission@technocratsgroup.edu.in </p>
+                </div>
+            </div>
+        </div>
+        <div class="contactForm"> 
+            <form>
+                <h2>Send Message</h2>
+                <div class="inputBox">
+                    <input type="text" name="" required="required">
+                    <span>Full Name</span>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="" required="required">
+                    <span>Email</span>
+                </div>    
+                <div class="inputBox">
+                    <input type="text" name="">
+                    <span>Mobile No.</span>
+                </div>    
+                <div class="inputBox">
+                    <textarea required="required"></textarea>
+                    <span>Type your Message.....</span>
+                </div>    
+                <div class="inputBox">
+                    <input type="Submit" name="" value="Send">
+               </div>       
+            </form>
+        </div>
+    </div>        
+
 {% endblock body %}
