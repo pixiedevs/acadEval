@@ -1,4 +1,5 @@
 from staff.models import StudentNote
+from student.helper import predictMark
 from student.models import Book, Mark, Student, StudentClass
 from main.models import Notice
 from django.http.response import JsonResponse
@@ -224,6 +225,10 @@ def showMarks(request):
     if request.GET.get('req', '') == 'add' or request.marks == None:
         return render(request, 'student/add-marks.html')
 
+    marks = student.mark.values_list('sgpa')
+    prediction = predictMark([m[0] for m in marks])
+    request.prediction = prediction
+
     return render(request, 'student/marks.html')
 
 
@@ -239,9 +244,4 @@ def addMarks(request):
         mark.file = request.FILES['file']
         mark.save()
 
-        marks = request.user.student.mark.get(
-            semester=request.user.student.semester)
-        semesters = range(1, request.user.student.semester+1)
-        return render(request, 'student/marks.html', {"semesters": semesters, "marks": marks})
-    return redirect("/")
-    # return render(request, 'student/marks.html')
+    return redirect("/student/marks/")

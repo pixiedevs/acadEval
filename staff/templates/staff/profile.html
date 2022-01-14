@@ -19,10 +19,6 @@ Profile
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <img src="{% static 'img/logo.png' %}" alt="staff profile" class="round-circle" width="150">
-                        {% if user.profile.is_staff %}
-                        <button class="btn btnPrAnim border border-primary align-self-center"
-                            id="update-btn">UPDATE</button>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -66,8 +62,8 @@ Profile
                             <p>Department</p>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control border-0" name="department" value="{{ staff.department }}"
-                                disabled>
+                            <input type="text" class="form-control border-0" name="department"
+                                value="{{ staff.department }}" disabled>
                         </div>
                     </div>
                     <hr class="m-1">
@@ -76,8 +72,8 @@ Profile
                             <p>Expertise</p>
                         </div>
                         <div class="col-md-9">
-                            <input type="number" class="form-control border-0" name="expertise" value="{{ staff.expertise }}"
-                                disabled>
+                            <input type="number" class="form-control border-0" name="expertise"
+                                value="{{ staff.expertise }}" disabled>
                         </div>
                     </div>
                     <hr class="m-1">
@@ -132,34 +128,14 @@ Profile
                         </div>
                     </div>
                     <hr class="m-1">
-                    <button type="submit" class="btn btnPrAnim border border-primary d-none"
-                        id="submit-btn">Submit</button>
+                    <button type="submit" class="btn btnPrAnim border border-primary" id="submit-btn"
+                        disabled>Submit</button>
+                    <button type="button" class="btn btnPrAnim border border-primary align-self-center"
+                        id="update-btn">EDIT</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-{% if user.profile.is_staff %}
-<script>
-    update_btn = document.querySelector("#update-btn")
-    update_btn.onclick =
-        function dataUpdate() {
-            allInput = document.querySelectorAll(".form-control")
-            for (let idx = 0; idx < allInput.length; idx++) {
-                if (allInput[idx].disabled == true)
-                    allInput[idx].disabled = false
-                else
-                    allInput[idx].disabled = true
-
-                allInput[idx].classList.toggle("border-0")
-            }
-            document.querySelector("#submit-btn").classList.toggle("d-none")
-            if (update_btn.innerText == "UPDATE")
-                update_btn.innerText = "CANCEL"
-            else
-                update_btn.innerText = "UPDATE"
-        }
-</script>
-{% endif %}
+<script src="/static/js/addons.js"></script>
 {% endblock body %}

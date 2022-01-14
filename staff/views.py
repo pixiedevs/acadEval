@@ -12,9 +12,7 @@ from staff.forms import AddTeacherForm, TeacherDataForm, AddHodForm, HodDataForm
 import datetime
 from django.http.response import HttpResponse
 from django.db.models import Count
-
-semesters = [i for i in range(1, 9)]
-branches = ['CSE', 'IT', 'ECE', 'ME', 'CE']
+from main.apiview import COURSES
 
 
 @staff_only
@@ -22,30 +20,21 @@ def index(request):
     request.data = {}
     staff = request.user.profile.staff
     semester = request.GET.get('semester', 7)
-    branch = request.GET.get('branch', 'CSE')
+    branch = request.GET.get('branch', staff.department)
+    # course = request.GET.get('course', staff.department)
 
-    if request.user.profile.is_teacher:
-        request.data["classes"] = StudentClass.objects.filter(
-            tutor=request.user,
-            branch__icontains=branch, semester=semester).order_by("-date")[:5]
-        request.data["notices"] = Notice.objects.filter(
-            branch__icontains=staff.department).order_by("-modified_at")[:5]
+    # prevents from getting data from other branch
+    # if request.user.profile.is_teacher or request.user.profile.is_hod:
+    #     branch = staff.department
 
-    elif request.user.profile.is_hod:
-        request.data["classes"] = StudentClass.objects.filter(
-            branch__icontains=staff.department, semester=semester).order_by("-date")[:5]
-        request.data["notices"] = Notice.objects.filter(
-            branch__icontains=staff.department).order_by("-modified_at")[:5]
+    request.data["classes"] = StudentClass.objects.filter(
+        branch__icontains=branch, semester=semester).order_by(
+        "-date")[:5]
+    request.data["notices"] = Notice.objects.filter(
+        branch__icontains=branch).order_by("-modified_at")[:5]
 
-    else:
-        request.data["classes"] = StudentClass.objects.filter(
-            branch__icontains=branch, semester=semester).order_by(
-            "-date")[:5]
-        request.data["notices"] = Notice.objects.filter(
-            branch__icontains=branch).order_by("-modified_at")[:5]
-
-    request.data["semesters"] = semesters
-    request.data["branches"] = branches
+    request.data["semesters"] = COURSES["B.TECH"]["SEMESTERS"]
+    request.data["branches"] = COURSES["B.TECH"]["BRANCHES"]
     request.data["semester"] = semester
     request.data["branch"] = branch
 
@@ -60,7 +49,8 @@ def viewProfile(request):
 
 @staff_only
 def attendance(request):
-    data = {"branches": branches, "semesters": range(1, 9)}
+    data = {"branches": COURSES["B.TECH"]["BRANCHES"],
+            "semesters": COURSES["B.TECH"]["SEMESTERS"]}
 
     return render(request, 'staff/insert-attendance.html', {"data": data})
 
@@ -105,7 +95,7 @@ def viewAttendance(request):
         wb.save(response)
 
         return response
-    data = {"branches": branches, "semesters": range(1, 9), "attendance": attendance,
+    data = {"branches": COURSES["B.TECH"]["BRANCHES"], "semesters": COURSES["B.TECH"]["SEMESTERS"], "attendance": attendance,
             "branch": branch, "semester": semester, "months": months, "toDate": toDate, "fromDate": fromDate}
 
     return render(request, 'staff/all-students-attendance.html', {"data": data})
@@ -157,7 +147,6 @@ def addAttendanceByEnroll(request):
 
 @staff_only
 def marks(request):
-    semesters = range(1, 9)
     # if request.user.profile.is_director:
     #     branch = request.GET.get("branchSelect", request.user.profile.staff.department)
     # else:
@@ -171,11 +160,11 @@ def marks(request):
         student__branch__contains=branch, semester=semester)
 
     data = {}
+    data["semesters"] = COURSES["B.TECH"]["SEMESTERS"]
+    data["branches"] = COURSES["B.TECH"]["BRANCHES"]
     data["marks"] = marks
     data["semester"] = semester
-    data["semesters"] = semesters
     data["branch"] = branch
-    data["branches"] = branches
 
     return render(request, 'staff/all-students-marks.html', {"data": data})
 
@@ -201,7 +190,7 @@ def addClasses(request):
         branch = request.POST['branch'].upper()
 
         if branch == "ALL":
-            branch = branches.join(", ")
+            branch = COURSES["B.TECH"]["BRANCHES"].join(", ")
         studentClass.branch = branch
 
         studentClass.semester = request.POST['semester']
@@ -228,7 +217,7 @@ def updateClasses(request, id):
             branch = request.POST['branch'].upper()
 
             if branch == "ALL":
-                branch = branches.join(", ")
+                branch = COURSES["B.TECH"]["BRANCHES"].join(", ")
             studentClass.branch = branch
 
             studentClass.semester = request.POST['semester']

@@ -34,6 +34,9 @@ class Teacher(Staff):
     def __str__(self):
         return self.teacher_user.username
 
+    @property
+    def user(self):
+        return self.teacher_user
 
     @classmethod
     def create_teacher(cls, username, password, email=None, department=None, first_name=None, last_name=None):

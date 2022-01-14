@@ -8,34 +8,35 @@ Dashboard
 {% block body %}
 {% block message %}{% endblock message %}
 <!-- main section -->
-<form action="" method="GET">
-    <div class="d-flex justify-content-around p-2">
+<div class="d-flex w-100 justify-content-center mt-5 align-items-center alert alert-info">
+    <form action="" method="GET">
+        <div class="d-flex justify-content-around">
 
-        <div class="p-2">
-            <label for="semester">Select semester:</label>
-            <select name="semester" id="semester" @mounted="$el.value = {{request.data.semester}}" @change="document.querySelector('form').submit()">
-                {% for s in request.data.semesters %}
-                <option value="{{s}}" {% if s == request.data.semester %} selected {% endif %}>{{s}}</option>
-                {% endfor %}
-            </select>
+            <div class="p-2">
+                <label for="semester">Select semester:</label>
+                <select name="semester" id="semester" @mounted="$el.value = {{request.data.semester}}"
+                    @change="document.querySelector('form').submit()">
+                    {% for s in request.data.semesters %}
+                    <option value="{{s}}" {% if s == request.data.semester %} selected {% endif %}>{{s}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="p-2">
+                <label for="branch">Select branch:</label>
+                <select name="branch" id="branch" @mounted="$el.value = '{{request.data.branch}}'"
+                    @change="document.querySelector('form').submit()">
+                    {% for b in request.data.branches %}
+                    <option value="{{b}}">{{b}}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-
-        {% if user.profile.is_director %}
-        <div class="p-2">
-            <label for="branch">Select branch:</label>
-            <select name="branch" id="branch" @mounted="$el.value = '{{request.data.branch}}'" @change="document.querySelector('form').submit()">
-                {% for b in request.data.branches %}
-                <option value="{{ b }}">{{b}}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-        {% endif %}
-    </div>
-</form>
+    </form>
+</div>
 
 
-<div class="container-sm row mt-3">
+<div class="container-sm row mt-0">
     <div class="col-lg-6">
         <h4 class="text-center alert alert-info">Classes</h4>
 
